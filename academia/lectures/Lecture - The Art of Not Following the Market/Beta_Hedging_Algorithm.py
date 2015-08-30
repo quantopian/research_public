@@ -89,8 +89,8 @@ def get_alphas_and_betas(context, data):
     factors = {}
     for asset in context.portfolio.positions:
         try:
-            X = returns[asset]
-            factors[asset] = linreg(X, index_returns)
+            y = returns[asset]
+            factors[asset] = linreg(index_returns, y)
         except:
             log.warn("[Failed Beta Calculation] asset = %s"%asset.symbol)
     return pd.DataFrame(factors, index=['alpha', 'beta'])
