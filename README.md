@@ -2,7 +2,7 @@
 ===================
 More on the Quantopian Lecture Series at [quantopian.com/lectures](https://www.quantopian.com/lectures)
 
-![kalman](http://i.imgur.com/6n2VKtE.png)
+<a href="https://www.quantopian.com/lectures"><img src="http://i.imgur.com/KzPuAuJ.png"></a>
 
 ### License
 
