@@ -1,7 +1,8 @@
-**research_public**
+**Research Projects & Lecture Content**
 ===================
+More on the Quantopian Lecture Series at [quantopian.com/lectures](https://www.quantopian.com/lectures)
 
-Quantopian research projects
+![kalman](http://i.imgur.com/6n2VKtE.png)
 
 ### License
 
