@@ -1,3 +1,21 @@
+"""
+Beta hedging
+
+Author: David Edwards and James Christopher
+
+This algorithm computes beta to the S&P 500 and attempts to maintain
+a hedge for market neutrality. More information on beta hedging can
+be found in the beta hedging lecture as part of the Quantopian
+Lecture Series.
+
+https://www.quantopian.com/lectures
+
+   
+This algorithm was developed as part of 
+Quantopian's Lecture Series. Please direct any 
+questions, feedback, or corrections to delaney@quantopian.com
+"""
+
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
@@ -7,15 +25,19 @@ import math
 def initialize(context):
     use_beta_hedging = True # Set to False to trade unhedged
     # Initialize a universe of liquid assets
-    schedule_function(buy_assets,
+    schedule_function(rebalance,
                       date_rule=date_rules.month_start(),
                       time_rule=time_rules.market_open())
+    schedule_function(cancel_open_orders, date_rules.every_day(),
+                      time_rules.market_close())
+    
     if use_beta_hedging:
         # Call the beta hedging function one hour later to
         # make sure all of our orders have gone through.
         schedule_function(hedge_portfolio,
                           date_rule=date_rules.week_start(),
                           time_rule=time_rules.market_open(hours=1))
+        
     # trading days used for beta calculation
     context.lookback = 150
     # Used to aviod purchasing any leveraged ETFs 
@@ -24,7 +46,8 @@ def initialize(context):
     context.pct_per_asset = 0
     context.index = symbol('SPY')
     
-def before_trading_start(context):
+    
+def before_trading_start(context, data):
     # Number of stocks to find
     num_stocks = 100
     fundamental_df = get_fundamentals(
@@ -37,24 +60,26 @@ def before_trading_start(context):
         .order_by(fundamentals.valuation_ratios.earning_yield.desc())
         .limit(num_stocks)
     )
-    update_universe(fundamental_df)
+    context.eligible_assets = fundamental_df.columns
     
-def buy_assets(context, data):
-    all_prices = history(1, '1d', 'price', ffill=True)
-    eligible_assets = [asset for asset in all_prices
-                       if asset not in context.dont_buys 
-                       and asset != context.index]
-    pct_per_asset = 1.0 / len(eligible_assets)
-    context.pct_per_asset = pct_per_asset
-    for asset in eligible_assets:
-        # Some assets might cause a key error due to being delisted 
-        # or some other corporate event so we use a try/except statement
-        try:
-            if get_open_orders(sid=asset):
+    update_universe(context.eligible_assets)
+    
+    
+def rebalance(context, data):
+    #  Sell assets no longer eligible.
+    for asset in context.portfolio.positions:
+        if asset in data and asset not in context.eligible_assets:
+            if get_open_orders(asset):
                 continue
-            order_target_percent(asset, pct_per_asset)
-        except:
-            log.warn("[Failed Order] asset = %s"%asset.symbol)
+            order_target_percent(asset, 0)
+            
+    #  Buy eligible assets.
+    context.pct_per_asset = 1.0 / len(context.eligible_assets)
+    for asset in context.eligible_assets:
+        if asset in data:
+            if get_open_orders(asset):
+                continue
+            order_target_percent(asset, context.pct_per_asset)
            
     
 def hedge_portfolio(context, data):
@@ -78,6 +103,7 @@ def hedge_portfolio(context, data):
     if not np.isnan(dollar_amount):
         order_target_value(context.index, dollar_amount)
     
+    
 def get_alphas_and_betas(context, data):
     """
     returns a dataframe of 'alpha' and 'beta' exposures 
@@ -95,6 +121,7 @@ def get_alphas_and_betas(context, data):
             log.warn("[Failed Beta Calculation] asset = %s"%asset.symbol)
     return pd.DataFrame(factors, index=['alpha', 'beta'])
     
+    
 def linreg(x, y):
     # We add a constant so that we can also fit an intercept (alpha) to the model
     # This just adds a column of 1s to our data
@@ -102,7 +129,16 @@ def linreg(x, y):
     model = sm.OLS(y, X).fit()
     return model.params[0], model.params[1]
 
+
 def handle_data(context, data):
     record(net_exposure=context.account.net_leverage,
-           leverage=context.account.leverage)
-    
+           leverage=context.account.leverage,
+           num_pos=len(context.portfolio.positions), 
+           oo=len(get_open_orders()))
+           
+
+# Cancel all orders. This function is run at the end of everyday.
+def cancel_open_orders(context, data):
+    for security in get_open_orders():
+        for order in get_open_orders(security):
+            cancel_order(order)
