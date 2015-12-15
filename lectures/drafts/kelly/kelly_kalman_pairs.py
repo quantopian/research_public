@@ -8,10 +8,14 @@ previous lecture to support multiple pairs. In order to extend the idea,
 the previous algorithm was factored into a class so several instances can be
 created with different assets.
 
-
-This algorithm was developed by David Edwards as part of 
-Quantopian's 2015 summer lecture series. Please direct any 
-questions, feedback, or corrections to dedwards@quantopian.com
+We chose to apply the kelly criterion to this algo because we felt it would
+be a good fit after analyzing the beta and drawdown. One challenge with applying
+Kelly in this case was the initial burn-in period over the course of collecting
+returns data. What it does is it updates the leverage based on the kelly score
+using historical returns. If the kelly score is less than 1, it uses a leverage
+of 1. The kelly score can be negative so we use max(1.0, kelly) as the portfolio
+leverage. Another challenge worth noting is that it quickly uses leverage beyond
+what any retail investor has access to (without using derivatives).
 """
 
 
