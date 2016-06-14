@@ -1,4 +1,3 @@
-# Backtest ID: 5755e5bf0df6070f801ab8a2
 """
 Long/Short Cross-Sectional Momentum
 
@@ -336,6 +335,6 @@ def filter_universe():
     high_volume_tradable = (AverageDollarVolume(window_length=21,
                                                 mask=tradable_filter).percentile_between(70, 100))
 
-    mask = high_volume_tradable
+    screen = high_volume_tradable
     
-    return mask
+    return screen
