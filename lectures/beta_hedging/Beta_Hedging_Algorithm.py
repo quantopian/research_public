@@ -42,7 +42,7 @@ def initialize(context):
         # Call the beta hedging function 30 mins after ordering to
         # make sure all of our orders have gone through.
         schedule_function(hedge_portfolio,
-                          date_rule=date_rules.week_start(),
+                          date_rule=date_rules.month_start(),
                           time_rule=time_rules.market_open(hours=1.5))
 
     # Used to aviod purchasing any leveraged ETFs
