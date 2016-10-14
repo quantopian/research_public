@@ -1,9 +1,8 @@
 """
 This is a basic pairs trading algorithm for use at Quantopian Workshops.
-
+WARNING: THIS IS A LEARNING EXAMPLE ONLY. DO NOT TRY TO TRADE SOMETHING THIS SIMPLE.
 https://www.quantopian.com/workshops
 https://www.quantopian.com/lectures
-
 By Delaney Granizo-Mackenzie
 """
 import numpy as np
@@ -25,8 +24,8 @@ def initialize(context):
     context.exit_threshold = 0.1
     
     # Moving average lengths
-    context.long_ma_length = 60
-    context.short_ma_length = 10
+    context.long_ma_length = 30
+    context.short_ma_length = 1
     
     # Flags to tell us if we're currently in a trade
     context.currently_long_the_spread = False
