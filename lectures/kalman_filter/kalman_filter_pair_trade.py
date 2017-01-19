@@ -25,23 +25,32 @@ def initialize(context):
     # Quantopian backtester specific variables
     set_slippage(slippage.FixedSlippage(spread=0))
     set_commission(commission.PerShare(cost=0.01, min_trade_cost=1.0))
-    set_symbol_lookup_date('2014-01-01')
     
     context.pairs = [
-        KalmanPairTrade(symbol('STX'), symbol('WDC'),
+        # STX, WDC
+        KalmanPairTrade(sid(24518), sid(8132),
                         initial_bars=300, freq='1m', delta=1e-3, maxlen=300),
-        KalmanPairTrade(symbol('CBI'), symbol('JEC'),
+        # CBI, JEC
+        KalmanPairTrade(sid(1287), sid(4120),
                         initial_bars=300, freq='1m', delta=1e-3, maxlen=300),
-        KalmanPairTrade(symbol('MAS'), symbol('VMC'),
+        # MAS, VMC
+        KalmanPairTrade(sid(4665), sid(7998),
                         initial_bars=300, freq='1m', delta=1e-3, maxlen=300),
-        KalmanPairTrade(symbol('JPM'), symbol('C'),
+        # JPM, C
+        KalmanPairTrade(sid(25006), sid(1335),
                         initial_bars=300, freq='1m', delta=1e-3, maxlen=300),
-        KalmanPairTrade(symbol('AON'), symbol('MMC'),
+        # AON, MMC
+        KalmanPairTrade(sid(438), sid(4914),
                         initial_bars=300, freq='1m', delta=1e-3, maxlen=300),
-        KalmanPairTrade(symbol('COP'), symbol('CVX'),
+        # COP, CVX
+        KalmanPairTrade(sid(23998), sid(23112),
                         initial_bars=300, freq='1m', delta=1e-3, maxlen=300),
        
     ]
+    
+    context.security_list = [sid(24518), sid(8132), sid(1287), sid(4120),
+                             sid(4665), sid(7998), sid(25006), sid(1335),
+                             sid(438), sid(4914), sid(23998), sid(23112)]
     
     weight = 1.8 / len(context.pairs)
     for pair in context.pairs:
@@ -78,8 +87,8 @@ class KalmanPairTrade(object):
             if self.kf is None:
                 self.initialize_filters(context, data)
                 return
-            self.update()
-            if get_open_orders(sid=self._x) or get_open_orders(sid=self._y):
+            self.update(context, data)
+            if get_open_orders(self._x) or get_open_orders(self._y):
                 return
             spreads = self.mean_spread()
 
@@ -117,8 +126,8 @@ class KalmanPairTrade(object):
         except Exception as e:
             log.debug("[{}] {}".format(self.name, str(e)))
 
-    def update(self):
-        prices = np.log(history(bar_count=1, frequency='1m', field='price'))
+    def update(self, context, data):
+        prices = np.log(data.history(context.security_list, 'price', 1, '1m'))
         self.X.update(prices)
         self.Y.update(prices)
         self.kf.update(self.means_frame().iloc[-1])
@@ -136,7 +145,7 @@ class KalmanPairTrade(object):
 
             
     def initialize_filters(self, context, data):
-        prices = np.log(history(self.initial_bars, self.freq, 'price'))
+        prices = np.log(data.history(context.security_list, 'price', self.initial_bars, self.freq))
         self.X.update(prices)
         self.Y.update(prices)
 
@@ -149,7 +158,7 @@ class KalmanPairTrade(object):
     def get_pnl(self, context, data):
         x = self._x
         y = self._y
-        prices = history(1, '1d', 'price').iloc[-1]
+        prices = data.history(context.security_list, 'price', 1, '1d').iloc[-1]
         positions = context.portfolio.positions
         dx = prices[x] - positions[x].cost_basis
         dy = prices[y] - positions[y].cost_basis
@@ -191,7 +200,7 @@ class KalmanMovingAverage(object):
         
         
     def update(self, observations):
-        for dt, observation in observations[self.asset].iterkv():
+        for dt, observation in observations[self.asset].iteritems():
             self._update(dt, observation)
         
     def _update(self, dt, observation):
