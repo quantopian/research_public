@@ -11980,7 +11980,7 @@ Percentage returns with 1.5x leverage and 2.0% interest: 0.065
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Leverage-in-an-algorithm">Leverage in an algorithm<a class="anchor-link" href="#Leverage-in-an-algorithm">&#194;&#182;</a></h2><p>Handling leverage gets significantly more complicated when we are dealing with an algorithm. Every time an algorithm rebalances its portfolio or makes a trade, there is a possibility of affecting the leverage ratio. If there isn't enough cash on hand to cover its positions it will need to borrow more. In the same vein, it may be utilizing overall less cash for the next set of trades, decreasing the leverage ratio.</p>
-<p>This is a backtest from our template long-short algorithm attached to our <a href="https://www.quantopian.com/lectures/long-short-equity">long-short equity lecture</a> over the year 2015 (Note that an upgrade to this template algorithm is coming soon).</p>
+<p>This is a backtest from our template long-short algorithm attached to our <a href="https://www.quantopian.com/lectures#Long-Short-Equity">long-short equity lecture</a> over the year 2015 (Note that an upgrade to this template algorithm is coming soon).</p>
 
 </div>
 </div>
@@ -12007,7 +12007,7 @@ Percentage returns with 1.5x leverage and 2.0% interest: 0.065
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>100% Time: 0:00:29|###########################################################|
+<pre>100% Time: 0:00:03|###########################################################|
 </pre>
 </div>
 </div>
@@ -13030,7 +13030,7 @@ AElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here is the leverage ratio of this algorithm plotted over time. Notice how it jumps around quite frequently. The ratio is below $1$ when it is not using all of its base capital and it spikes above $1$ whenever it makes a trade on margin. The algorithm associated with this leverage ratio is a long-short equity algorithm based on a combination of fundamental factors. For an overview of how a long-short equity strategy works, please see the <a href="https://www.quantopian.com/lectures/long-short-equity">lectures</a> page.</p>
+<p>Here is the leverage ratio of this algorithm plotted over time. Notice how it jumps around quite frequently. The ratio is below $1$ when it is not using all of its base capital and it spikes above $1$ whenever it makes a trade on margin. The algorithm associated with this leverage ratio is a long-short equity algorithm based on a combination of fundamental factors. For an overview of how a long-short equity strategy works, please see the <a href="https://www.quantopian.com/lectures#Long-Short-Equity">lectures</a> page.</p>
 <p>A key feature of this sort of strategy is that it can trade hundreds, sometimes even thousands of equities at once. As such, we run the risk of incurring some fairly large rebalancing costs, depending on how frequently we rebalance. This algorithm specifically rebalances on a monthly basis. As we can see on the above graph of the leverage ratio, a lot of the largest changes occur aroud the start of each month.</p>
 <p>To see how the rebalancing structure and maximum leverage can affect the leverage ratio of the algorithm when it is executed, go into the the template and modify these parameters. Changing the type of algorithm will also drastically affect how it uses leverage. Feel free to experiment.</p>
 <p>Things to try:</p>
@@ -14635,7 +14635,7 @@ $$ \text{Sharpe Ratio} = \frac{r_p - r_f}{\sigma_p} $$<p>The Sharpe Ratio essent
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Compare-Strategies-by-Sharpe-Ratio-and-then-Lever-as-Needed">Compare Strategies by Sharpe Ratio and then Lever as Needed<a class="anchor-link" href="#Compare-Strategies-by-Sharpe-Ratio-and-then-Lever-as-Needed">&#194;&#182;</a></h4><p>In general you want to compare the Sharpe Ratio of two strategies you may be interested in. Pick the strategy with the better Sharpe Ratio and then use leverage to multiply the returns up or risk down to where you want them. Assuming constraints like capital capacity don't kick in, you can add more money through leverage and bring a $2\%$ per year strategy up to a $10\%$ per year strategy while maintaining the same Sharpe, or invest a fraction of your available capital to bring a $20\%$ per year strategy's risk down to acceptable levels.</p>
+<h4 id="Compare-Strategies-by-Sharpe-Ratio-and-then-Lever-as-Needed">Compare Strategies by Sharpe Ratio and then Lever as Needed<a class="anchor-link" href="#Compare-Strategies-by-Sharpe-Ratio-and-then-Lever-as-Needed">&#194;&#182;</a></h4><p>In general you want to compare the Sharpe Ratio of two strategies you may be interested in. Pick the strategy with the better Sharpe Ratio and then use leverage to multiply the returns up to where you want them. Assuming constraints like capital capacity don't kick in, you can add more money through leverage and bring a $2\%$ per year strategy up to a $10\%$ per year strategy while maintaining the same Sharpe, or invest a fraction of your available capital to bring a $20\%$ per year strategy's risk down to acceptable levels.</p>
 <h4 id="Example">Example<a class="anchor-link" href="#Example">&#194;&#182;</a></h4><p>We'll show a simple example using real numbers.</p>
 
 </div>
@@ -14657,21 +14657,23 @@ $$ \text{Sharpe Ratio} = \frac{r_p - r_f}{\sigma_p} $$<p>The Sharpe Ratio essent
 <span class="n">strat_B_ann_return</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">strat_B_ann_vol</span> <span class="o">=</span> <span class="mf">0.02</span>
 
-<span class="c"># We&#39;ll assume a risk free rate of 0</span>
+<span class="c"># We&#39;ll assume a risk free rate of 0.02</span>
+<span class="n">risk_free_rate</span> <span class="o">=</span> <span class="mf">0.02</span>
 
-<span class="k">print</span> <span class="s">&#39;Strategy A Sharpe: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">strat_A_ann_return</span> <span class="o">/</span> <span class="n">strat_A_ann_vol</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;Strategy B Sharpe: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">strat_B_ann_return</span> <span class="o">/</span> <span class="n">strat_B_ann_vol</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&#39;Strategy A Sharpe: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">((</span><span class="n">strat_A_ann_return</span> <span class="o">-</span> <span class="n">risk_free_rate</span><span class="p">)</span> <span class="o">/</span> <span class="n">strat_A_ann_vol</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&#39;Strategy B Sharpe: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">((</span><span class="n">strat_B_ann_return</span> <span class="o">-</span> <span class="n">risk_free_rate</span><span class="p">)</span> <span class="o">/</span> <span class="n">strat_B_ann_vol</span><span class="p">)</span>
 
 <span class="c"># Add in leverage to B</span>
 
 <span class="n">leverage</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="c"># Expressed in returns</span>
-<span class="n">leverage_cost</span> <span class="o">=</span> <span class="mf">0.02</span>
 
 <span class="k">print</span> <span class="s">&#39;Strategy B Sharpe: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">strat_B_ann_return</span> <span class="o">*</span> <span class="n">leverage</span> <span class="o">-</span> <span class="n">leverage_cost</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">strat_B_ann_vol</span> <span class="o">*</span> <span class="n">leverage</span><span class="p">))</span>
+    <span class="p">(</span><span class="n">strat_B_ann_return</span> <span class="o">*</span> <span class="n">leverage</span> <span class="o">-</span> <span class="n">risk_free_rate</span> <span class="o">*</span> <span class="n">leverage</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">strat_B_ann_vol</span> <span class="o">*</span> <span class="n">leverage</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="k">print</span> <span class="s">&#39;Strategy B Levered Annual Returns: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">strat_B_ann_return</span> <span class="o">*</span> <span class="n">leverage</span> <span class="o">-</span> <span class="n">leverage_cost</span><span class="p">))</span>
+    <span class="p">(</span><span class="n">strat_B_ann_return</span> <span class="o">*</span> <span class="n">leverage</span> <span class="o">-</span> <span class="n">risk_free_rate</span> <span class="o">*</span> <span class="n">leverage</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14688,10 +14690,10 @@ $$ \text{Sharpe Ratio} = \frac{r_p - r_f}{\sigma_p} $$<p>The Sharpe Ratio essent
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Strategy A Sharpe: 1.46666666667
-Strategy B Sharpe: 2.5
-Strategy B Sharpe: 2.16666666667
-Strategy B Levered Annual Returns: 0.13
+<pre>Strategy A Sharpe: 1.33333333333
+Strategy B Sharpe: 1.5
+Strategy B Sharpe: 1.5
+Strategy B Levered Annual Returns: 0.09
 </pre>
 </div>
 </div>
