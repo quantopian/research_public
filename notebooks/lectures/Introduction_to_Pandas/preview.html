@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Introduction to pandas"</title>
+  <title>Cloned from "Introduction to Pandas" 1</title>
 
   <style type="text/css">
     /*!
@@ -15676,7 +15676,7 @@ Freq: D, Name: CMG, dtype: float64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Using <code>fillna()</code> is fairly easy. It is just a matter of indicating the value that you want to fill the spaces with. Unfortunately, this particular case doesn't make a whole lot of sense, for reasons discussed in the <a href="https://www.quantopian.com/lectures#Integration,-Cointegration,-and-Stationarity">lecture on stationarity</a> in the Lecture series. We could fill them with with $0$, simply, but that's similarly uninformative.</p>
+<p>Using <code>fillna()</code> is fairly easy. It is just a matter of indicating the value that you want to fill the spaces with. Unfortunately, this particular case doesn't make a whole lot of sense, for reasons discussed in the <a href="https://www.quantopian.com/lectures/integration-cointegration-and-stationarity">lecture on stationarity</a> in the Lecture series. We could fill them with with $0$, simply, but that's similarly uninformative.</p>
 <p>Rather than filling in specific values, we can use the <code>method</code> parameter, similarly to how the <code>reindex()</code> method works. We could use "backward fill", where <code>NaN</code>s are filled with the <em>next</em> filled value (instead of forward fill's <em>last</em> filled value) like so:</p>
 
 </div>

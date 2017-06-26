@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Mean Reversion on Futures"</title>
+  <title>Cloned from "Mean Reversion on Futures"</title>
 
   <style type="text/css">
     /*!
@@ -11810,7 +11810,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pairs-of-Futures-(or-Spreads)">Pairs of Futures (or Spreads)<a class="anchor-link" href="#Pairs-of-Futures-(or-Spreads)">&#194;&#182;</a></h2><p>Before we look at trading pairs of futures contracts, let's quickly review pairs trading in general and cointegration.  For full lectures on these topics individually, see the <a href="https://www.quantopian.com/lectures#Integration,-Cointegration,-and-Stationarity">lecture on stationarity and cointegration</a> and the <a href="https://www.quantopian.com/lectures#Introduction-to-Pairs-Trading">lecture on pairs trading</a>.</p>
+<h2 id="Pairs-of-Futures-(or-Spreads)">Pairs of Futures (or Spreads)<a class="anchor-link" href="#Pairs-of-Futures-(or-Spreads)">&#194;&#182;</a></h2><p>Before we look at trading pairs of futures contracts, let's quickly review pairs trading in general and cointegration.  For full lectures on these topics individually, see the <a href="https://www.quantopian.com/lectures/integration-cointegration-and-stationarity">lecture on stationarity and cointegration</a> and the <a href="https://www.quantopian.com/lectures/introduction-to-pairs-trading">lecture on pairs trading</a>.</p>
 <p>When markets are efficient, the prices of assets are often modeled as <a href="https://en.wikipedia.org/wiki/Random_walk_hypothesis">random walks</a>:</p>
 $$P*t=\mu+P*{t-1}+\epsilon_t$$<p>We can then take the difference of the prices to get white noise, stationary time series:</p>
 $$r*t=P_t-P*{t-1}= \mu +\epsilon_t$$<p>Of course, if prices follow a random walk, they are completely unforecastable, so the goal is to find returns that are correlated with something in the past.  For example, if we can find an asset whose price is a little mean-reverting (and therefore its returns are negatively autocorrelated), we can use that to forecast future returns.</p>
@@ -14177,7 +14177,7 @@ m1DFShqIGYgAAAAASUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The test confirms that the spread is stationary. And it makes sense, economically, that the crush spread may exhibit some mean reversion due to simple supply and demand.</p>
-<p>Note that there is usually a little more finesse required to obtain a mean reverting spread. We usually find a linear combination that would make the spread between the assets stationary after discovering cointegration. For more details on this, see the <a href="https://www.quantopian.com/lectures#Integration,-Cointegration,-and-Stationarity">lecture on cointegration</a>. We skipped these steps to test this known spread off the bat.</p>
+<p>Note that there is usually a little more finesse required to obtain a mean reverting spread. We usually find a linear combination that would make the spread between the assets stationary after discovering cointegration. For more details on this, see the <a href="https://www.quantopian.com/lectures/integration-cointegration-and-stationarity">lecture on cointegration</a>. We skipped these steps to test this known spread off the bat.</p>
 
 </div>
 </div>
