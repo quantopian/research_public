@@ -11806,7 +11806,10 @@ ul.typeahead-list > li > a {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Simulating-a-GARCH(1,-1)-Case">Simulating a GARCH(1, 1) Case<a class="anchor-link" href="#Simulating-a-GARCH(1,-1)-Case">&#194;&#182;</a></h2><p>We'll start by using Monte Carlo sampling to simulate a GARCH(1, 1) process. Our dynamics will be</p>
-$$\sigma_1 = \sqrt{\frac{a_0}{1-a_1-b_1}}$$$$\sigma_t^2 = a_0 + a_1 x_{t-1}^2+b_1 \sigma_{t-1}^2$$$$x_t = \sigma_t \epsilon_t$$$$\epsilon \sim \mathcal{N}(0, 1)$$<p>Our parameters will be $a_0 = 1$, $a_1=0.1$, and $b_1=0.8$. We will drop the first 10% (burn-in) of our simulated values.</p>
+$$\sigma_1 = \sqrt{\frac{a_0}{1-a_1-b_1}} \\
+\sigma_t^2 = a_0 + a_1 x_{t-1}^2+b_1 \sigma_{t-1}^2 \\
+x_t = \sigma_t \epsilon_t \\
+\epsilon \sim \mathcal{N}(0, 1)$$<p>Our parameters will be $a_0 = 1$, $a_1=0.1$, and $b_1=0.8$. We will drop the first 10% (burn-in) of our simulated values.</p>
 
 </div>
 </div>
