@@ -14915,7 +14915,7 @@ Jarque-Bera probability normal: 0.547561671115
 <p>GMM now has three steps.</p>
 <p>Start with $W$ as the identity matrix.</p>
 <ol>
-<li>Estimate $\hat\theta*1$ by using numerical optimization to minimize</li>
+<li>Estimate $\hat\theta_1$ by using numerical optimization to minimize</li>
 </ol>
 $$\min_{\theta \in \Theta} \left(\frac{1}{T} \sum_{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta)\right)$$<ol>
 <li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)</li>
