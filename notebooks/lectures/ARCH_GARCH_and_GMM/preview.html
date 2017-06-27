@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "ARCH GARCH and GMM"</title>
+  <title>Cloned from "ARCH GARCH and GMM" 1</title>
 
   <style type="text/css">
     /*!
@@ -14915,10 +14915,12 @@ Jarque-Bera probability normal: 0.547561671115
 <p>GMM now has three steps.</p>
 <p>Start with $W$ as the identity matrix.</p>
 <ol>
-<li>Estimate $\hat\theta*1$ by using numerical optimization to minimize
-$$\min_{\theta \in \Theta} \left(\frac{1}{T} \sum_{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta)\right)$$</li>
-<li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)
-$$\hat W_{i+1} = \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta_i)g(x_t, \hat\theta_i)'\right)^{-1}$$</li>
+<li>Estimate $\hat\theta*1$ by using numerical optimization to minimize</li>
+</ol>
+$$\min_{\theta \in \Theta} \left(\frac{1}{T} \sum_{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta)\right)$$<ol>
+<li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)</li>
+</ol>
+$$\hat W_{i+1} = \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta_i)g(x_t, \hat\theta_i)'\right)^{-1}$$<ol>
 <li>Repeat until $|\hat\theta_{i+1} - \hat\theta_i| &lt; \epsilon$ or we reach an iteration threshold.</li>
 </ol>
 <p>Initialize $W$ and $T$ and define the objective function we need to minimize.</p>
