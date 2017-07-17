@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Model Validation Lecture</title>
+  <title>Model Validation Lecture V2</title>
 
   <style type="text/css">
     /*!
@@ -11777,15 +11777,15 @@ ul.typeahead-list > li > a {
 <hr>
 <p>Linear regression is a technique that models the relationship between a set of independent variables $X_1,\ldots, X_k$ and a dependent outcome variable $Y$. Simple linear regression with two variables allows us to determine which linear model of the form $Y = \beta_0 + \beta_1 X$ best explains the data, while a multiple linear regression allows for the dependent variable to be a linear function of multiple independent variables $X_1,\ldots, X_k$:</p>
 $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More background information on regressions can be found in the <a href="https://www.quantopian.com/lectures#Linear-Regression">simple linear regression</a> and <a href="https://www.quantopian.com/lectures#Multiple-Linear-Regression">multiple linear regression</a> lectures.</p>
-<p>In many cases, choosing which explanatory variables to include in a model is not trivial. If you include too many variables $X_1,\ldots, X_k$ you risk overfitting and multicollinearity (correaltion of explanatory variables) which would invalidate your regression results. With too few variables you risk excluding interactions. <strong>Model selection</strong> is the process of determining which combination of explanatory variables maximizes explanatory power and minimizes complexity.</p>
-<p>Once we have chosen our model fitted the data using an estimation method like OLS, it would be useful to quantify just how "good" our end-result model is. But what exactly makes a model "good"? Is it how well it fits the data? It's simplicity/complexity? Or is it how well it performs when applied to out-of-sample data? <strong>Model validation</strong> is the process of determining how "good" a model is and whether it is a satisfactory explanation for the given data.</p>
+<p>In many cases, choosing which explanatory variables to include in a model is not trivial. If you include too many variables $X_1,\ldots, X_k$ you risk overfitting and multicollinearity (correaltion of explanatory variables) which would invalidate your regression results. With too few variables you risk excluding predictive interactions. <strong>Model selection</strong> is the process of determining which combination of explanatory variables maximizes explanatory power and minimizes complexity.</p>
+<p>Once we have chosen our model fitted the data using an estimation method like OLS, it would be useful to quantify just how "good" our end-result model is. But what exactly makes a model "good"? Is it how well it fits the data? It's simplicity/complexity? Or is it how well it performs when applied to out-of-sample data? <strong>Model validation</strong> is the process of determining how well-founded a model is and whether it is a satisfactory explanation for the given data.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[852]:</div>
+<div class="prompt input_prompt">In&nbsp;[208]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Import libraries</span>
@@ -11803,31 +11803,13 @@ $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More backg
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Model-Selection">Model Selection<a class="anchor-link" href="#Model-Selection">&#194;&#182;</a></h1><p>When presented with many possible explanatory variables, choosing which to include in a regression model can be a difficult task. Luckily, there exists a variety of strategies and criteria that simplify model selection.</p>
-<p>As an example, let's attempt to model the US unemployment rate with US inflation rate, QQQ NASDAQ-100 index, IWM Russel 2000 index, gold prices, and USD vs. EUR exchange rate as potential explanatory variables. All of these macro indicators are available as free <a href="https://www.quantopian.com/data">Quantopian Data Feeds</a>.</p>
+<p>As an example, let's attempt to model the US unemployment rate with US inflation rate, gold prices, USD vs. EUR exchange rate, and two ETFs that track the Russel-2000 and NASDAQ-100 indices as potential explanatory variables. All of these macro indicators are available as free <a href="https://www.quantopian.com/data">Quantopian Data Feeds</a>.</p>
 <p>Let's begin by pulling the above as Blaze expressions.</p>
 
 </div>
@@ -11835,7 +11817,7 @@ $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More backg
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[994]:</div>
+<div class="prompt input_prompt">In&nbsp;[209]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">quantopian.interactive.data.quandl</span> <span class="kn">import</span> <span class="n">fred_unrate</span> <span class="k">as</span> <span class="n">unemployment_bz</span>
@@ -11858,10 +11840,10 @@ $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More backg
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let's migrate the data into Pandas series using <code>asof_date</code> as our index keeping in mind that:</p>
 <ul>
-<li>Both inflation and unemployment data have one month intervals, so data index intervals cannot be anything smaller than monthly</li>
-<li>Unemployment data is released at the start of the month after the relevant month and inflation rate data is released ~3 weeks after so we must shift both back a month from the asof_date to prevent look-ahead bias</li>
+<li>The specific inflation and unemployment datasets we are using have one month intervals, so time index intervals cannot be anything smaller than monthly</li>
+<li>The unemployment data is released at the start of the month after the relevant month and inflation rate data is released ~3 weeks after so we must shift both back a month from the asof_date to prevent look-ahead bias</li>
 <li>Gold prices must be shifted back one day from asof_date to prevent look-ahead bias</li>
-<li>QQQ and IWM pricing data only goes back to 2002, so we can only consider data from 2002 on</li>
+<li>Equity pricing data only goes back to 2002, so we can only consider data from 2002 on</li>
 </ul>
 
 </div>
@@ -11869,10 +11851,10 @@ $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More backg
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1026]:</div>
+<div class="prompt input_prompt">In&nbsp;[210]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Start date dictated by QQQ and IWM</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># Start date dictated by QQQ and IWM (tickers of index-tracking ETFs)</span>
 <span class="n">start</span> <span class="o">=</span> <span class="s">&#39;2002-01-01&#39;</span>
 <span class="n">end</span> <span class="o">=</span> <span class="s">&#39;2017-01-01&#39;</span>
 
@@ -11882,13 +11864,22 @@ $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More backg
 
 <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span> <span class="s">&#39;MS&#39;</span><span class="p">)</span>
 
-<span class="c"># Adjusting data along points mentioned above and putting in Pandas series</span>
-<span class="n">unemployment</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">unemployment_bz</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">&#39;asof_date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">shift</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="s">&#39;value&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">inflation</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">inflation_bz</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">bz</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">inflation_bz</span><span class="o">.</span><span class="n">asof_date</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s">&#39;1 days&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">shift</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="s">&#39;value&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">gold</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">gold_bz</span><span class="p">[</span><span class="n">gold_bz</span><span class="o">.</span><span class="n">asof_date</span> <span class="o">&gt;=</span> <span class="n">start</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">&#39;asof_date&#39;</span><span class="p">])[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">fx</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">fx_bz</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">&#39;asof_date&#39;</span><span class="p">])[</span><span class="s">&#39;rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">qqq</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;QQQ&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="s">&#39;price&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">iwm</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;IWM&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="s">&#39;price&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="c"># Migrating Blaze expressions into Pandas DataFrames and setting index</span>
+<span class="n">unemployment</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">unemployment_bz</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">&#39;asof_date&#39;</span><span class="p">])</span>
+<span class="n">inflation</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">inflation_bz</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+<span class="n">inflation</span> <span class="o">=</span> <span class="n">inflation</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">inflation</span><span class="p">[</span><span class="s">&#39;asof_date&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s">&#39;1 days&#39;</span><span class="p">))</span>
+<span class="n">gold</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">gold_bz</span><span class="p">[</span><span class="n">gold_bz</span><span class="o">.</span><span class="n">asof_date</span> <span class="o">&gt;=</span> <span class="n">start</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">&#39;asof_date&#39;</span><span class="p">])</span>
+<span class="n">fx</span> <span class="o">=</span> <span class="n">odo</span><span class="p">(</span><span class="n">fx_bz</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">&#39;asof_date&#39;</span><span class="p">])</span>
+<span class="n">qqq</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;QQQ&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="s">&#39;price&#39;</span><span class="p">)</span>
+<span class="n">iwm</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;IWM&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="s">&#39;price&#39;</span><span class="p">)</span>
+
+<span class="c"># Adjusting data along points mentioned above</span>
+<span class="n">unemployment</span> <span class="o">=</span> <span class="n">unemployment</span><span class="o">.</span><span class="n">shift</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="s">&#39;value&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:];</span>
+<span class="n">inflation</span> <span class="o">=</span> <span class="n">inflation</span><span class="o">.</span><span class="n">shift</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="s">&#39;value&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:];</span>
+<span class="n">gold</span> <span class="o">=</span> <span class="n">gold</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:];</span>
+<span class="n">fx</span> <span class="o">=</span> <span class="n">fx</span><span class="p">[</span><span class="s">&#39;rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:];</span>
+<span class="n">qqq</span> <span class="o">=</span> <span class="n">qqq</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:];</span>
+<span class="n">iwm</span> <span class="o">=</span> <span class="n">iwm</span><span class="o">.</span><span class="n">asof</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()[</span><span class="mi">1</span><span class="p">:];</span>
 </pre></div>
 
 </div>
@@ -11900,9 +11891,8 @@ $$ Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \epsilon_i $$<p>More backg
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have data for on independent variable:</p>
-$$ Y_u: unemployment $$<p>And 5 predictor variables:</p>
-$$X_q: QQQ \:\:\:\:\: X_i: inflation \:\:\:\:\: X_r: IWM \:\:\:\:\: X_f: FX Euro rate \:\:\:\:\: X_g: gold$$<p>The next step is to figure out which predictors to include in our model. We could include every single predictor we have, but we would not be sure if every predictor was significant. Adding many insignificant predictors causes a few different issues. If there are more predictors there is a larger chance that the predictors themselves are correalted with each other which would lead to regression model instability and invalidate our results. Furthermore, including many regressors hurts the predictive power of a model. A solution might be to include as few variables as possible, but we would likely exclude some explanatory effects this way. Let's look at some ways to find this balance and determine which variables to include.</p>
+<p>Now we have data for on independent variable and 5 predictor variables. If we were to include every one of these preditors, our model would look like:</p>
+$$ Y_{unrate} = \beta_0 + \beta_1 X_{inflation} + \beta_2 X_{gold} + \beta_3 X_{FX} + \beta_4 X_{qqq} + \beta_5 X_{iwm} + \epsilon_i $$<p>The next step is to figure out which predictors to include in our model. We could include every single predictor we have, but we would not be sure if every predictor was significant. Adding many insignificant predictors causes a few different issues. If there are more predictors there is a larger chance that the predictors themselves are correalted with each other which would lead to regression model instability and invalidate our results. Furthermore, including many regressors hurts the predictive power of a model. A solution might be to include as few variables as possible, but we would likely exclude some explanatory effects this way. Let's look at some ways to find this balance and determine which variables to include.</p>
 
 </div>
 </div>
@@ -11911,7 +11901,522 @@ $$X_q: QQQ \:\:\:\:\: X_i: inflation \:\:\:\:\: X_r: IWM \:\:\:\:\: X_f: FX Euro
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Model-Selection-Criteria">Model Selection Criteria<a class="anchor-link" href="#Model-Selection-Criteria">&#194;&#182;</a></h2><p>There exist a number of metrics we can use to asses the relative and absolute strength of a specfic model. The ones we will focus on are $R^2$, adjusted $R^2$, BIC, and AIC.</p>
+<h2 id="Model-Selection-Criteria">Model Selection Criteria<a class="anchor-link" href="#Model-Selection-Criteria">&#194;&#182;</a></h2><p>There exist a number of metrics we can use to asses the relative and absolute strength of a specfic model. The ones we will focus on are $R^2$, adjusted $R^2$, AIC, and BIC.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Primer-on-Sum-of-Squares-($SS_{err}$,-$SS_{reg}$,-and-$SS_{total}$)">Primer on Sum of Squares ($SS_{err}$, $SS_{reg}$, and $SS_{total}$)<a class="anchor-link" href="#Primer-on-Sum-of-Squares-($SS_{err}$,-$SS_{reg}$,-and-$SS_{total}$)">&#194;&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The residual sum of squares ($RSS$ or $SS_{err}$) measures the variation in the difference between modelled values and observed values (residuals). The explained sum of squares ($SSR$ or $SS_{reg}$) measures the variation of model values. Finally, the total sum of squares ($SST$ or $SS_{tot}$) measures the variation in the observed data.</p>
+$$SS_{err} = \sum_{i=1}^{n}{(Y_i - \hat{Y_i})^2}\:\:\:\:\:\:\:SS_{reg} = \sum_{i=1}^{n}{(\hat{Y_i} - \bar{Y_i})^2}\:\:\:\:\:\:\:SS_{tot} = \sum_{i=1}^{n}{(Y_i - \bar{Y_i})^2}$$<p>Where $Y_i$ are observed sample values, $\hat{Y_i}$ are the model values and $\bar{Y}$ is the sample mean.</p>
+<p>In cases of simple linear regression, the following is generally true:</p>
+$$ SS_{tot} = SS_{reg} + SS_{err} $$<p>For more intuition on their relationship, look at the graph below. Change the value of $p$ to choose which point to see squared error, regression, and total values for.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[212]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Change p to choose which point to see sum of squares visualization at</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">err</span> <span class="o">=</span> <span class="n">Y</span><span class="o">-</span><span class="n">model</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">model</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="n">tot</span> <span class="o">=</span> <span class="n">Y</span><span class="o">-</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">)]</span><span class="o">*</span><span class="mi">9</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;data&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">)]</span><span class="o">*</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;Y_mean&#39;</span><span class="p">)</span>
+
+<span class="n">x_p</span><span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="n">x_p</span><span class="p">,</span><span class="n">x_p</span><span class="o">+</span><span class="n">err</span><span class="p">[</span><span class="n">p</span><span class="p">]],</span> <span class="n">model</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> 
+                 <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;S_err&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="n">x_p</span><span class="o">+</span><span class="n">reg</span><span class="p">[</span><span class="n">p</span><span class="p">],</span><span class="n">x_p</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">model</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> 
+                 <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;S_reg&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="n">x_p</span><span class="o">-</span><span class="n">tot</span><span class="p">[</span><span class="n">p</span><span class="p">],</span><span class="n">x_p</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">Y</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> 
+                 <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;S_tot&#39;</span><span class="p">);</span>
+                                                                     
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">model</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s">&#39;--&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;model&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;X&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Y&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Single point RS, SR, and ST of simple linear regression&#39;</span><span class="p">,</span> 
+          <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
++MEPZujQoRk7dmzGjx+fSZMmpVevXhk2bFjGjx9fzzgAAABJ6lyEJk6cmIkTJ272/LRp0zJt2rR6
+RgAAAHiVui6NAwAA2BYpQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOko
+QgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAA
+QOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOko
+QgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAA
+QOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOkoQgAAQOko
+QgAAQOnsUO83mD9/fh544IG8/PLLOfHEEzNu3LiN5+69995ceOGF6d69e0aNGpWWlpZ6xwEAAKhv
+Ebr//vvz2GOPpbW1NWvXrs0xxxyzSRE655xz8r3vfS/Nzc2ZOnVqxo8fn7333ruekQAAAOpbhA4+
++OAceOCBSZK+ffums7Mz1Wo1lUolTzzxRPr3758BAwYkSUaPHp377rtPEQIAAOqurvcIdevWLT17
+9kySXHPNNRk9enQqlUqSZPXq1Wlqatp4bVNTU1atWlXPOAAAAEm64B6hJLn99ttz3XXXZdGiRZu9
+plqtbtVrtbW1vV2xaGDGAX9lLJAYB9QYByTGAVuv7kXonnvuycKFC7No0aL07t174/PNzc15+umn
+Nx4/9dRTaW5uft3XGz58eF1y0jja2tqMA5IYC9QYByTGATXGAcnWl+G6Lo1bt25dzj///Fx66aXp
+06fPJuf22muvrF+/Pu3t7XnppZdy11135cMf/nA94wAAACSp84zQLbfckrVr12bmzJkbN0n44Ac/
+mKFDh2bs2LGZO3duTjvttCTJUUcdlcGDB9czDgAAQJI6F6GJEydm4sSJmz0/YsSItLa21jMCAADA
+q9R1aRwAAMC2SBECAABKRxECAABKRxECAABKRxGCBrNmzZpMmjQphxxySCZNmpSOjo6iIwEANJy6
+f6Eq8PZqaWnJ1VdfnSRZsmRJkmTx4sVFRgIAaDhmhKDBLF++fIvHAAC8PkUIGsyQIUO2eAwAwOuz
+NA4azIIFC5LUZoKGDBmy8RgAgK2nCEGDaWpqck8QAMBbZGkcAABQOooQAABQOooQAABQOooQAABQ
+OooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQ
+AABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQ
+OooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQAABQOooQ
+AABQOooQAABQOooQAABQOooQAABQOooQAABQOnUvQg8//HDGjRuXH/zgB686N2bMmEydOjXTpk3L
+9OnTs2rVqnrHAQAAyA71fPHOzs6cd955GTly5Guer1Qqueyyy7LzzjvXMwYAAMAm6joj1KNHj3zn
+O9/J7rvv/prnq9VqqtVqPSMAAAC8Sl1nhLp165addtppi9fMnTs3K1asyIgRI3LaaafVMw4AAECS
+pFLtgimZiy66KLvuumumTJmyyfM33nhjDj300PTv3z8tLS059thjc/jhh2/2ddra2uodFQAAaHDD
+hw9/3WvqOiP0eiZMmLDx8ahRo/Loo49usQhtzR8IAADg9RS2ffa6desyderUbNiwIUmydOnS7LPP
+PkXFAQAASqSuS+N+85vf5Mwzz0xHR0e6d++efv365eMf/3je+c53ZuzYsbnyyitz7bXXplevXhk2
+bFjOPPPMekUBAADYqEvuEQIAANiWFLY0DgAAoCiKEAAAUDqKEAAAUDoNU4S+8Y1vZPLkyTn++OPz
+4IMPFh2Hgjz88MMZN25cfvCDHxQdhQLNnz8/kydPznHHHZfbbrut6DgU4Pnnn8/MmTMzbdq0TJo0
+KXfddVfRkSjQhg0bMm7cuNxwww1FR6Egv/zlL/OhD30o06dPz7Rp0/K1r32t6EgU5KabbsqECRPy
+8Y9/PHffffcWry30e4S21pIlS/KHP/whra2tefzxx/PlL385ra2tRceii3V2dua8887LyJEji45C
+ge6///489thjaW1tzdq1a3PMMcdk3LhxRceii91555054IADcsIJJ6S9vT0zZszIYYcdVnQsCnLJ
+JZekf//+RcegYIcccki+/e1vFx2DAq1duzYXX3xxbrjhhqxfvz7//u//ntGjR2/2+oYoQr/4xS8y
+duzYJMnee++dZ599NuvXr0+vXr0KTkZX6tGjR77zne9k4cKFRUehQAcffHAOPPDAJEnfvn3T2dmZ
+arWaSqVScDK60pFHHrnxcXt7ewYOHFhgGor0+9//PsuXL9/ihx3KwUbI3HvvvRk5cmR69uyZnj17
+5uyzz97i9Q2xNG716tVpamraeLzrrrtm9erVBSaiCN26dctOO+1UdAwK1q1bt/Ts2TNJcs0112T0
+6NFKUIlNnjw5X/ziFzN79uyio1CQ+fPnZ9asWUXHYBvw+OOPp6WlJVOmTMm9995bdBwKsHLlynR2
+dubkk0/O1KlT84tf/GKL1zfEjNDf0viB22+/Pdddd10WLVpUdBQK1Nramocffjinn356brrppqLj
+0MVuuOGGHHzwwdlzzz2T+HxQZoMHD84pp5ySI444Ik888USmT5+e2267LTvs0JAfdXmTqtVq1q5d
+m0suuSQrVqzI9OnT89Of/nSz1zfE6Ghubt5kBmjVqlXZY489CkwEFOmee+7JwoULs2jRovTu3bvo
+OBRg2bJl2W233TJw4MDsu+++efnll9PR0bHJ6gG2f3fffXdWrFiRW2+9NU8++WR69OiRd7zjHfnQ
+hz5UdDS62IABA3LEEUckSQYNGpTdd989Tz31VPbaa6+Ck9GVdt999xx00EGpVCoZNGhQevXqtcWf
+DQ2xNG7kyJH5yU9+kiT57//+7wwYMCC77LJLwamAIqxbty7nn39+Lr300vTp06foOBRk6dKlufzy
+y5PUlk93dnYqQSV04YUX5pprrsnixYtz3HHHpaWlRQkqqZtvvjkXXXRRkmTNmjXp6OjIgAEDCk5F
+Vxs5cmTuv//+VKvV/PnPf85f/vKXLf5saIgZoYMOOijve9/7Mnny5HTv3j1z5swpOhIF+M1vfpMz
+zzwzHR0d6d69e1pbW3PVVVelX79+RUejC91yyy1Zu3ZtZs6cuXGThPnz5+cd73hH0dHoQscff3xm
+z56dKVOmZMOGDZk7d27RkYACjRkzJp///Odz/PHHp1qtZt68eZbFldCAAQMyfvz4TJw4MZVK5XU7
+Q6VqQS0AAFAyDbE0DgAA4O2kCAEAAKWjCAEAAKWjCAEAAKWjCAEAAKWjCAEAAKWjCAHQUJYtW5Zx
+48Zl/fr1G5/76le/mvnz5xeYCoBGowgB0FD233//HH300Tn33HOTJEuXLs2SJUsyc+bMgpMB0EgU
+IQAazkknnZRHH300d9xxR84666ycd9552WmnnYqOBUADqVSr1WrRIQDgjVq+fHmOPvro/PM//3NO
+PfXUouMA0GDMCAHQkB555JEMGjQoDzzwQNFRAGhAihAADefpp5/OhRdemMsvvzzNzc35/ve/X3Qk
+ABqMpXEANJzPfvazOfLIIzNhwoR0dHTkE5/4RK644ooMGjSo6GgANAgzQgA0lMWLF6dSqWTChAlJ
+kqamppx66qk544wzCk4GQCMxIwQAAJSOGSEAAKB0FCEAAKB0FCEAAKB0FCEAAKB0FCEAAKB0FCEA
+AKB0FCEAAKB0/i+H6DB5Dyat/AAAAABJRU5ErkJggg==
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$SS_{err}$, $SS_{reg}$, and $SS_{total}$ are the sums of the areas of the above squares for every point in the sample.</p>
 
 </div>
 </div>
@@ -11921,15 +12426,14 @@ $$X_q: QQQ \:\:\:\:\: X_i: inflation \:\:\:\:\: X_r: IWM \:\:\:\:\: X_f: FX Euro
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Coefficient-of-Determination-($R^2$)">Coefficient of Determination ($R^2$)<a class="anchor-link" href="#Coefficient-of-Determination-($R^2$)">&#194;&#182;</a></h3><p>The coefficient of determination, or $R^2$, is a metric that tells us the proportion of in-sample variance 'explained' by a certain model. For example, an $R^2$ of 0.9 tells us that the magnitude of the model residual variance is about 90% of that of the sample data. The formula for $R^2$ is:</p>
-$$R^2 = \frac{SS_{reg}}{SS_{total}} = 1 - \frac{\sum_{i=1}^{n} (Y_i - \hat{Y_i})^2}{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}$$<p>Where $Y_i$ are sample response values, $\hat{Y_i}$ are the response values predicted by the model and $\bar{Y}$ is the sample mean response.</p>
-<p>One major drawback of $R^2$ in model selection is that as the number of explanatory variables increases, $R^2$ will always also increase or stay the same, even if the incremental variables are not adding much predictive insight. To illustrate this, let's find the $R^2$ of five unemployment models, each model having one more predictor than the next. We will do this by defining a function that takes predictor variables $X_1,\ldots, X_k$ and an independent variable $Y$, runs a regression, and calculates $R^2$ using the <code>model.rsquared</code> attribute.</p>
+$$R^2 = \frac{SS_{reg}}{SS_{tot}} = \frac{\sum_{i=1}^{n} (\hat{Y_i} - \bar{Y_i})^2}{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}$$<p>One major drawback of $R^2$ in model selection is that as the number of explanatory variables increases, $R^2$ will always also increase or stay the same, even if the incremental variables are not adding much predictive insight. To illustrate this, let's find the $R^2$ of five unemployment models, each model having one more predictor than the next. We will do this by defining a function that takes predictor variables $X_1,\ldots, X_k$ and an independent variable $Y$, runs a regression, and calculates $R^2$ using the <code>model.rsquared</code> attribute.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1055]:</div>
+<div class="prompt input_prompt">In&nbsp;[213]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">rsquared</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
@@ -11937,7 +12441,8 @@ $$R^2 = \frac{SS_{reg}}{SS_{total}} = 1 - \frac{\sum_{i=1}^{n} (Y_i - \hat{Y_i})
     <span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">rsquared</span>
 
-<span class="c"># Defining variables, making sure to keep data within the sample period [:e]</span>
+<span class="c"># Defining variables, making sure to keep data</span>
+<span class="c"># within the sample period [:e]</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="n">unemployment</span><span class="p">[:</span><span class="n">e</span><span class="p">]</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">inflation</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">iwm</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">fx</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">gold</span><span class="p">[:</span><span class="n">e</span><span class="p">]]</span>
 <span class="n">X_str</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">,</span> <span class="s">&#39;inflation&#39;</span><span class="p">,</span> <span class="s">&#39;iwm&#39;</span><span class="p">,</span> <span class="s">&#39;fx&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">]</span>
@@ -11964,7 +12469,7 @@ $$R^2 = \frac{SS_{reg}}{SS_{total}} = 1 - \frac{\sum_{i=1}^{n} (Y_i - \hat{Y_i})
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> ------ R Squared Values ------
+<pre>------ R Squared Values ------
 1 predictor: 0.124499233139
 2 predictors: 0.459882090695
 3 predictors: 0.700574522302
@@ -12000,14 +12505,14 @@ $$R^2 = \frac{SS_{reg}}{SS_{total}} = 1 - \frac{\sum_{i=1}^{n} (Y_i - \hat{Y_i})
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Because regular $R^2$ becomes inflated as more variables are added we cannot use $R^2$ alone for model selection. To account for this effect, there exists an alternate version of $R^2$ which includes a penalty for adding more variables. The formula is below, where $p$ is the number of predictor variables, and $n$ is the sample size:</p>
-$$ \bar{R}^2 = 1-(1-R^2)\frac{n-1}{n-p-1} $$<p>Let's repeat the expirement above, this time using $\bar{R}^2$, to see if it still inflates as more predictors are added.</p>
+$$ \bar{R}^2 = 1-(1-R^2)\frac{n-1}{n-p-1} $$<p>Let's repeat the experiment above, this time using $\bar{R}^2$, to see if it still inflates as more predictors are added.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1056]:</div>
+<div class="prompt input_prompt">In&nbsp;[214]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">rsquared_adj</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
@@ -12075,8 +12580,8 @@ $$ \bar{R}^2 = 1-(1-R^2)\frac{n-1}{n-p-1} $$<p>Let's repeat the expirement above
 <p>$R^2$ and $\bar{R}^2$ provide absolute measures on the quality on a model, meaning they can be calculated on any single regression model. They tell you how "good" a model is on its own on a scale of 0 to 1.</p>
 <p>AIC and BIC provide relative measures of quality and are calculated with an underlying selection pool of models. Instead  of yeidling a metric with an absolute scale like $R^2$ and $\bar{R}^2$, they return values for every model in the selection pool and determining model quality requires looking at all of the values and comparing them.</p>
 <p>AIC is calculated along the following formula:</p>
-$$ AIC = 2p + nLog(SS_{resid}/n) $$<p>BIC is calculated similarly:</p>
-$$ AIC = ln(n) \cdot p  + nLog(SS_{resid}/n) $$<p>Where $SS_{resid}$ is the sum of squared residuals $\sum_{i=1}^{n}(Y_i - \hat{Y_i})^2$</p>
+$$ AIC = 2p + 2Log(\hat{L}) $$<p>BIC is calculated similarly:</p>
+$$ BIC = p \cdot ln(n) -2Log(\hat{L}) $$<p>Where $\hat{L}$ is defined as the maximumized value of the likelihood function. The likelihood function is the probability  our model in question is in fact correct given the data we observed. For more information on likelihood functions refer to the <a href="https://en.wikipedia.org/wiki/Likelihood_function">Wikipedia</a> page on the subject.</p>
 <p>Let's use AIC and BIC to compare 5 simple linear regression models for unemployment. We will compute them using the <code>model.aic</code> and <code>model.bic</code> attributes.</p>
 
 </div>
@@ -12084,21 +12589,21 @@ $$ AIC = ln(n) \cdot p  + nLog(SS_{resid}/n) $$<p>Where $SS_{resid}$ is the sum 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1057]:</div>
+<div class="prompt input_prompt">In&nbsp;[215]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">AIC</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">aic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">aic</span>
 
-<span class="k">def</span> <span class="nf">BIC</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">bic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">bic</span>
 
-<span class="n">AICs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">AIC</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">_</span><span class="p">],</span><span class="n">Y</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
-<span class="n">BICs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">BIC</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">_</span><span class="p">],</span><span class="n">Y</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+<span class="n">AICs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">aic</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">_</span><span class="p">],</span><span class="n">Y</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+<span class="n">BICs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">bic</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">_</span><span class="p">],</span><span class="n">Y</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
 
 <span class="k">print</span> <span class="s">&quot;</span><span class="si">%-24s</span><span class="s"> </span><span class="si">%-15s</span><span class="s"> </span><span class="si">%-13s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;AIC values:&#39;</span><span class="p">,</span> <span class="s">&#39;BIC values:&#39;</span><span class="p">)</span>
 <span class="k">print</span> <span class="s">&quot;</span><span class="si">%-24s</span><span class="s"> </span><span class="si">%-15s</span><span class="s"> </span><span class="si">%-13s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;Y = b0 + b1*qqq&#39;</span><span class="p">,</span> <span class="n">AICs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">BICs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -12147,7 +12652,7 @@ Y = b0 + b1*gold         398.65240035    404.227383836
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[926]:</div>
+<div class="prompt input_prompt">In&nbsp;[216]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">AICs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#39;Model AICs and BICs&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;AIC&#39;</span><span class="p">);</span>
@@ -12787,7 +13292,7 @@ AAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The "best" model according to AIC and BIC is the one with the smallest value. In this case, both the Akaike and Bayesian information criterion point to the same conclusion; they are both at their minimum with the model $Y = b_0 + b_1 \cdot gold$ meaning gold is the best single predictor for the model on this sample</p>
+<p>The "best" model according to AIC and BIC is the one with the smallest value. In this case, both the Akaike and Bayesian information criterion point to the same conclusion; they are both at their minimum with the model $Y = b_0 + b_1 \cdot gold$ meaning gold is the best single predictor for the model on this sample.</p>
 <h3 id="AIC-vs-BIC">AIC vs BIC<a class="anchor-link" href="#AIC-vs-BIC">&#194;&#182;</a></h3><p>In this test the two criteria pointed to the same model as the best, but this is not always the case as the two criteria have a few key differences.</p>
 <ul>
 <li>The BIC imposes a harsher penalty on additional regressors than the AIC does and will usually select "smaller" models with less parameters</li>
@@ -12803,8 +13308,8 @@ AAAAAElFTkSuQmCC
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Selection-Methods">Selection Methods<a class="anchor-link" href="#Selection-Methods">&#194;&#182;</a></h2><p>Now that we have a handful of criteria to quantify model quality we need to have a method to cycle through and search for the possible models.</p>
-<p>The first idea that might come to mind is to simply pool all possible models together and test them all. While this might work for a situation in which there are a small number of potential regressors, when dealing with big data sets and many possible predictors it becomes a more difficult issue. The number of predictor combinations begins to rise quickly as more possible predictors are added making cycling through every combination not possible.</p>
-<h3 id="Step-AIC/BIC">Step AIC/BIC<a class="anchor-link" href="#Step-AIC/BIC">&#194;&#182;</a></h3><p>If the number of possible predictors large, the best for selecting the "best" is likely iterating through a stepwise linear regression. Broadly, the method builds a model by selecting regressors one at a time, at each step choosing the one that minimizes the model's AIC or BIC. The process ends when adding another variable can no longer decrease the AIC/BIC or when the algorithm exhausts the predictor set and there are no more potential predictors to add.</p>
+<p>The first idea that might come to mind is to simply pool all possible models together and test them all. While this might work for a situation in which there are a small number of potential regressors, when dealing with big data sets and many possible predictors it becomes a more difficult issue. The number of predictor combinations begins to rise quickly as more possible predictors are added making cycling through every combination not efficient.</p>
+<h3 id="Step-AIC/BIC">Step AIC/BIC<a class="anchor-link" href="#Step-AIC/BIC">&#194;&#182;</a></h3><p>If the number of possible predictors large, the best for selecting the "best" is likely iterating through a stepwise linear regression. Broadly, the method builds a model by selecting regressors one at a time, at each step choosing the one that minimizes the model's AIC or BIC. The process ends when adding another variable can no longer decrease the AIC/BIC or when the algorithm exhausts the predictor set and there are no more potential predictors to add. Note that stepwise regressions need not only step forward; the process can be conducted in reverse, starting with all variables included and subtracting off those yielding the <em>highest</em> AIC/BIC, or in tandem with steps alterating forward and backwards.</p>
 <p>Let's use a step-forward AIC algorithm to select a set of unemployment predictors to use in our model. Some print statements have been added to show the iteration process but can and should be deleted if you would like to use the function elsewhere.</p>
 
 </div>
@@ -12812,7 +13317,7 @@ AAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[927]:</div>
+<div class="prompt input_prompt">In&nbsp;[217]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">forward_aic</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -12857,6 +13362,7 @@ AAAAAElFTkSuQmCC
             <span class="n">selected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">selected</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">best_element</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">current_score</span> <span class="o">=</span> <span class="n">best_new_score</span>
             <span class="k">print</span> <span class="s">&#39;Chosen Model Predictors:&#39;</span><span class="p">,</span> <span class="n">selected</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+            
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span> <span class="s">&#39;Best new AIC did not beat current best. The new variable to add is rejected and the algorithm is finished.</span><span class="se">\n\n</span><span class="s">&#39;</span>
 
@@ -12871,7 +13377,7 @@ AAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[928]:</div>
+<div class="prompt input_prompt">In&nbsp;[218]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Reformatting the data to work with the forward_aic function</span>
@@ -12948,13 +13454,14 @@ $$ Y_{unrate} = \beta_0 + \beta_1 X_{gold} + \beta_2 X_{iwm} + \beta_3 X_{inflat
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[929]:</div>
+<div class="prompt input_prompt">In&nbsp;[219]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">predictors</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="n">theta</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
 <span class="k">print</span> <span class="n">theta</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">gold</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">iwm</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">inflation</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">qqq</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">gold</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">iwm</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">inflation</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">qqq</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">])</span>
 
 <span class="n">predictions</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;model&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s">&#39;--&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s">&#39;r&#39;</span><span class="p">);</span>
 <span class="n">Y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;unemployment&#39;</span><span class="p">);</span>
@@ -13718,7 +14225,7 @@ QgghRI8mmxYhhBBCCCFEjyabFiGEEEIIIUSP9l9I0Ywe7OCyhQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[930]:</div>
+<div class="prompt input_prompt">In&nbsp;[220]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
@@ -14230,7 +14737,7 @@ IY/gAwAAACDkEXwAAAAAhLz/B8joTYiGW3WQAAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[931]:</div>
+<div class="prompt input_prompt">In&nbsp;[221]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="s">&#39;Unemployment Model R^2:&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">rsquared</span>
@@ -14274,7 +14781,7 @@ Unemployment Model Adjusted R^2: 0.871375023094
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Cross-Validation">Cross-Validation<a class="anchor-link" href="#Cross-Validation">&#194;&#182;</a></h2><p>Cross-validation is a technique used to determine how well a model will predict values outside of the sample used to select or fit it. In the case of our unemployment model, we used data from 2002 through 2012 to select our parameters. Now to ensure the accuracy of our model parameters (stored in <code>predictors</code>) we will employ a cross-validation technique known as <em>forward chaining</em> on the 2002-2012 data. We will leave the 2012-2017 data untouched for further validation methods later on.</p>
+<h2 id="Cross-Validation">Cross-Validation<a class="anchor-link" href="#Cross-Validation">&#194;&#182;</a></h2><p>Cross-validation is a technique used to determine how well a model will predict values outside of the sample used to select or fit it. In the case of our unemployment model, we used data from 2002 through 2012 to select our parameters. Now to ensure the accuracy of our model parameters (stored in <code>predictors</code>) we will employ a cross-validation technique known as <em>forward chaining</em> on the 2002-2012 data. We will leave the 2012-2017 data untouched for further validation methods later on in this lecture.</p>
 <p>Forward chaining cross-validation works by splitting the data up into $k$ equal sized partitions, and conducting an "out-of-sample test" for each partition. During each of these out-of-sample tests we will choose a training set and a testing set and use the training set to fit the model and the testing set to asses its performance. For time series data the training set must come before the testing set, and in the case of forward chaining the training set consists of all the data before the testing set. Forward chaining iterates through all possible testing sets and asses model performance in each.</p>
 <p>In the case of our unemployment model, we will partition our 2002-2012 data into 10 yearly blocks. The first 3 iterations of a forward chaining test would be constructed as follows:</p>
 $$
@@ -14307,14 +14814,15 @@ $$<center>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1058]:</div>
+<div class="prompt input_prompt">In&nbsp;[222]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">Y</span> <span class="o">=</span> <span class="n">unemployment</span><span class="p">[:</span><span class="n">e</span><span class="p">]</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">inflation</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">iwm</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">fx</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">gold</span><span class="p">[:</span><span class="n">e</span><span class="p">]]</span>
 
 <span class="c"># Our step AIC algorithm selected all predictors except for fx_rate</span>
-<span class="n">predictors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">inflation</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">iwm</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">gold</span><span class="p">[:</span><span class="n">e</span><span class="p">]],</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">,</span> <span class="s">&#39;inflation&#39;</span><span class="p">,</span> <span class="s">&#39;iwm&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">inflation</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">iwm</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">gold</span><span class="p">[:</span><span class="n">e</span><span class="p">]],</span> 
+                          <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">,</span> <span class="s">&#39;inflation&#39;</span><span class="p">,</span> <span class="s">&#39;iwm&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 
 <span class="c"># Setting partition dates to the first day of every year 2002-2012</span>
 <span class="n">cutoff_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="s">&#39;2002-01-01&#39;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s">&#39;2012-01-01&#39;</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="s">&#39;AS&#39;</span><span class="p">)</span>
@@ -14329,11 +14837,14 @@ $$<center>
     <span class="n">testing_data</span> <span class="o">=</span> <span class="n">predictors</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
     
     <span class="c"># Fitting model within the training set</span>
-    <span class="n">fitted_theta</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">training_data</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
+    <span class="n">fitted_theta</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+                                               <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">training_data</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
     
     <span class="c"># Testing performance within the testing set</span>
-    <span class="n">testing_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">fitted_theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;inflation&#39;</span><span class="p">]</span>
-                     <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;iwm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;gold&#39;</span><span class="p">])</span>
+    <span class="n">testing_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">fitted_theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">]</span> 
+                     <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;inflation&#39;</span><span class="p">]</span>
+                     <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;iwm&#39;</span><span class="p">]</span>
+                     <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;gold&#39;</span><span class="p">])</span>
     
     <span class="c"># Caluclate Mean Squared Error for the model runnning on the testing set</span>
     <span class="n">errors</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span><span class="o">-</span><span class="n">testing_model</span>
@@ -14386,7 +14897,7 @@ Average MSE Excluding 2009: 1.1796873398
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Since unemployment usually is between 3 and 10 percent, a 2.5 MSE is large. However, we can also see that the a couple outliers around the 2009 recession led to this higher error. Excluding 2009, our average MSE would be 1.18, a more reasonable value.</p>
+<p>Since unemployment usually is between 3 and 10 percent, a 2.5 MSE is relatively large. However, we can also see that the a couple outliers around the 2009 recession led to this higher error. Excluding 2009, our average MSE would be 1.18, a more reasonable value.</p>
 
 </div>
 </div>
@@ -14395,7 +14906,7 @@ Average MSE Excluding 2009: 1.1796873398
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Out-of-Sample-Validation">Out-of-Sample Validation<a class="anchor-link" href="#Out-of-Sample-Validation">&#194;&#182;</a></h2><p>After conducting the forward chaining test we can be confident in the performance of our model within the time period of 2002-2012. So far in this lecture, all of the testing and development of this model has been done within this 10-year period. Working extensively within a single timeperiod can lead to overfitting.</p>
+<h2 id="Out-of-Sample-Validation">Out-of-Sample Validation<a class="anchor-link" href="#Out-of-Sample-Validation">&#194;&#182;</a></h2><p>After conducting the forward chaining test we can be confident in the performance of our model within the time period of 2002-2012. So far in this lecture, all of the testing and development of this model has been done within this 10-year period. Working extensively within a single time period can lead to overfitting.</p>
 
 </div>
 </div>
@@ -14411,7 +14922,7 @@ Average MSE Excluding 2009: 1.1796873398
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1080]:</div>
+<div class="prompt input_prompt">In&nbsp;[223]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -14422,11 +14933,15 @@ Average MSE Excluding 2009: 1.1796873398
 <span class="n">X3</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">3</span>
 <span class="n">X4</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">4</span>
 
+<span class="n">X_is</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="n">X2</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="n">X3</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="n">X4</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+
 <span class="n">simple</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">]))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
-<span class="n">complicated</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="n">X2</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="n">X3</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="n">X4</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">]])))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
+<span class="n">complicated</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">X_is</span><span class="p">)))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
 
 <span class="n">simple_model</span> <span class="o">=</span> <span class="n">simple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">simple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span>
-<span class="n">complicated_model</span> <span class="o">=</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">X2</span> <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">X3</span> <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">X4</span>                                   
+<span class="n">complicated_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">complicated</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span> 
+                     <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">X2</span> <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">X3</span> 
+                     <span class="o">+</span> <span class="n">complicated</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">X4</span><span class="p">)</span>                                   
                                             
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -14859,17 +15374,21 @@ AAAAAJdEmAEAAADgkggzAAAAAFzS/wMJGIC0sYvqaQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1081]:</div>
+<div class="prompt input_prompt">In&nbsp;[224]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">unemployment</span><span class="p">)</span>
-<span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">qqq</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">inflation</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">iwm</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">fx</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">gold</span><span class="p">[:</span><span class="n">e</span><span class="p">]],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_str</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">qqq</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">inflation</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">iwm</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">fx</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">gold</span><span class="p">[</span><span class="n">e</span><span class="p">:]],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">e</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_str</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">qqq</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">inflation</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">iwm</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">fx</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span>
+                        <span class="n">gold</span><span class="p">[:</span><span class="n">e</span><span class="p">]],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_str</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">qqq</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">inflation</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">iwm</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">fx</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span>
+                       <span class="n">gold</span><span class="p">[</span><span class="n">e</span><span class="p">:]],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">e</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_str</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
 
 <span class="n">thetas</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="n">e</span><span class="p">],</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
 <span class="n">model_insample</span> <span class="o">=</span> <span class="p">(</span><span class="n">thetas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_train</span><span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_train</span><span class="p">[</span><span class="s">&#39;inflation&#39;</span><span class="p">]</span>
                      <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_train</span><span class="p">[</span><span class="s">&#39;iwm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_train</span><span class="p">[</span><span class="s">&#39;gold&#39;</span><span class="p">])</span>
+
 <span class="n">model_outsample</span> <span class="o">=</span> <span class="p">(</span><span class="n">thetas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_test</span><span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_test</span><span class="p">[</span><span class="s">&#39;inflation&#39;</span><span class="p">]</span>
                      <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_test</span><span class="p">[</span><span class="s">&#39;iwm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_test</span><span class="p">[</span><span class="s">&#39;gold&#39;</span><span class="p">])</span>
 
@@ -15758,14 +16277,15 @@ SUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[967]:</div>
+<div class="prompt input_prompt">In&nbsp;[225]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">Y</span> <span class="o">=</span> <span class="n">unemployment</span><span class="p">[</span><span class="n">e</span><span class="p">:]</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">inflation</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">iwm</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">fx</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">gold</span><span class="p">[</span><span class="n">e</span><span class="p">:]]</span>
 
 <span class="c"># Our step AIC algorithm selected all predictors except for fx_rate</span>
-<span class="n">predictors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">inflation</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">iwm</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">gold</span><span class="p">[</span><span class="n">e</span><span class="p">:]],</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">,</span> <span class="s">&#39;inflation&#39;</span><span class="p">,</span> <span class="s">&#39;iwm&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">qqq</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">inflation</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">iwm</span><span class="p">[</span><span class="n">e</span><span class="p">:],</span> <span class="n">gold</span><span class="p">[</span><span class="n">e</span><span class="p">:]],</span> 
+                          <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">,</span> <span class="s">&#39;inflation&#39;</span><span class="p">,</span> <span class="s">&#39;iwm&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 
 <span class="c"># Setting partition dates to the first day of every year 2002-2012</span>
 <span class="n">cutoff_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="s">&#39;2012-01-01&#39;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s">&#39;2017-01-01&#39;</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="s">&#39;6MS&#39;</span><span class="p">)</span>
@@ -15780,11 +16300,14 @@ SUVORK5CYII=
     <span class="n">testing_data</span> <span class="o">=</span> <span class="n">predictors</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
     
     <span class="c"># Fitting model within the training set</span>
-    <span class="n">fitted_theta</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">training_data</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
+    <span class="n">thetas</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> 
+                                               <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">training_data</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span>
     
     <span class="c"># Testing performance within the testing set</span>
-    <span class="n">testing_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">fitted_theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;inflation&#39;</span><span class="p">]</span>
-                     <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;iwm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">fitted_theta</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;gold&#39;</span><span class="p">])</span>
+    <span class="n">testing_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">thetas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;qqq&#39;</span><span class="p">]</span> 
+                     <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;inflation&#39;</span><span class="p">]</span>
+                     <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;iwm&#39;</span><span class="p">]</span> 
+                     <span class="o">+</span> <span class="n">thetas</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">testing_data</span><span class="p">[</span><span class="s">&#39;gold&#39;</span><span class="p">])</span>
     
     <span class="c"># Caluclate Mean Squared Error for the model runnning on the testing set</span>
     <span class="n">errors</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">cutoff_dates</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span><span class="o">-</span><span class="n">testing_model</span>
