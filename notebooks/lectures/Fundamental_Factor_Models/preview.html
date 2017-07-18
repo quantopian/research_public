@@ -11782,7 +11782,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-are-Fundamental-Factor-Models?">What are Fundamental Factor Models?<a class="anchor-link" href="#What-are-Fundamental-Factor-Models?">&#194;&#182;</a></h2><p>Fundamental data refers to the metrics and ratios measuring the financial performance of companies and is derived from the public filings made by these companies. We will get our fundamental data from Morningstar.</p>
+<h2 id="What-are-Fundamental-Factor-Models?">What are Fundamental Factor Models?<a class="anchor-link" href="#What-are-Fundamental-Factor-Models?">&#194;&#182;</a></h2><p>Fundamental data refers to the metrics and ratios measuring the financial performance of companies and is derived from the public filings made by these companies, such as their income statements and balance sheets. Examples of factors include market cap, net income growth, and cash flow. We will get our fundamental data from Morningstar.</p>
 <p>This fundamental data can be used in many ways, one of which is to build a linear factor model. Given a set of $k$ fundamental factors, we can represent the returns of an asset as follows:</p>
 $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + \epsilon_t$$<p>where each $F_j$ represents a fundamental factor return stream. These return streams are from portfolios whose value is derived from it's respective factor.</p>
 <p>Fundamental factor models try to determine characteristics that affect an asset's risk and return. The most difficult part of this is determining which factors to use. Much research has been done on determining significant factors, and what makes things even more difficult is that the discovery of a significant factor often leads to its advantage being arbitraged away! This is one of the reasons why fundamental factor models, and linear factor models in general, are so prevalent in modern finance. Once you've found significant factors, you'll need to calculate the exposure an asset's return stream has to each factor. This is similar to the calculation of risk premia discussed in the CAPM lecture.</p>
@@ -11831,13 +11831,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline.data</span> <span class="kn">import</span> <span class="n">morningstar</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline.factors</span> <span class="kn">import</span> <span class="n">CustomFactor</span><span class="p">,</span> <span class="n">Returns</span><span class="p">,</span> <span class="n">Latest</span>
+<span class="kn">from</span> <span class="nn">quantopian.pipeline.classifiers</span> <span class="kn">import</span> <span class="n">Classifier</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline.filters.morningstar</span> <span class="kn">import</span> <span class="n">Q1500US</span>
 <span class="kn">from</span> <span class="nn">quantopian.research</span> <span class="kn">import</span> <span class="n">run_pipeline</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline.classifiers.morningstar</span> <span class="kn">import</span> <span class="n">Sector</span>
@@ -11860,18 +11862,17 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">class</span> <span class="nc">LaggedReturns</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
     <span class="c"># will give us the returns from last month</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Returns</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="mi">273</span><span class="p">)]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">273</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Returns</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
+    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">20</span>
     
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">lag_returns</span><span class="p">):</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="c"># need to fix this</span>
         
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">lag_returns</span><span class="p">[(</span><span class="mi">21</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">lag_returns</span><span class="p">[</span><span class="mi">21</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">lag_returns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="k">class</span> <span class="nc">BookToPrice</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
     <span class="c"># pb = price to book, but we return the reciprocal</span>
@@ -11943,10 +11944,9 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
 <span class="n">pipe</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="s">&#39;png&#39;</span><span class="p">)</span>
 
 <span class="c"># Now let&#39;s start the pipeline</span>
-<span class="n">lagged_start_date</span> <span class="o">=</span> <span class="s">&#39;2015-12-01&#39;</span>
-<span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="s">&#39;2016-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;2016-12-31&#39;</span> <span class="c"># the actual dates over which we&#39;ll conduct our test</span>
+<span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="s">&#39;2016-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;2016-12-31&#39;</span> 
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">lagged_start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
 
 <span class="n">results</span>
 </pre></div>
@@ -11961,7 +11961,7 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+<div class="prompt output_prompt">Out[79]:</div>
 
 
 
@@ -11997,13 +11997,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1369.0</td>
       <td>True</td>
       <td>True</td>
-      <td>0.950510</td>
-      <td>770.0</td>
+      <td>-0.163934</td>
+      <td>41.0</td>
       <td>False</td>
       <td>1.232830e+10</td>
       <td>1142.0</td>
       <td>False</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>Equity(24 [AAPL])</th>
@@ -12013,8 +12013,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>369.0</td>
       <td>False</td>
       <td>False</td>
-      <td>1.866871</td>
-      <td>1157.0</td>
+      <td>0.088663</td>
+      <td>1104.0</td>
       <td>True</td>
       <td>6.580560e+11</td>
       <td>1500.0</td>
@@ -12029,13 +12029,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>171.0</td>
       <td>True</td>
       <td>False</td>
-      <td>0.754950</td>
-      <td>598.0</td>
+      <td>-0.086718</td>
+      <td>123.0</td>
       <td>True</td>
       <td>3.481630e+09</td>
       <td>609.0</td>
       <td>True</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>Equity(62 [ABT])</th>
@@ -12043,15 +12043,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.311653</td>
       <td>693.0</td>
+      <td>False</td>
       <td>True</td>
-      <td>True</td>
-      <td>-4.822327</td>
-      <td>50.0</td>
+      <td>0.145497</td>
+      <td>1355.0</td>
       <td>True</td>
       <td>6.773900e+10</td>
       <td>1436.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(67 [ADSK])</th>
@@ -12059,15 +12059,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.133645</td>
       <td>249.0</td>
-      <td>True</td>
       <td>False</td>
-      <td>0.051311</td>
-      <td>269.0</td>
+      <td>False</td>
+      <td>0.269746</td>
+      <td>1474.0</td>
       <td>True</td>
       <td>1.423240e+10</td>
       <td>1184.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(76 [TAP])</th>
@@ -12075,10 +12075,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.424809</td>
       <td>923.0</td>
+      <td>False</td>
       <td>True</td>
-      <td>True</td>
-      <td>1.406199</td>
-      <td>997.0</td>
+      <td>0.094815</td>
+      <td>1153.0</td>
       <td>True</td>
       <td>1.706760e+10</td>
       <td>1227.0</td>
@@ -12091,10 +12091,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.149457</td>
       <td>293.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>1.950089</td>
-      <td>1179.0</td>
+      <td>0.056025</td>
+      <td>800.0</td>
       <td>True</td>
       <td>4.577480e+10</td>
       <td>1401.0</td>
@@ -12107,10 +12107,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.269811</td>
       <td>605.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>2.242294</td>
-      <td>1238.0</td>
+      <td>True</td>
+      <td>0.061357</td>
+      <td>859.0</td>
       <td>True</td>
       <td>1.880170e+10</td>
       <td>1253.0</td>
@@ -12125,13 +12125,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1289.0</td>
       <td>True</td>
       <td>True</td>
-      <td>0.508646</td>
-      <td>422.0</td>
+      <td>0.060495</td>
+      <td>850.0</td>
       <td>False</td>
       <td>2.176310e+10</td>
       <td>1281.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(161 [AEP])</th>
@@ -12141,13 +12141,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1178.0</td>
       <td>True</td>
       <td>True</td>
-      <td>1.237128</td>
-      <td>933.0</td>
+      <td>0.004415</td>
+      <td>416.0</td>
       <td>False</td>
       <td>2.729440e+10</td>
       <td>1327.0</td>
       <td>False</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>Equity(166 [AES])</th>
@@ -12157,8 +12157,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1073.0</td>
       <td>True</td>
       <td>True</td>
-      <td>0.645737</td>
-      <td>521.0</td>
+      <td>0.065072</td>
+      <td>907.0</td>
       <td>False</td>
       <td>6.647880e+09</td>
       <td>923.0</td>
@@ -12173,8 +12173,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>936.0</td>
       <td>True</td>
       <td>True</td>
-      <td>1.318241</td>
-      <td>967.0</td>
+      <td>0.062523</td>
+      <td>869.0</td>
       <td>True</td>
       <td>3.624740e+10</td>
       <td>1378.0</td>
@@ -12187,15 +12187,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.621118</td>
       <td>1150.0</td>
+      <td>False</td>
       <td>True</td>
-      <td>True</td>
-      <td>-5.487522</td>
-      <td>42.0</td>
+      <td>0.084945</td>
+      <td>1077.0</td>
       <td>False</td>
       <td>2.778070e+10</td>
       <td>1329.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(197 [AGCO])</th>
@@ -12203,15 +12203,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.687380</td>
       <td>1219.0</td>
+      <td>False</td>
       <td>True</td>
-      <td>True</td>
-      <td>-1.028241</td>
-      <td>134.0</td>
+      <td>0.082343</td>
+      <td>1059.0</td>
       <td>False</td>
       <td>4.258880e+09</td>
       <td>720.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(216 [HES])</th>
@@ -12221,13 +12221,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1414.0</td>
       <td>True</td>
       <td>True</td>
-      <td>0.774801</td>
-      <td>615.0</td>
+      <td>-0.019898</td>
+      <td>302.0</td>
       <td>False</td>
       <td>1.741760e+10</td>
       <td>1230.0</td>
       <td>False</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>Equity(239 [AIG])</th>
@@ -12237,8 +12237,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1423.0</td>
       <td>False</td>
       <td>True</td>
-      <td>5.590833</td>
-      <td>1393.0</td>
+      <td>0.104907</td>
+      <td>1210.0</td>
       <td>False</td>
       <td>7.811730e+10</td>
       <td>1446.0</td>
@@ -12253,13 +12253,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>989.0</td>
       <td>True</td>
       <td>True</td>
-      <td>-0.192714</td>
-      <td>212.0</td>
+      <td>0.036545</td>
+      <td>638.0</td>
       <td>True</td>
       <td>7.765750e+09</td>
       <td>985.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(270 [AKRX])</th>
@@ -12269,13 +12269,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>181.0</td>
       <td>True</td>
       <td>False</td>
-      <td>0.935160</td>
-      <td>760.0</td>
+      <td>-0.074872</td>
+      <td>146.0</td>
       <td>True</td>
       <td>3.840370e+09</td>
       <td>663.0</td>
       <td>True</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>Equity(300 [ALK])</th>
@@ -12285,8 +12285,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>512.0</td>
       <td>True</td>
       <td>True</td>
-      <td>1.122733</td>
-      <td>871.0</td>
+      <td>0.034474</td>
+      <td>620.0</td>
       <td>True</td>
       <td>1.004110e+10</td>
       <td>1079.0</td>
@@ -12301,8 +12301,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>225.0</td>
       <td>False</td>
       <td>False</td>
-      <td>2.014571</td>
-      <td>1194.0</td>
+      <td>0.264274</td>
+      <td>1471.0</td>
       <td>True</td>
       <td>1.111330e+10</td>
       <td>1115.0</td>
@@ -12317,8 +12317,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>447.0</td>
       <td>True</td>
       <td>False</td>
-      <td>1.208342</td>
-      <td>922.0</td>
+      <td>0.055478</td>
+      <td>797.0</td>
       <td>True</td>
       <td>1.599390e+10</td>
       <td>1209.0</td>
@@ -12331,15 +12331,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.360114</td>
       <td>801.0</td>
+      <td>False</td>
       <td>True</td>
-      <td>True</td>
-      <td>0.533889</td>
-      <td>438.0</td>
+      <td>0.108560</td>
+      <td>1228.0</td>
       <td>True</td>
       <td>2.215140e+10</td>
       <td>1287.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(351 [AMD])</th>
@@ -12347,10 +12347,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.011321</td>
       <td>33.0</td>
-      <td>True</td>
       <td>False</td>
-      <td>0.625027</td>
-      <td>503.0</td>
+      <td>False</td>
+      <td>0.196721</td>
+      <td>1440.0</td>
       <td>True</td>
       <td>1.880650e+09</td>
       <td>267.0</td>
@@ -12365,8 +12365,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>546.0</td>
       <td>True</td>
       <td>True</td>
-      <td>-12.643699</td>
-      <td>18.0</td>
+      <td>0.017992</td>
+      <td>495.0</td>
       <td>True</td>
       <td>1.343090e+10</td>
       <td>1169.0</td>
@@ -12381,13 +12381,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>915.0</td>
       <td>True</td>
       <td>True</td>
-      <td>-0.476346</td>
-      <td>180.0</td>
+      <td>0.071979</td>
+      <td>966.0</td>
       <td>True</td>
       <td>5.620340e+10</td>
       <td>1417.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(368 [AMGN])</th>
@@ -12397,8 +12397,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>492.0</td>
       <td>False</td>
       <td>True</td>
-      <td>5.784797</td>
-      <td>1398.0</td>
+      <td>0.149341</td>
+      <td>1369.0</td>
       <td>True</td>
       <td>1.236720e+11</td>
       <td>1467.0</td>
@@ -12411,10 +12411,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.316877</td>
       <td>702.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>3.587436</td>
-      <td>1349.0</td>
+      <td>True</td>
+      <td>0.063266</td>
+      <td>887.0</td>
       <td>True</td>
       <td>7.147470e+09</td>
       <td>957.0</td>
@@ -12427,10 +12427,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.227247</td>
       <td>495.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>5.309810</td>
-      <td>1389.0</td>
+      <td>True</td>
+      <td>0.052183</td>
+      <td>765.0</td>
       <td>True</td>
       <td>2.588790e+10</td>
       <td>1317.0</td>
@@ -12445,8 +12445,8 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1056.0</td>
       <td>True</td>
       <td>True</td>
-      <td>0.798482</td>
-      <td>641.0</td>
+      <td>0.045680</td>
+      <td>713.0</td>
       <td>False</td>
       <td>1.903300e+10</td>
       <td>1255.0</td>
@@ -12461,13 +12461,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>960.0</td>
       <td>True</td>
       <td>True</td>
-      <td>0.696708</td>
-      <td>550.0</td>
+      <td>-0.018214</td>
+      <td>307.0</td>
       <td>True</td>
       <td>3.106280e+10</td>
       <td>1352.0</td>
       <td>False</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>...</th>
@@ -12495,13 +12495,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>487.0</td>
       <td>False</td>
       <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.134014</td>
+      <td>1012.0</td>
       <td>True</td>
       <td>1.556500e+09</td>
       <td>176.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(48629 [INOV])</th>
@@ -12509,10 +12509,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.488234</td>
       <td>1017.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>0.016892</td>
+      <td>429.0</td>
       <td>False</td>
       <td>1.492320e+09</td>
       <td>159.0</td>
@@ -12527,13 +12527,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>577.0</td>
       <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.179260</td>
+      <td>1168.0</td>
       <td>True</td>
       <td>2.942650e+09</td>
       <td>481.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(48823 [SEDG])</th>
@@ -12541,10 +12541,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.546597</td>
       <td>1099.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>-0.076642</td>
+      <td>72.0</td>
       <td>False</td>
       <td>5.030240e+08</td>
       <td>2.0</td>
@@ -12557,15 +12557,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.087008</td>
       <td>147.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.045883</td>
+      <td>580.0</td>
       <td>True</td>
       <td>5.793740e+09</td>
       <td>846.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(48892 [IGT])</th>
@@ -12573,10 +12573,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.672585</td>
       <td>1248.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>-0.101012</td>
+      <td>43.0</td>
       <td>False</td>
       <td>5.086170e+09</td>
       <td>787.0</td>
@@ -12589,15 +12589,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.253447</td>
       <td>553.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>0.033188</td>
+      <td>517.0</td>
       <td>True</td>
       <td>1.359090e+09</td>
       <td>134.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(48962 [UNIT])</th>
@@ -12605,10 +12605,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.068131</td>
+      <td>90.0</td>
       <td>False</td>
       <td>3.997560e+09</td>
       <td>664.0</td>
@@ -12621,15 +12621,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.795988</td>
       <td>1336.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>0.088890</td>
+      <td>811.0</td>
       <td>False</td>
       <td>4.442690e+09</td>
       <td>723.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49060 [SHOP])</th>
@@ -12637,10 +12637,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.107358</td>
       <td>178.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.003320</td>
+      <td>319.0</td>
       <td>True</td>
       <td>3.833150e+09</td>
       <td>635.0</td>
@@ -12653,15 +12653,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.217827</td>
       <td>452.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.113514</td>
+      <td>925.0</td>
       <td>True</td>
       <td>3.960960e+09</td>
       <td>658.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49176 [TRU])</th>
@@ -12669,10 +12669,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.232229</td>
       <td>494.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>-0.055144</td>
+      <td>125.0</td>
       <td>True</td>
       <td>5.625950e+09</td>
       <td>833.0</td>
@@ -12685,10 +12685,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.094937</td>
       <td>159.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.003423</td>
+      <td>318.0</td>
       <td>True</td>
       <td>1.160800e+09</td>
       <td>89.0</td>
@@ -12701,15 +12701,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.349138</td>
       <td>770.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>0.084857</td>
+      <td>782.0</td>
       <td>True</td>
       <td>2.369290e+09</td>
       <td>346.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49242 [PYPL])</th>
@@ -12717,10 +12717,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.294334</td>
       <td>661.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>-0.055746</td>
+      <td>122.0</td>
       <td>True</td>
       <td>4.821760e+10</td>
       <td>1399.0</td>
@@ -12733,15 +12733,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.194609</td>
       <td>391.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.074128</td>
+      <td>720.0</td>
       <td>True</td>
       <td>2.363200e+09</td>
       <td>342.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49318 [BETR])</th>
@@ -12749,10 +12749,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.093512</td>
       <td>157.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.327377</td>
+      <td>1.0</td>
       <td>True</td>
       <td>6.810770e+08</td>
       <td>16.0</td>
@@ -12765,15 +12765,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.004757</td>
       <td>15.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.085786</td>
+      <td>787.0</td>
       <td>True</td>
       <td>1.989490e+09</td>
       <td>269.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49325 [CCP])</th>
@@ -12781,10 +12781,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.559065</td>
       <td>1118.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>-0.017915</td>
+      <td>255.0</td>
       <td>False</td>
       <td>2.064590e+09</td>
       <td>282.0</td>
@@ -12797,15 +12797,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.079792</td>
       <td>132.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.088435</td>
+      <td>809.0</td>
       <td>True</td>
       <td>1.300890e+10</td>
       <td>1144.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49506 [HPE])</th>
@@ -12813,15 +12813,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.809323</td>
       <td>1348.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>0.081633</td>
+      <td>766.0</td>
       <td>False</td>
       <td>3.885680e+10</td>
       <td>1375.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49515 [RACE])</th>
@@ -12829,15 +12829,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.016818</td>
       <td>43.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.058121</td>
+      <td>637.0</td>
       <td>True</td>
       <td>1.418270e+10</td>
       <td>1171.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49630 [CSRA])</th>
@@ -12847,13 +12847,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>72.0</td>
       <td>False</td>
       <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.235066</td>
+      <td>1312.0</td>
       <td>True</td>
       <td>5.219830e+09</td>
       <td>798.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49700 [FCE_A])</th>
@@ -12861,10 +12861,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.563571</td>
       <td>1126.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>-0.037349</td>
+      <td>169.0</td>
       <td>False</td>
       <td>5.283200e+09</td>
       <td>804.0</td>
@@ -12877,10 +12877,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.203227</td>
       <td>418.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.131812</td>
+      <td>27.0</td>
       <td>True</td>
       <td>1.314900e+09</td>
       <td>124.0</td>
@@ -12895,13 +12895,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1119.0</td>
       <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.160159</td>
+      <td>1107.0</td>
       <td>False</td>
       <td>2.624690e+09</td>
       <td>408.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(49881 [LSXM_A])</th>
@@ -12909,15 +12909,15 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>True</td>
       <td>0.867754</td>
       <td>1374.0</td>
-      <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>True</td>
+      <td>0.060055</td>
+      <td>646.0</td>
       <td>False</td>
       <td>1.155450e+10</td>
       <td>1113.0</td>
       <td>False</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(50138 [PI])</th>
@@ -12925,10 +12925,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>False</td>
       <td>0.117345</td>
       <td>205.0</td>
+      <td>True</td>
       <td>False</td>
-      <td>False</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-0.029059</td>
+      <td>195.0</td>
       <td>True</td>
       <td>7.140120e+08</td>
       <td>24.0</td>
@@ -12943,13 +12943,13 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
       <td>1493.0</td>
       <td>False</td>
       <td>True</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.166446</td>
+      <td>1130.0</td>
       <td>False</td>
       <td>1.953200e+09</td>
       <td>257.0</td>
       <td>True</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>Equity(50499 [EVHC])</th>
@@ -12983,28 +12983,6 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll remove the data from the lagged_start_date to start_date</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">pd</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">31</span><span class="p">)]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can go through the data and build the factor portfolios we want</p>
 
 </div>
@@ -13012,11 +12990,10 @@ $$R_t = a_t + \beta_{t, F_1}F_1 + \beta_{t, F_2}F_2 + ... + \beta_{t, F_k}F_k + 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># group_by(level=0).mean() gives you the average return of each day for a particular group of stocks</span>
-
 <span class="n">R_biggest</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">biggest</span><span class="p">][</span><span class="s">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">R_smallest</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">smallest</span><span class="p">][</span><span class="s">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
@@ -17553,9 +17530,7 @@ RH7iAIqIiIiIiMhPHEARERERERH56f8DHSgxp5eXBQgAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
 <span class="kn">from</span> <span class="nn">statsmodels</span> <span class="kn">import</span> <span class="n">regression</span><span class="p">,</span><span class="n">stats</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
@@ -17584,16 +17559,21 @@ RH7iAIqIiIiIiMhPHEARERERERH56f8DHSgxp5eXBQgAAAAASUVORK5CYII=
 <span class="n">asset_list_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
 
 <span class="c"># Spreading the factor portfolio data across all assets for each day</span>
-<span class="n">SMB_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">SMB</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
+<span class="n">SMB_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">SMB</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> \
+              <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
 <span class="n">data</span><span class="p">[</span><span class="s">&#39;SMB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">SMB_column</span><span class="p">))</span>
 
-<span class="n">HML_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">HML</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
+<span class="n">HML_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">HML</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> \
+              <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
 <span class="n">data</span><span class="p">[</span><span class="s">&#39;HML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">HML_column</span><span class="p">))</span>
 
-<span class="n">MOM_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">MOM</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
+<span class="n">MOM_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">MOM</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> \
+              <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
 <span class="n">data</span><span class="p">[</span><span class="s">&#39;MOM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">MOM_column</span><span class="p">))</span>
 
-<span class="n">EXMRKT_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">EXMRKT</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span><span class="o">*</span><span class="n">size</span> <span class="k">if</span> <span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">EXMRKT</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">size</span> <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
+<span class="n">EXMRKT_column</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">EXMRKT</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span><span class="o">*</span><span class="n">size</span> <span class="k">if</span> <span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">EXMRKT</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">size</span> \
+                 <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">asset_list_sizes</span><span class="p">)]</span>
+
 <span class="n">data</span><span class="p">[</span><span class="s">&#39;EXMRKT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">EXMRKT_column</span><span class="p">))</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
@@ -17606,7 +17586,8 @@ RH7iAIqIiIiIiMhPHEARERERERH56f8DHSgxp5eXBQgAAAAASUVORK5CYII=
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)[[</span><span class="s">&#39;EXMRKT&#39;</span><span class="p">,</span><span class="s">&#39;SMB&#39;</span><span class="p">,</span> <span class="s">&#39;HML&#39;</span><span class="p">,</span> <span class="s">&#39;MOM&#39;</span><span class="p">,</span> <span class="s">&#39;const&#39;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">assets</span><span class="p">]</span>
 
 <span class="c"># First regression step: estimating the betas</span>
-<span class="n">reg_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">empty</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">empty</span><span class="p">)]</span>
+<span class="n">reg_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span> \
+               <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">empty</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">empty</span><span class="p">)]</span>
 <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">asset</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">assets</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">empty</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">empty</span><span class="p">)]</span>
 
 <span class="n">betas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reg_results</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">indices</span><span class="p">)</span>
@@ -17762,7 +17743,8 @@ RH7iAIqIiIiIiMhPHEARERERERH56f8DHSgxp5eXBQgAAAAASUVORK5CYII=
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># next, we calculate the exposure of our portfolio to each of the Fama-French factors</span>
-<span class="n">portfolio_exposure</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">portfolio_data</span><span class="p">[</span><span class="s">&#39;Returns&#39;</span><span class="p">],</span> <span class="n">portfolio_data</span><span class="p">[[</span><span class="s">&#39;EXMRKT&#39;</span><span class="p">,</span> <span class="s">&#39;SMB&#39;</span><span class="p">,</span> <span class="s">&#39;HML&#39;</span><span class="p">,</span> <span class="s">&#39;MOM&#39;</span><span class="p">,</span> <span class="s">&#39;const&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">portfolio_exposure</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">portfolio_data</span><span class="p">[</span><span class="s">&#39;Returns&#39;</span><span class="p">],</span> \
+                                <span class="n">portfolio_data</span><span class="p">[[</span><span class="s">&#39;EXMRKT&#39;</span><span class="p">,</span> <span class="s">&#39;SMB&#39;</span><span class="p">,</span> <span class="s">&#39;HML&#39;</span><span class="p">,</span> <span class="s">&#39;MOM&#39;</span><span class="p">,</span> <span class="s">&#39;const&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="k">print</span> <span class="n">portfolio_exposure</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 
@@ -19816,7 +19798,8 @@ IBAInln+CyFomgNMXYHAAAAAAElFTkSuQmCC
 <span class="k">print</span> <span class="s">&quot;Jarque-Bera p-value: &quot;</span><span class="p">,</span> <span class="n">pvalue_JB</span>
 
 <span class="c"># testing for homoskedasticity: breush pagan</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">pvalue_BP</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">diagnostic</span><span class="o">.</span><span class="n">het_breushpagan</span><span class="p">(</span><span class="n">portfolio_exposure</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">portfolio_data</span><span class="p">[[</span><span class="s">&#39;EXMRKT&#39;</span><span class="p">,</span> <span class="s">&#39;SMB&#39;</span><span class="p">,</span> <span class="s">&#39;HML&#39;</span><span class="p">,</span> <span class="s">&#39;MOM&#39;</span><span class="p">,</span> <span class="s">&#39;const&#39;</span><span class="p">]])</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">pvalue_BP</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">diagnostic</span><span class="o">.</span><span class="n">het_breushpagan</span><span class="p">(</span><span class="n">portfolio_exposure</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> \
+                                            <span class="n">portfolio_data</span><span class="p">[[</span><span class="s">&#39;EXMRKT&#39;</span><span class="p">,</span> <span class="s">&#39;SMB&#39;</span><span class="p">,</span> <span class="s">&#39;HML&#39;</span><span class="p">,</span> <span class="s">&#39;MOM&#39;</span><span class="p">,</span> <span class="s">&#39;const&#39;</span><span class="p">]])</span>
 <span class="k">print</span> <span class="s">&quot;Breush Pagan p-value: &quot;</span><span class="p">,</span> <span class="n">pvalue_BP</span>
 
 <span class="c"># testing for autocorrelation</span>
@@ -20215,7 +20198,8 @@ After winsorization -2.28498595696 1.99232987994
               <span class="s">&#39;Lag_Ret_z&#39;</span><span class="p">:</span> <span class="n">Lag_Ret_z</span><span class="p">,</span>
               <span class="s">&#39;Constant&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
-<span class="n">cross_sectional_results</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">df_day</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">],</span> <span class="n">df_day</span><span class="p">[[</span><span class="s">&#39;BTP_z&#39;</span><span class="p">,</span> <span class="s">&#39;MC_z&#39;</span><span class="p">,</span> <span class="s">&#39;Lag_Ret_z&#39;</span><span class="p">,</span> <span class="s">&#39;Constant&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">cross_sectional_results</span> <span class="o">=</span> \
+    <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">df_day</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">],</span> <span class="n">df_day</span><span class="p">[[</span><span class="s">&#39;BTP_z&#39;</span><span class="p">,</span> <span class="s">&#39;MC_z&#39;</span><span class="p">,</span> <span class="s">&#39;Lag_Ret_z&#39;</span><span class="p">,</span> <span class="s">&#39;Constant&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="n">cross_sectional_results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
