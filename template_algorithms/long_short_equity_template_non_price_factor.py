@@ -27,7 +27,7 @@ import numpy as np
 import pandas as pd
 
 from quantopian.pipeline.filters import Q1500US
-import quantopian.experimental.optimize as opt
+import quantopian.optimize as opt
 
 # Constraint Parameters
 MAX_GROSS_LEVERAGE = 1.0
@@ -207,7 +207,7 @@ def rebalance(context, data):
     # Add a sector neutrality constraint using the sector
     # classifier that we included in pipeline
     constraints.append(
-        opt.NetPartitionExposure.with_equal_bounds(
+        opt.NetGroupExposure.with_equal_bounds(
             labels=pipeline_data.sector,
             min=-MAX_SECTOR_EXPOSURE,
             max=MAX_SECTOR_EXPOSURE,
@@ -215,7 +215,7 @@ def rebalance(context, data):
     # Take the risk factors that you extracted above and
     # list your desired max/min exposures to them -
     # Here we selection +/- 0.01 to remain near 0.
-    neutralize_risk_factors = opt.WeightedExposure(
+    neutralize_risk_factors = opt.FactorExposure(
         loadings=risk_factor_exposures,
         min_exposures={'market_beta':-MAX_BETA_EXPOSURE},
         max_exposures={'market_beta':MAX_BETA_EXPOSURE}
