@@ -11771,7 +11771,14 @@ ul.typeahead-list > li > a {
 <h3 id="Intro---Why-use-Alternative-Data?">Intro - Why use Alternative Data?<a class="anchor-link" href="#Intro---Why-use-Alternative-Data?">&#194;&#182;</a></h3><p>Fundamental asset data such as price, volume, or company financials has many benefits including its accessibility and simplicity. However, these advantages are a double-edged sword as any "alpha" left in these datasets can be especially difficult to extract exactly because of the amount of people using the data.</p>
 <p>Because alternative data streams are not as widely available or as easy to use as fundamental ones, finding novel information that has yet to be "priced in" by the market is easier. Further benefits include the tendency for alternative data signals to be uncorrelated to and less noisy than traditional data.</p>
 <p>Some of the major drawbacks of alternative data include its lack of structure, cost, exclusivity, and high dimensionality. Luckily, Quantopian takes down some of these barriers through its <a href="https://www.quantopian.com/data/quandl/currfx_usdeur">wide variety of alternative data feeds</a>, many of which are free to use and all of which have been cleaned and standardized to work both in the research environment and in pipeline.</p>
-<h2 id="Case-Study-Abstract">Case Study Abstract<a class="anchor-link" href="#Case-Study-Abstract">&#194;&#182;</a></h2>
+<h3 id="Abstract">Abstract<a class="anchor-link" href="#Abstract">&#194;&#182;</a></h3><p>Through some preliminary research we arrive at a hypothesis we would like to test:</p>
+<p><strong> Hypothesis: </strong> <em>Equity home bias results in international-domiciled equities being undervalued. US equities with strong inverse correlations to the USD-EUR exchange rate show similarities to these international assets, and because they are US equities and subject to US market biases equity home bias will cause them to be undervalued.</em></p>
+<p>To test it we:</p>
+<p>1) Attempt to measure the presence of equity home bias within the research time period 2009-2010. To do this we compare optimal portfolio positions in US vs. EU equities to what is observed in US investor portfolios over the research period.</p>
+<p>2) Try to see if assets with strong negative correlations to the strength of the USD show some similarities to European assets. To do this we compare returns of a strong positive correlation portfolio, strong negative correlation portfolio, and an ETF that tracks top European equities by market cap.</p>
+<p>3) Examine if those assets with an inverse relationship to the USD are in fact undervalued. To do this we create an Alphalens factor which longs strong negative correlation equities and shorts strong positive correlation equities and examine its performance over the research period.</p>
+<p>We finish by implementing an algorithm based on the <a href="com/lectures/example-long-short-equity-algorithm">long short equity template</a>, running the backtest over the research period and walking forward one year out-of-sample, and analyzing the results using Pyfolio.</p>
+
 </div>
 </div>
 </div>
@@ -13736,7 +13743,7 @@ RtLT0/H392fRokWYTCaMRiNKpZKMjAxuv/12qqqqmDt3rrfRws0338zw4cPJzMzkhRde4KOPPvrN
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Macro-vs.-Asset-Level-Data">Macro vs. Asset-Level Data<a class="anchor-link" href="#Macro-vs.-Asset-Level-Data">&#194;&#182;</a></h2><p>One important classifier for datasets is whether, for a given point in time, they provide individual values for every asset (such as sentiment, earnings surprises, dividends) or a single macro value (like FX rate, inflation, or gold prices).</p>
-<p>An important concept when dealing with macro data like FX rate is how to apply it to get a unique value for every asset in your universe. The logic you use to decompose a single macro indicator into 1500 asset-level ranking values requires some thought. Some approaches include:</p>
+<p>An important concept when dealing with macro data like FX rate is how to apply it to get a unique value for every asset in your universe. The logic you use to decompose a single macro indicator into many asset-level ranking values requires some thought. Some approaches include:</p>
 <ul>
 <li>Correlation/beta coefficient (both will produce same ranking)</li>
 <li>Spearman rank correlation</li>
@@ -13763,7 +13770,16 @@ RtLT0/H392fRokWYTCaMRiNKpZKMjAxuv/12qqqqmDt3rrfRws0338zw4cPJzMzkhRde4KOPPvrN
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Detecting-Equity-Home-Bias">Detecting Equity Home Bias<a class="anchor-link" href="#Detecting-Equity-Home-Bias">&#194;&#182;</a></h3><p>Because our story is based on the presence of this bias it is important to make sure it exists within our test period 2009-2011. We will use some of the methods in <a href="https://www.aeaweb.org/conference/2015/retrieve.php?pdfid=437">this paper</a> to estimate home bias.$^1$</p>
+<p><strong> Refined Hypothesis: </strong> <em>Equity home bias results in international-domiciled equities being undervalued. US equities with strong inverse correlations to the USD-EUR exchange rate might show similarities to these international assets, and because they are US equities and subject to US market biases equity home bias could cause them to be undervalued.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Detecting-Equity-Home-Bias">Detecting Equity Home Bias<a class="anchor-link" href="#Detecting-Equity-Home-Bias">&#194;&#182;</a></h3><p>Because our story is based on the presence of this bias it is important to make sure it exists within our test period 2009-2010. We will use some of the methods in <a href="https://www.aeaweb.org/conference/2015/retrieve.php?pdfid=437">this paper</a> to estimate home bias.$^1$</p>
 <p>Data on cross-border US portfolio holdings is from the <a href="https://www.treasury.gov/resource-center/data-chart-center/tic/Pages/fpis.aspx">U.S. Department of the Treasury</a> and US/EU market cap data is from the <a href="http://data.worldbank.org/indicator/CM.MKT.LCAP.CD?end=2016&start=1975&view=chart">World Bank</a>.</p>
 
 </div>
@@ -13854,15 +13870,6 @@ Difference: 0.322329492767
 <p><a href="https://en.wikipedia.org/wiki/Capital_asset_pricing_model">CAPM</a> dictates that the optimal portfolio is one with weights based on the market capitalization of equities within the universe. As such, an optimal international portfolio should have a ratio of US to EU equities equal to the ratio of the size of the total US and EU equity markets.</p>
 <p>Across 2009 to 2010, the European equity market cap was 40.7% of the size of the US equity market cap; according to CAPM, any optimal investment portfolio should have similar proportions of US to European equities.</p>
 <p>However, the US Treasury data shows that during our time period US investor portfolios had a Euro-US equity ratio around 8.5%, one-fourth of the optimal amount. This discrepancy is a result of home bias, and this test confirms its presence during the research period.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong> Refined Hypothesis: </strong> <em>Equity home bias results in international-domiciled equities being undervalued. US equities with strong inverse correlations to the USD-EUR exchange can serve as proxies for these international assets, and because they are US equities and subject to US market biases they will be undervalued.</em></p>
 
 </div>
 </div>
@@ -14259,8 +14266,8 @@ QmCC
 <p>To see if the assuption that low FX correlation US equities can represent international assets holds, let's compare the returns of the following:</p>
 <ul>
 <li>An ETF that tracks the FTSE Developed Europe All-Cap Index (<code>VGK</code>)</li>
-<li>A bucket of 50 stocks with strong negative correlations to FX rate</li>
-<li>A bucket of 50 stocks with strong positive correlations to FX rate</li>
+<li>A bucket of 25 stocks with strong negative correlations to FX rate</li>
+<li>A bucket of 25 stocks with strong positive correlations to FX rate</li>
 </ul>
 <p>Pipeline made generating rolling correlations to FX rate for each asset easy. Using the pipeline data, lets find correlations of returns between the portfolios:</p>
 
@@ -20341,7 +20348,7 @@ vXt3o0/B5pms3KAHAAAAoJqrksUDAAAAAKAyUWwAAAAAVHsUGwAAAADVHsUGAAAAQLVHsQEAAABQ
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>With the exception of peaks right before and after the recession, equity home bias between the US and Europe has been in constant decline and with developments in globalization, trade, and communications it is expected to continue on this downwards trend. Based on this we can expect our factor to perform worse in the future as equity home bias fades away.</p>
+<p>With the exception of peaks right before and after the recession, equity home bias between the US and Europe has been in constant decline and with developments in globalization, trade, and communications it is expected to continue on this downwards trend. Based on this we can maybe expect our factor to perform worse in the future as equity home bias fades away, although in some ways it is dependent on home bias decreasing as well. Without home bias decreasing, those undervalued foreign assets will remain undervalued; it is only through the general decline of home bias that those undervalued assets will approach an efficient price which we need to happen if our algo is to see returns from investing in undervalued assets.</p>
 
 </div>
 </div>
