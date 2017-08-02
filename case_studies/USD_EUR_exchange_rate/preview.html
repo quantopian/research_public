@@ -11784,6 +11784,19 @@ ul.typeahead-list > li > a {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -18990,7 +19003,7 @@ tAIAAAAADIvQCgAAAAAwLEIrAAAAAMCw/i8J3ei2e3rDUQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Using Alphalens to get factor returns</span>
@@ -19003,7 +19016,7 @@ tAIAAAAADIvQCgAAAAAwLEIrAAAAAMCw/i8J3ei2e3rDUQAAAABJRU5ErkJggg==
 
 <span class="n">new_risk_factors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">risk_factors</span><span class="p">,</span> <span class="n">alt_factors</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join_axes</span><span class="o">=</span><span class="p">[</span><span class="n">algo_returns</span><span class="o">.</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
 
-<span class="n">decompose_returns_custom</span><span class="p">(</span><span class="n">algo_returns</span><span class="p">,</span> <span class="n">new_risk_factors</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">decompose_returns_custom</span><span class="p">(</span><span class="n">algo_returns</span><span class="p">,</span> <span class="n">new_risk_factors</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -19016,154 +19029,70 @@ tAIAAAAADIvQCgAAAAAwLEIrAAAAAMCw/i8J3ei2e3rDUQAAAABJRU5ErkJggg==
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[25]:</div>
+<div class="prompt output_prompt">Out[34]:</div>
 
 
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Mkt-RF</th>
-      <th>SMB</th>
-      <th>HML</th>
-      <th>Mom</th>
-      <th>VOL</th>
-      <th>STMR</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Alpha</th>
-      <td>0.0537356</td>
-      <td>0.0528727</td>
-      <td>0.0432647</td>
-      <td>0.0275121</td>
-      <td>0.0271259</td>
-      <td>0.033393</td>
-    </tr>
-    <tr>
-      <th>Alpha t-stat</th>
-      <td>2.01595</td>
-      <td>2.00192</td>
-      <td>1.7057</td>
-      <td>1.15618</td>
-      <td>1.14244</td>
-      <td>1.33864</td>
-    </tr>
-    <tr>
-      <th>Mkt-RF</th>
-      <td>0.055417</td>
-      <td>0.0495098</td>
-      <td>0.094671</td>
-      <td>0.0838148</td>
-      <td>0.0838225</td>
-      <td>0.0838203</td>
-    </tr>
-    <tr>
-      <th>Mkt-RF t-stat</th>
-      <td>5.87536</td>
-      <td>4.41303</td>
-      <td>6.64337</td>
-      <td>7.33696</td>
-      <td>7.32877</td>
-      <td>7.31785</td>
-    </tr>
-    <tr>
-      <th>SMB</th>
-      <td>NaN</td>
-      <td>0.0346142</td>
-      <td>-0.00432747</td>
-      <td>0.0203095</td>
-      <td>0.0203615</td>
-      <td>0.0211495</td>
-    </tr>
-    <tr>
-      <th>SMB t-stat</th>
-      <td>NaN</td>
-      <td>1.54278</td>
-      <td>-0.205814</td>
-      <td>1.03043</td>
-      <td>1.03301</td>
-      <td>1.06842</td>
-    </tr>
-    <tr>
-      <th>HML</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>-0.106863</td>
-      <td>-0.171577</td>
-      <td>-0.171515</td>
-      <td>-0.168371</td>
-    </tr>
-    <tr>
-      <th>HML t-stat</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>-4.33332</td>
-      <td>-6.03916</td>
-      <td>-6.02681</td>
-      <td>-5.90937</td>
-    </tr>
-    <tr>
-      <th>Mom</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>-0.0852706</td>
-      <td>-0.0854547</td>
-      <td>-0.0874834</td>
-    </tr>
-    <tr>
-      <th>Mom    t-stat</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>-5.31589</td>
-      <td>-5.28806</td>
-      <td>-5.45412</td>
-    </tr>
-    <tr>
-      <th>VOL</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.00352071</td>
-      <td>0.0278498</td>
-    </tr>
-    <tr>
-      <th>VOL t-stat</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.222961</td>
-      <td>1.15111</td>
-    </tr>
-    <tr>
-      <th>STMR</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>-0.0359366</td>
-    </tr>
-    <tr>
-      <th>STMR t-stat</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>-0.92332</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(                  Mkt-RF        SMB         HML     Mom            VOL  \
+ Alpha          0.0537356  0.0528727   0.0432647  0.0275121   0.0271259   
+ Alpha t-stat     2.01595    2.00192      1.7057    1.15618     1.14244   
+ Mkt-RF          0.055417  0.0495098    0.094671  0.0838148   0.0838225   
+ Mkt-RF t-stat    5.87536    4.41303     6.64337    7.33696     7.32877   
+ SMB                  NaN  0.0346142 -0.00432747  0.0203095   0.0203615   
+ SMB t-stat           NaN    1.54278   -0.205814    1.03043     1.03301   
+ HML                  NaN        NaN   -0.106863  -0.171577   -0.171515   
+ HML t-stat           NaN        NaN    -4.33332   -6.03916    -6.02681   
+ Mom                  NaN        NaN         NaN -0.0852706  -0.0854547   
+ Mom    t-stat        NaN        NaN         NaN   -5.31589    -5.28806   
+ VOL                  NaN        NaN         NaN        NaN  0.00352071   
+ VOL t-stat           NaN        NaN         NaN        NaN    0.222961   
+ STMR                 NaN        NaN         NaN        NaN         NaN   
+ STMR t-stat          NaN        NaN         NaN        NaN         NaN   
+ 
+                     STMR  
+ Alpha           0.033393  
+ Alpha t-stat     1.33864  
+ Mkt-RF         0.0838203  
+ Mkt-RF t-stat    7.31785  
+ SMB            0.0211495  
+ SMB t-stat       1.06842  
+ HML            -0.168371  
+ HML t-stat      -5.90937  
+ Mom           -0.0874834  
+ Mom    t-stat   -5.45412  
+ VOL            0.0278498  
+ VOL t-stat       1.15111  
+ STMR          -0.0359366  
+ STMR t-stat     -0.92332  ,
+        Model 0: Add Mkt-RF Model 1: Add SMB Model 2: Add HML  \
+ Alpha            0.0537356        0.0528727        0.0432647   
+ Mkt-RF          0.00914749       0.00817242         0.015627   
+ SMB                    NaN       0.00183801     -0.000229789   
+ HML                    NaN              NaN        0.0042211   
+ Mom                    NaN              NaN              NaN   
+ VOL                    NaN              NaN              NaN   
+ STMR                   NaN              NaN              NaN   
+ 
+        Model 3: Add Mom    Model 4: Add VOL Model 5: Add STMR  
+ Alpha            0.0275121        0.0271259          0.033393  
+ Mkt-RF            0.013835        0.0138363         0.0138359  
+ SMB             0.00107843        0.0010812        0.00112304  
+ HML             0.00677728       0.00677486        0.00665064  
+ Mom              0.0136803        0.0137098         0.0140352  
+ VOL                    NaN      0.000355013        0.00280825  
+ STMR                   NaN              NaN       -0.00896306  ,
+ Mkt-RF    0.165067
+ SMB       0.053100
+ HML      -0.039500
+ Mom      -0.160433
+ VOL       0.100836
+ STMR      0.249413
+ dtype: float64,
+ 0.06288308063369066,
+ array([ 2.16029577,  1.3493997 ,  2.26075089,  1.64429027,  3.50545612,
+         3.5219309 ]))</pre>
 </div>
 
 </div>
@@ -19708,7 +19637,6 @@ SUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Of the new factors, none compose more of our algo's returns than momentum.</p>
-<p>Below is a backtest from 2004 through 20</p>
 
 </div>
 </div>
