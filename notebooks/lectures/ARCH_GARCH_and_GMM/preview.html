@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "ARCH GARCH and GMM"</title>
+  <title>ARCH, GARCH, and GMM</title>
 
   <style type="text/css">
     /*!
@@ -11806,7 +11806,10 @@ ul.typeahead-list > li > a {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Simulating-a-GARCH(1,-1)-Case">Simulating a GARCH(1, 1) Case<a class="anchor-link" href="#Simulating-a-GARCH(1,-1)-Case">&#194;&#182;</a></h2><p>We'll start by using Monte Carlo sampling to simulate a GARCH(1, 1) process. Our dynamics will be</p>
-$$\sigma_1 = \sqrt{\frac{a_0}{1-a_1-b_1}}$$$$\sigma_t^2 = a_0 + a_1 x_{t-1}^2+b_1 \sigma_{t-1}^2$$$$x_t = \sigma_t \epsilon_t$$$$\epsilon \sim \mathcal{N}(0, 1)$$<p>Our parameters will be $a_0 = 1$, $a_1=0.1$, and $b_1=0.8$. We will drop the first 10% (burn-in) of our simulated values.</p>
+$$\sigma_1 = \sqrt{\frac{a_0}{1-a_1-b_1}} \\
+\sigma_t^2 = a_0 + a_1 x_{t-1}^2+b_1 \sigma_{t-1}^2 \\
+x_t = \sigma_t \epsilon_t \\
+\epsilon \sim \mathcal{N}(0, 1)$$<p>Our parameters will be $a_0 = 1$, $a_1=0.1$, and $b_1=0.8$. We will drop the first 10% (burn-in) of our simulated values.</p>
 
 </div>
 </div>
@@ -14915,10 +14918,12 @@ Jarque-Bera probability normal: 0.547561671115
 <p>GMM now has three steps.</p>
 <p>Start with $W$ as the identity matrix.</p>
 <ol>
-<li>Estimate $\hat\theta*1$ by using numerical optimization to minimize
-$$\min_{\theta \in \Theta} \left(\frac{1}{T} \sum_{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta)\right)$$</li>
-<li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)
-$$\hat W_{i+1} = \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta_i)g(x_t, \hat\theta_i)'\right)^{-1}$$</li>
+<li>Estimate $\hat\theta_1$ by using numerical optimization to minimize</li>
+</ol>
+$$\min_{\theta \in \Theta} \left(\frac{1}{T} \sum_{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta)\right)$$<ol>
+<li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)</li>
+</ol>
+$$\hat W_{i+1} = \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta_i)g(x_t, \hat\theta_i)'\right)^{-1}$$<ol>
 <li>Repeat until $|\hat\theta_{i+1} - \hat\theta_i| &lt; \epsilon$ or we reach an iteration threshold.</li>
 </ol>
 <p>Initialize $W$ and $T$ and define the objective function we need to minimize.</p>
