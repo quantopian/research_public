@@ -19,9 +19,9 @@ from quantopian.algorithm import attach_pipeline, pipeline_output, order_optimal
 from quantopian.pipeline import Pipeline
 from quantopian.pipeline.factors import CustomFactor, SimpleMovingAverage, AverageDollarVolume, RollingLinearRegressionOfReturns
 from quantopian.pipeline.data.builtin import USEquityPricing
-from quantopian.pipeline.data import morningstar
+from quantopian.pipeline.data import Fundamentals
 from quantopian.pipeline.filters.morningstar import IsPrimaryShare
-from quantopian.pipeline.classifiers.morningstar import Sector
+from quantopian.pipeline.classifiers.fundamentals import Sector  
 
 import numpy as np
 import pandas as pd
@@ -75,8 +75,8 @@ def make_pipeline():
     momentum = Momentum()
     # By appending .latest to the imported morningstar data, we get builtin Factors
     # so there's no need to define a CustomFactor
-    value = morningstar.income_statement.ebit.latest / morningstar.valuation.enterprise_value.latest
-    quality = morningstar.operation_ratios.roe.latest
+    value = Fundamentals.ebit.latest / Fundamentals.enterprise_value.latest
+    quality = Fundamentals.roe.latest
     
     # Classify all securities by sector so that we can enforce sector neutrality later
     sector = Sector()
@@ -84,7 +84,7 @@ def make_pipeline():
     # Screen out non-desirable securities by defining our universe. 
     # Removes ADRs, OTCs, non-primary shares, LP, etc.
     # Also sets a minimum $500MM market cap filter and $5 price filter
-    mkt_cap_filter = morningstar.valuation.market_cap.latest >= 500000000    
+    mkt_cap_filter = Fundamentals.market_cap.latest >= 500000000    
     price_filter = USEquityPricing.close.latest >= 5
     universe = Q1500US() & price_filter & mkt_cap_filter
 
@@ -178,7 +178,6 @@ def recording_statements(context, data):
 def rebalance(context, data):
     ### Optimize API
     pipeline_data = context.pipeline_data
-    todays_universe = pipeline_data.index
     
     ### Extract from pipeline any specific risk factors you want 
     # to neutralize that you have already calculated 
@@ -241,8 +240,7 @@ def rebalance(context, data):
     # respect to the given constraints.
     order_optimal_portfolio(
         objective=objective,
-        constraints=constraints,
-        universe=todays_universe
+        constraints=constraints
     )
     
 
