@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Updated Spearman Rank Correlation Notebook"</title>
+  <title>Cloned from "Spearman Rank Correlation"</title>
 
   <style type="text/css">
     /*!
@@ -13247,8 +13247,7 @@ SUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Real-World-Use-Case:-Evaluating-a-Ranking-Model">Real World Use Case: Evaluating a Ranking Model<a class="anchor-link" href="#Real-World-Use-Case:-Evaluating-a-Ranking-Model">&#194;&#182;</a></h2><h3 id="NOTE:-Lesson-18-now-covers-this-topic-in-much-greater-detail">NOTE: Lesson 18 now covers this topic in much greater detail<a class="anchor-link" href="#NOTE:-Lesson-18-now-covers-this-topic-in-much-greater-detail">&#194;&#182;</a></h3><p><a href="https://www.quantopian.com/lectures">https://www.quantopian.com/lectures</a></p>
-<p>Let's say that we have some way of ranking securities and that we'd like to test how well our ranking performs in practice. In this case our model just takes the mean daily return for the last month and ranks the stocks by that metric.</p>
+<h2 id="Real-World-Use-Case:-Evaluating-a-Ranking-Model">Real World Use Case: Evaluating a Ranking Model<a class="anchor-link" href="#Real-World-Use-Case:-Evaluating-a-Ranking-Model">&#194;&#182;</a></h2><h3 id="NOTE:-Factor-Analysis-now-covers-this-topic-in-much-greater-detail">NOTE: <a href="https://www.quantopian.com/lectures/factor-analysis">Factor Analysis</a> now covers this topic in much greater detail<a class="anchor-link" href="#NOTE:-Factor-Analysis-now-covers-this-topic-in-much-greater-detail">&#194;&#182;</a></h3><p>Let's say that we have some way of ranking securities and that we'd like to test how well our ranking performs in practice. In this case our model just takes the mean daily return for the last month and ranks the stocks by that metric.</p>
 <p>We hypothesize that this will be predictive of the mean returns over the next month. To test this we score the stocks based on a lookback window, then take the spearman rank correlation of the score and the mean returns over the walk forward month.</p>
 
 </div>

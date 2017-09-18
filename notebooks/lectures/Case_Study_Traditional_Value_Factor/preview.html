@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Long_Short Traditional Value Case Study" 1</title>
+  <title>Cloned from "Case Study Traditional Value Factor"</title>
 
   <style type="text/css">
     /*!
@@ -11809,7 +11809,7 @@ ul.typeahead-list > li > a {
 <span class="kn">from</span> <span class="nn">quantopian.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline.data.builtin</span> <span class="kn">import</span> <span class="n">USEquityPricing</span>
 <span class="kn">from</span> <span class="nn">quantopian.research</span> <span class="kn">import</span> <span class="n">run_pipeline</span>
-<span class="kn">from</span> <span class="nn">quantopian.pipeline.data</span> <span class="kn">import</span> <span class="n">morningstar</span>
+<span class="kn">from</span> <span class="nn">quantopian.pipeline.data</span> <span class="kn">import</span> <span class="n">Fundamentals</span>
 <span class="kn">from</span> <span class="nn">quantopian.pipeline.factors</span> <span class="kn">import</span> <span class="n">CustomFactor</span>
 </pre></div>
 
@@ -11838,7 +11838,7 @@ ul.typeahead-list > li > a {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Dividend-Yield">Dividend Yield<a class="anchor-link" href="#Dividend-Yield">&#194;&#182;</a></h2><p>Dividend yield is calculated as:</p>
-$$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>When a company makes profit, it faces a choice. It could either reinvest those profits in the company with an eye to increase efficiency, purchase new technology, etc. or it could pay dividends to its equity holders. While reinvestment may increase a company's future share price and thereby reward investors, the most concrete way equity holders are rewarded is through dividends. An equity with a high dividend yield is particularly attractive as the quantity of dividends paid to investors represent a larger proportion of the share price itself. Now we shall create a Dividend Yield factor using the Pipeline API framework and Morningstar's list of fundamental values.</p>
+$$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>When a company makes profit, it faces a choice. It could either reinvest those profits in the company with an eye to increase efficiency, purchase new technology, etc. or it could pay dividends to its equity holders. While reinvestment may increase a company's future share price and thereby reward investors, the most concrete way equity holders are rewarded is through dividends. An equity with a high dividend yield is particularly attractive as the quantity of dividends paid to investors represent a larger proportion of the share price itself. Now we shall create a Dividend Yield factor using the Pipeline API framework and Pipeline's list of fundamental values.</p>
 
 </div>
 </div>
@@ -11850,10 +11850,8 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 1 : Dividend Yield</span>
 <span class="k">class</span> <span class="nc">Div_Yield</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morningstar</span><span class="o">.</span><span class="n">valuation_ratios</span><span class="o">.</span><span class="n">dividend_yield</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">div_yield5_year</span><span class="p">]</span>
     <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
-
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">d_y</span><span class="p">):</span>
         <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">d_y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
@@ -11867,7 +11865,7 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>While this factor could be calculated using other fundamental metrics, Morningstar removes the need for any calculation. It is good practice to check the list of fundamentals (<a href="https://www.quantopian.com/help/fundamentals">https://www.quantopian.com/help/fundamentals</a>) before creating a custom factor from scratch.</p>
+<p>While this factor could be calculated using other fundamental metrics, Fundamentals removes the need for any calculation. It is good practice to check the list of <a href="https://www.quantopian.com/help/fundamentals">fundamentals</a> before creating a custom factor from scratch.</p>
 <p>We will initialize a temporary Pipeline to get a sense of the values.</p>
 
 </div>
@@ -11885,7 +11883,7 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
 <span class="n">temp_pipe_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Div_Yield</span><span class="p">(),</span> <span class="s">&#39;Dividend Yield&#39;</span><span class="p">)</span>
 
 <span class="c"># run the pipeline and get data for first 5 equities</span>
-<span class="n">run_pipeline</span><span class="p">(</span><span class="n">temp_pipe_1</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">run_pipeline</span><span class="p">(</span><span class="n">temp_pipe_1</span><span class="p">,</span> <span class="n">start_date</span> <span class="o">=</span> <span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11903,7 +11901,7 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<div>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -11915,24 +11913,24 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
   <tbody>
     <tr>
       <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [AA])</th>
-      <td>0.0132</td>
+      <th>Equity(2 [ARNC])</th>
+      <td>0.0110</td>
     </tr>
     <tr>
-      <th>Equity(21 [AAME])</th>
-      <td>0.0042</td>
+      <th>Equity(41 [ARCB])</th>
+      <td>0.0064</td>
     </tr>
     <tr>
-      <th>Equity(24 [AAPL])</th>
-      <td>0.0168</td>
+      <th>Equity(52 [ABM])</th>
+      <td>0.0240</td>
     </tr>
     <tr>
-      <th>Equity(25 [AA_PR])</th>
-      <td>0.0435</td>
+      <th>Equity(62 [ABT])</th>
+      <td>0.0279</td>
     </tr>
     <tr>
-      <th>Equity(31 [ABAX])</th>
-      <td>0.0079</td>
+      <th>Equity(64 [ABX])</th>
+      <td>0.0192</td>
     </tr>
   </tbody>
 </table>
@@ -11964,8 +11962,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 2 : P/B Ratio</span>
 <span class="k">class</span> <span class="nc">Price_to_Book</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morningstar</span><span class="o">.</span><span class="n">valuation_ratios</span><span class="o">.</span><span class="n">pb_ratio</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">pb_ratio</span><span class="p">]</span>
     <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">pbr</span><span class="p">):</span>
@@ -11996,7 +11993,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<div>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -12008,24 +12005,24 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
   <tbody>
     <tr>
       <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [AA])</th>
-      <td>0.9500</td>
+      <th>Equity(2 [ARNC])</th>
+      <td>0.899825</td>
     </tr>
     <tr>
       <th>Equity(21 [AAME])</th>
-      <td>0.9273</td>
+      <td>0.976077</td>
     </tr>
     <tr>
       <th>Equity(24 [AAPL])</th>
-      <td>5.6550</td>
+      <td>5.632086</td>
     </tr>
     <tr>
-      <th>Equity(25 [AA_PR])</th>
+      <th>Equity(25 [ARNC_PR])</th>
       <td>NaN</td>
     </tr>
     <tr>
       <th>Equity(31 [ABAX])</th>
-      <td>5.3483</td>
+      <td>5.281542</td>
     </tr>
   </tbody>
 </table>
@@ -12055,7 +12052,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Price-to-Trailing-12-Month-Sales">Price to Trailing 12-Month Sales<a class="anchor-link" href="#Price-to-Trailing-12-Month-Sales">&#194;&#182;</a></h2><p>This is calculated as a simple ratio between price per share and trailing 12-month (TTM) sales.</p>
 <p>TTM is a transformation rather than a metric and effectively calculates improvement or deterioration of a fundamental value from a particular quarter one year previously. For example, if one wanted to calculate today's TTM Sales for company XYZ, one would take the most recent quarter's revenue and divide it by the difference between this quarter's revenue and this quarter's revenue last year added to the revenue as given by the company's most recent fiscal year-end filing.</p>
-<p>To calculate the exact TTM of a security is indeed possible using Pipeline; however, the code required is slow. Luckily, this value can be well approximated by the built-in Morningstar valuation ratios, which use annual sales to calculate the Price to Sales fundamental value. This slight change boosts the code's speed enormously yet has very little impact on the results of the strategy itself.</p>
+<p>To calculate the exact TTM of a security is indeed possible using Pipeline; however, the code required is slow. Luckily, this value can be well approximated by the built-in Fundamental Morningstar ratios, which use annual sales to calculate the Price to Sales fundamental value. This slight change boosts the code's speed enormously yet has very little impact on the results of the strategy itself.</p>
 
 </div>
 </div>
@@ -12077,7 +12074,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 3 : Price to Trailing 12 Month Sales       </span>
 <span class="k">class</span> <span class="nc">Price_to_TTM_Sales</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morningstar</span><span class="o">.</span><span class="n">valuation_ratios</span><span class="o">.</span><span class="n">ps_ratio</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">ps_ratio</span><span class="p">]</span>
     <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
     
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">ps</span><span class="p">):</span>
@@ -12108,7 +12105,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<div>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -12120,24 +12117,24 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
   <tbody>
     <tr>
       <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [AA])</th>
-      <td>-0.4783</td>
+      <th>Equity(2 [ARNC])</th>
+      <td>-0.453038</td>
     </tr>
     <tr>
       <th>Equity(21 [AAME])</th>
-      <td>-0.5984</td>
+      <td>-0.629844</td>
     </tr>
     <tr>
       <th>Equity(24 [AAPL])</th>
-      <td>-3.0007</td>
+      <td>-2.988556</td>
     </tr>
     <tr>
-      <th>Equity(25 [AA_PR])</th>
+      <th>Equity(25 [ARNC_PR])</th>
       <td>NaN</td>
     </tr>
     <tr>
       <th>Equity(31 [ABAX])</th>
-      <td>-5.7122</td>
+      <td>-5.640918</td>
     </tr>
   </tbody>
 </table>
@@ -12154,7 +12151,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Price-to-Trailing-12-Month-Cashflows">Price to Trailing 12-Month Cashflows<a class="anchor-link" href="#Price-to-Trailing-12-Month-Cashflows">&#194;&#182;</a></h2><p>This is calculated as a simple ratio between price per share and TTM free cashflow  (here using the built-in Morningstar valuation ratio as an approximaton).</p>
+<h2 id="Price-to-Trailing-12-Month-Cashflows">Price to Trailing 12-Month Cashflows<a class="anchor-link" href="#Price-to-Trailing-12-Month-Cashflows">&#194;&#182;</a></h2><p>This is calculated as a simple ratio between price per share and TTM free cashflow  (here using the built-in Fundamental Morningstar ratio as an approximaton).</p>
 <p>This ratio serves a similar function to the previous two. A future notebook will explore the subtle differences in these metrics, but they largely serve the same purpose. Once again, low values are attractive and high values are unattractive, so the metric must be inverted.</p>
 
 </div>
@@ -12167,7 +12164,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 4 : Price to Trailing 12 Month Cashflow</span>
 <span class="k">class</span> <span class="nc">Price_to_TTM_Cashflows</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morningstar</span><span class="o">.</span><span class="n">valuation_ratios</span><span class="o">.</span><span class="n">pcf_ratio</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">pcf_ratio</span><span class="p">]</span>
     <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
     
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">pcf</span><span class="p">):</span>
@@ -12198,7 +12195,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<div>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -12210,24 +12207,24 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
   <tbody>
     <tr>
       <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [AA])</th>
-      <td>-5.2043</td>
+      <th>Equity(2 [ARNC])</th>
+      <td>-4.929472</td>
     </tr>
     <tr>
       <th>Equity(21 [AAME])</th>
-      <td>-32.9963</td>
+      <td>-34.732899</td>
     </tr>
     <tr>
       <th>Equity(24 [AAPL])</th>
-      <td>-8.6298</td>
+      <td>-8.594865</td>
     </tr>
     <tr>
-      <th>Equity(25 [AA_PR])</th>
+      <th>Equity(25 [ARNC_PR])</th>
       <td>NaN</td>
     </tr>
     <tr>
       <th>Equity(31 [ABAX])</th>
-      <td>-43.4623</td>
+      <td>-42.920180</td>
     </tr>
   </tbody>
 </table>
@@ -12258,7 +12255,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># This factor creates the synthetic S&amp;P500</span>
 <span class="k">class</span> <span class="nc">SPY_proxy</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morningstar</span><span class="o">.</span><span class="n">valuation</span><span class="o">.</span><span class="n">market_cap</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">market_cap</span><span class="p">]</span>
     <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
     
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">mc</span><span class="p">):</span>
@@ -12266,8 +12263,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
         
 <span class="c"># Custom Factor 2 : P/B Ratio</span>
 <span class="k">class</span> <span class="nc">Price_to_Book</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morningstar</span><span class="o">.</span><span class="n">valuation_ratios</span><span class="o">.</span><span class="n">pb_ratio</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">pb_ratio</span><span class="p">]</span>
     <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">pbr</span><span class="p">):</span>
@@ -12315,7 +12311,7 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<div>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -12331,32 +12327,32 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
   <tbody>
     <tr>
       <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [AA])</th>
-      <td>0.0132</td>
-      <td>-5.2043</td>
-      <td>-0.4783</td>
-      <td>-0.9500</td>
-      <td>1.190910e+10</td>
+      <th>Equity(2 [ARNC])</th>
+      <td>0.011</td>
+      <td>-4.929472</td>
+      <td>-0.453038</td>
+      <td>-0.899825</td>
+      <td>1.128021e+10</td>
     </tr>
     <tr>
       <th>Equity(21 [AAME])</th>
-      <td>0.0042</td>
-      <td>-32.9963</td>
-      <td>-0.5984</td>
-      <td>-0.9273</td>
-      <td>9.781530e+07</td>
+      <td>NaN</td>
+      <td>-34.732899</td>
+      <td>-0.629844</td>
+      <td>-0.976077</td>
+      <td>1.029634e+08</td>
     </tr>
     <tr>
       <th>Equity(24 [AAPL])</th>
-      <td>0.0168</td>
-      <td>-8.6298</td>
-      <td>-3.0007</td>
-      <td>-5.6550</td>
-      <td>6.749500e+11</td>
+      <td>NaN</td>
+      <td>-8.594865</td>
+      <td>-2.988556</td>
+      <td>-5.632086</td>
+      <td>6.722177e+11</td>
     </tr>
     <tr>
-      <th>Equity(25 [AA_PR])</th>
-      <td>0.0435</td>
+      <th>Equity(25 [ARNC_PR])</th>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -12364,11 +12360,11 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
     </tr>
     <tr>
       <th>Equity(31 [ABAX])</th>
-      <td>0.0079</td>
-      <td>-43.4623</td>
-      <td>-5.7122</td>
-      <td>-5.3483</td>
-      <td>1.201960e+09</td>
+      <td>NaN</td>
+      <td>-42.920180</td>
+      <td>-5.640918</td>
+      <td>-5.281542</td>
+      <td>1.186963e+09</td>
     </tr>
   </tbody>
 </table>
@@ -12495,73 +12491,85 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 
 <div class="output_area">
 
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:17: FutureWarning: sort(columns=....) is deprecated, use sort_values(by=.....)
+/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:66: FutureWarning: sort is deprecated, use sort_values(inplace=True) for INPLACE sorting
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
 <div class="prompt output_prompt">Out[8]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(2015-11-11 00:00:00+00:00, Equity(34833 [RBS]))        2.099612
-(2015-11-11 00:00:00+00:00, Equity(47340 [PGN]))        2.047443
-(2015-11-11 00:00:00+00:00, Equity(27993 [LINE]))       2.041414
-(2015-11-11 00:00:00+00:00, Equity(44217 [CLV]))        2.038838
-(2015-11-11 00:00:00+00:00, Equity(44688 [EMES]))       2.033653
-(2015-11-11 00:00:00+00:00, Equity(42548 [ARP]))        2.030974
-(2015-11-11 00:00:00+00:00, Equity(24 [AAPL]))          1.996974
-(2015-11-11 00:00:00+00:00, Equity(7761 [UIS]))         1.989979
-(2015-11-11 00:00:00+00:00, Equity(32377 [COWN]))       1.988585
-(2015-11-11 00:00:00+00:00, Equity(11461 [DOM]))        1.984912
-(2015-11-11 00:00:00+00:00, Equity(43513 [LNCO]))       1.972177
-(2015-11-11 00:00:00+00:00, Equity(41817 [PER]))        1.936824
-(2015-11-11 00:00:00+00:00, Equity(42247 [MEMP]))       1.546058
-(2015-11-11 00:00:00+00:00, Equity(33159 [LGCY]))       1.477243
-(2015-11-11 00:00:00+00:00, Equity(32650 [EVEP]))       1.400156
-(2015-11-11 00:00:00+00:00, Equity(27019 [WIN]))        1.331089
-(2015-11-11 00:00:00+00:00, Equity(42275 [MCEP]))       1.287477
-(2015-11-11 00:00:00+00:00, Equity(24102 [NRP]))        1.262741
-(2015-11-11 00:00:00+00:00, Equity(5061 [MSFT]))        1.228216
-(2015-11-11 00:00:00+00:00, Equity(32675 [BBEP]))       1.215535
-(2015-11-11 00:00:00+00:00, Equity(8347 [XOM]))         1.168916
-(2015-11-11 00:00:00+00:00, Equity(35054 [NMM]))        1.165774
-(2015-11-11 00:00:00+00:00, Equity(28232 [BTE]))        1.157224
-(2015-11-11 00:00:00+00:00, Equity(43315 [HCLP]))       1.115312
-(2015-11-11 00:00:00+00:00, Equity(4029 [ISH]))         1.088957
-(2015-11-11 00:00:00+00:00, Equity(45585 [MMAC]))       1.067646
-(2015-11-11 00:00:00+00:00, Equity(34526 [PRGN]))       1.064373
-(2015-11-11 00:00:00+00:00, Equity(41919 [ORIG]))       1.056578
-(2015-11-11 00:00:00+00:00, Equity(24862 [STAR]))       1.045912
-(2015-11-11 00:00:00+00:00, Equity(46262 [NADL]))       1.029307
-                                                          ...   
-(2015-11-11 00:00:00+00:00, Equity(5272 [NRT]))        -1.792622
-(2015-11-11 00:00:00+00:00, Equity(44357 [NML]))       -1.923392
-(2015-11-11 00:00:00+00:00, Equity(1423 [CET]))        -1.924215
-(2015-11-11 00:00:00+00:00, Equity(40168 [CFD]))       -1.953168
-(2015-11-11 00:00:00+00:00, Equity(26414 [FEN]))       -1.964341
-(2015-11-11 00:00:00+00:00, Equity(4417 [LEN]))        -1.989148
-(2015-11-11 00:00:00+00:00, Equity(33555 [CQP]))       -1.991668
-(2015-11-11 00:00:00+00:00, Equity(20846 [HKTV]))      -2.022332
-(2015-11-11 00:00:00+00:00, Equity(20277 [RAI]))       -2.023182
-(2015-11-11 00:00:00+00:00, Equity(4531 [LPX]))        -2.027559
-(2015-11-11 00:00:00+00:00, Equity(43583 [CTF]))       -2.028707
-(2015-11-11 00:00:00+00:00, Equity(27215 [JVA]))       -2.059066
-(2015-11-11 00:00:00+00:00, Equity(3601 [HMG]))        -2.066475
-(2015-11-11 00:00:00+00:00, Equity(4564 [LB]))         -2.071864
-(2015-11-11 00:00:00+00:00, Equity(11641 [FCH]))       -2.086072
-(2015-11-11 00:00:00+00:00, Equity(6023 [VBIV]))       -2.108351
-(2015-11-11 00:00:00+00:00, Equity(4849 [SPGI]))       -2.110705
-(2015-11-11 00:00:00+00:00, Equity(47894 [KIQ]))       -2.111486
-(2015-11-11 00:00:00+00:00, Equity(23428 [CCOI]))      -2.147262
-(2015-11-11 00:00:00+00:00, Equity(5473 [NTP]))        -2.171508
-(2015-11-11 00:00:00+00:00, Equity(3551 [TINY]))       -2.173412
-(2015-11-11 00:00:00+00:00, Equity(33895 [RCG]))       -2.186106
-(2015-11-11 00:00:00+00:00, Equity(14972 [NBIX]))      -2.214512
-(2015-11-11 00:00:00+00:00, Equity(5281 [NEN]))        -2.247096
-(2015-11-11 00:00:00+00:00, Equity(17287 [AIII]))      -2.265129
-(2015-11-11 00:00:00+00:00, Equity(44616 [FRC_PRD]))   -2.269513
-(2015-11-11 00:00:00+00:00, Equity(13508 [CLB]))       -2.307836
-(2015-11-11 00:00:00+00:00, Equity(48971 [BSM]))       -2.313489
-(2015-11-11 00:00:00+00:00, Equity(24073 [EEQ]))       -2.497158
-(2015-11-11 00:00:00+00:00, Equity(48544 [HIFR]))      -2.529062
+<pre>(2015-11-11 00:00:00+00:00, Equity(35162 [ARR]))      1.941979
+(2015-11-11 00:00:00+00:00, Equity(27019 [WIN]))      1.670852
+(2015-11-11 00:00:00+00:00, Equity(39622 [NKA]))      1.631767
+(2015-11-11 00:00:00+00:00, Equity(28076 [RSO]))      1.575746
+(2015-11-11 00:00:00+00:00, Equity(32675 [BBEP]))     1.508037
+(2015-11-11 00:00:00+00:00, Equity(27993 [LINE]))     1.448997
+(2015-11-11 00:00:00+00:00, Equity(11461 [DOM]))      1.439093
+(2015-11-11 00:00:00+00:00, Equity(24102 [NRP]))      1.415778
+(2015-11-11 00:00:00+00:00, Equity(5061 [MSFT]))      1.408201
+(2015-11-11 00:00:00+00:00, Equity(34662 [NYMT]))     1.333686
+(2015-11-11 00:00:00+00:00, Equity(8347 [XOM]))       1.324958
+(2015-11-11 00:00:00+00:00, Equity(33159 [LGCY]))     1.251848
+(2015-11-11 00:00:00+00:00, Equity(33178 [MVO]))      1.247968
+(2015-11-11 00:00:00+00:00, Equity(38477 [CYS]))      1.226731
+(2015-11-11 00:00:00+00:00, Equity(35054 [NMM]))      1.213649
+(2015-11-11 00:00:00+00:00, Equity(3149 [GE]))        1.178168
+(2015-11-11 00:00:00+00:00, Equity(38887 [TWO]))      1.170784
+(2015-11-11 00:00:00+00:00, Equity(40060 [FULL]))     1.162997
+(2015-11-11 00:00:00+00:00, Equity(26517 [PSEC]))     1.160164
+(2015-11-11 00:00:00+00:00, Equity(6653 [T]))         1.146484
+(2015-11-11 00:00:00+00:00, Equity(21907 [MNDO]))     1.107410
+(2015-11-11 00:00:00+00:00, Equity(32443 [PGH]))      1.087876
+(2015-11-11 00:00:00+00:00, Equity(32293 [OBE]))      1.056844
+(2015-11-11 00:00:00+00:00, Equity(7143 [SAN]))       1.049898
+(2015-11-11 00:00:00+00:00, Equity(17657 [ORAN]))     1.046273
+(2015-11-11 00:00:00+00:00, Equity(27487 [RDS_A]))    1.040481
+(2015-11-11 00:00:00+00:00, Equity(39942 [AT]))       1.038906
+(2015-11-11 00:00:00+00:00, Equity(34931 [VNR]))      1.034368
+(2015-11-11 00:00:00+00:00, Equity(33024 [KCAP]))     1.026654
+(2015-11-11 00:00:00+00:00, Equity(27470 [RDS_B]))    1.022292
+                                                        ...   
+(2015-11-11 00:00:00+00:00, Equity(26017 [UTG]))     -0.982711
+(2015-11-11 00:00:00+00:00, Equity(26781 [MKTX]))    -0.983476
+(2015-11-11 00:00:00+00:00, Equity(34797 [MAIN]))    -1.026855
+(2015-11-11 00:00:00+00:00, Equity(1068 [BPT]))      -1.153233
+(2015-11-11 00:00:00+00:00, Equity(41886 [FNV]))     -1.172843
+(2015-11-11 00:00:00+00:00, Equity(22545 [NXJ]))     -1.209950
+(2015-11-11 00:00:00+00:00, Equity(28356 [GLO]))     -1.214150
+(2015-11-11 00:00:00+00:00, Equity(18522 [ARMH]))    -1.248968
+(2015-11-11 00:00:00+00:00, Equity(27200 [GLQ]))     -1.287656
+(2015-11-11 00:00:00+00:00, Equity(26521 [GLV]))     -1.289762
+(2015-11-11 00:00:00+00:00, Equity(7551 [TPL]))      -1.306126
+(2015-11-11 00:00:00+00:00, Equity(40168 [CFD]))     -1.336972
+(2015-11-11 00:00:00+00:00, Equity(24489 [GLNG]))    -1.348952
+(2015-11-11 00:00:00+00:00, Equity(5272 [NRT]))      -1.370774
+(2015-11-11 00:00:00+00:00, Equity(24731 [LEN_B]))   -1.519243
+(2015-11-11 00:00:00+00:00, Equity(1423 [CET]))      -1.525415
+(2015-11-11 00:00:00+00:00, Equity(4263 [KMB]))      -1.531782
+(2015-11-11 00:00:00+00:00, Equity(2382 [DXR]))      -1.561114
+(2015-11-11 00:00:00+00:00, Equity(2404 [EAT]))      -1.562417
+(2015-11-11 00:00:00+00:00, Equity(35902 [PM]))      -1.570361
+(2015-11-11 00:00:00+00:00, Equity(1936 [CSWC]))     -1.618194
+(2015-11-11 00:00:00+00:00, Equity(26414 [FEN]))     -1.750639
+(2015-11-11 00:00:00+00:00, Equity(20277 [RAI]))     -1.769105
+(2015-11-11 00:00:00+00:00, Equity(4417 [LEN]))      -1.885524
+(2015-11-11 00:00:00+00:00, Equity(2420 [ECF]))      -1.917463
+(2015-11-11 00:00:00+00:00, Equity(4849 [SPGI]))     -1.927483
+(2015-11-11 00:00:00+00:00, Equity(33555 [CQP]))     -2.062992
+(2015-11-11 00:00:00+00:00, Equity(4564 [LB]))       -2.086269
+(2015-11-11 00:00:00+00:00, Equity(5281 [NEN]))      -2.200646
+(2015-11-11 00:00:00+00:00, Equity(13508 [CLB]))     -2.521344
 dtype: float64</pre>
 </div>
 
@@ -12620,221 +12628,212 @@ dtype: float64</pre>
 
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0oAAAHxCAYAAABTSExyAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3X+YlQWd///XzACD/BAFBX/QmmFgrpFIgMq6pOKUlCmF
-SKTmarZWYiRgkKR2tZco5hJ9jUVW3PBXlFItmuFmZGtI4A6EoaslGWmswKAiIILAfP/waj5xwziY
-njmjPB7X5XXNueecc7/vM8czPOe+z30q6uvr6wMAAECDynIPAAAA0NIIJQAAgAKhBAAAUCCUAAAA
-CoQSAABAgVACAAAoaFXqFUyePDlLlizJ9u3b87nPfS7z58/P8uXLs//++ydJLrzwwgwaNChz587N
-rbfemqqqqpx11lkZNmxYtm3blvHjx2fVqlWpqqrKpEmT0r1791KPDAAA7OVKGkqLFi3KU089ldmz
-Z+fFF1/M0KFDc9xxx2Xs2LEZNGhQw/U2b96cadOmZc6cOWnVqlWGDRuWmpqazJ8/P506dco3v/nN
-LFiwIDfccEOmTJlSypEBAABKe+hdv379MnXq1CTJvvvum5dffjk7duxI8TNuly1blt69e6d9+/ap
-rq7Osccem9ra2ixcuDCDBw9OkpxwwglZsmRJKccFAABIUuJQqqyszD777JMkueuuu/KhD30olZWV
-uf322/OZz3wmY8aMyQsvvJC6urp07ty54XadO3fO2rVrd1peUVGRysrKbNu2rZQjAwAAlP49Skny
-wAMP5Ic//GFmzpyZ5cuXZ7/99suRRx6ZGTNm5MYbb0yfPn12un5xj9Nf7Nixo8l11dbWviUzAwAA
-71x9+/Z93e+XPJQeeuihzJgxIzNnzkyHDh1y3HHHNXzvlFNOydVXX52PfOQj+cUvftGwfPXq1enT
-p0+6du2aurq69OrVq2FPUqtWTY/c1EZTIhUVSSOR29xqa2s9D/A8IInnAf9Pk8+FFvR7jNLxmkCy
-ZztXSnro3caNG3P99ddn+vTp6dixY5Lk0ksvzZNPPpkkWbx4cXr27JnevXtn+fLl2bhxYzZt2pSl
-S5emb9++GThwYObNm5ckmT9/fgYMGFDKcQEAAJKUeI/SfffdlxdffDGjR49OfX19Kioq8olPfCIT
-JkxI+/bt0759+1xzzTWprq7OmDFjcsEFF6SysjKjRo1Khw4dMmTIkCxYsCAjR45MdXV1rr322lKO
-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
+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
+yNy5c0s9LgAAsBUq+RGlV199NbW1tfn2t7+dFStW5Iwzzsg777yT6urqJEnnzp2zePHiLFu2LJ06
+dapfr1OnTlmyZEmpxwUAALZCJQ+lurq6+tPvXn311Zx88smpq6vb4P6G1vuw5syZ8w/PCR/WR93f
+em/GOvA++87Hz8KFC8s9QrP1zDPPZMWKFeUeg2ZkU+9xfm5SLo2G0uzZs3PQQQdtsOzBBx/MwIED
+N2uDO+64Y3r16pXKysp84hOfSLt27dKqVausXbs2rVu3zqJFi9K1a9d06dJlgyNIixYtSq9evT7U
+Nnr37r1Zs8FHNWfOnM3a3+yjbI7N3d8orw4dOiT3vl7uMZql/fbbLz169Cj3GDQTH/Qe572PLe3D
+xHeDn1F65ZVXMmvWrFx55ZWZNWtW/X+PPPJIvv/972/2UH379s3s2bNTV1eXN998M6tXr84hhxyS
+6dOnJ0lmzJiRfv36pWfPnnnmmWeycuXKrFq1KvPmzfM/CQAAUBINHlFasmRJ7r///rz66quZMGFC
+/fLKysoMHTp0szfYtWvXHHnkkRkyZEgqKipy6aWXZr/99svIkSNzxx13pFu3bhk0aFCqqqpy/vnn
+59RTT01lZWXOOuustG/ffrO3CwAA8GE1GEq9evVKr1690r9//80+za4hQ4YMyZAhQzZYNnHixI0e
+V1NTk5qami26bQAAgMY0ennwffbZJ2effXaGDx+eJLnzzjvz5z//uannAgAAKJtGQ+nSSy/Ncccd
+V3/VuU996lO55JJLmnwwAACAcmk0lNatW5fDDz88FRUVSZI+ffo0+VAAAADl1GgoJcnbb79dH0p/
++tOfsmbNmiYdCgAAoJwa/T1KZ5xxRoYMGZIlS5bkmGOOyZtvvpmrr766FLMBAACURaOh1KdPn9xz
+zz354x//mNatW2ePPfZwRAkAAGjRGj317vTTT09FRUV69uyZffbZJ08//XQGDx5citkAAADKotFQ
++uIXv5hvfOMbeeONNzJ+/Phcfvnlueaaa0oxGwAAQFk0eurdl7/85ey888455phjcuCBB+auu+7K
+NttsU4rZAAAAyqLBUBo/fvwGtz//+c/nhRdeyA033JAk+e53v9u0kwEAAJRJg6FUVVW1we199903
+++67b5MPBAAAUG4NhtKZZ55Z//XKlSvTvn37LF26NH/+859zwAEHlGQ4AACAcmj0Yg5XXHFF7r//
+/rz11lsZOnRobr311lx++eUlGA0AAKA8Gg2l5557LkOGDMmvfvWrDBo0KNdcc00WLlxYitkAAADK
+otFQqqurS5I89NBDOeyww5Ika9eubdqpAAAAyqjRUNpjjz1y1FFHZdWqVfnMZz6Te+65Jx07dizF
+bAAAAGXR6O9R+t73vpc//vGP6d69e5Jkr732yne+850mHwwAAKBcGg2lJFm8eHGef/75JO+ddnf9
+9dfnt7/9bZMOBgAAUC6NhtKIESOyfPnyPP/88znggAPy5JNP5uyzzy7FbAAAAGXR6GeUFi1alJtv
+vjl77LFHrr322vzsZz/Lk08+WYrZAAAAyqLRUFq/fn3efffd/O1vf8uaNWuy6667ZsGCBaWYDQAA
+oCwaPfXu0EMPzc0335yBAwdm0KBB2W233UoxFwAAQNk0Gkpnn3121q9fn6qqqvTq1SvLli1L3759
+SzEbAABAWTR66l2SVFVV5Q9/+EOeeuqptG3bNm3btm3quQAAAMqmwVC67777cuCBB+b444/P73//
++4waNSp//etfc+211+bGG28s5YwAAAAl1eCpd5MmTcrdd9+d1157Leecc07uu+++bL/99lm3bl2G
+DRuWb33rW6WcEwAAoGQaDKVtttkmu+66a3bdddfstttu2X777ZMk1dXV2WabbUo2IAAAQKl9qM8o
+tWnTZoPbFRUVTTIMAABAc9DgEaUFCxZk5MiRG31dV1eXF198sTTTAQAAlEGDoXTBBRfUf33IIYds
+cN+hhx7adBMBAACUWYOhNGjQoFLOAQAA0Gx8qM8oAQAAbE2EEgAAQEGDp94V1dXVpa6urv52ZaXG
+AgAAWqZGQ+mmm27K9ddfn1WrViV5L5gqKiryf//3f00+HAAAQDk0GkpTp07NtGnT0q1bt1LMAwAA
+UHaNnj+3++67iyQAAGCr0ugRpb333jvnn39+DjzwwFRVVdUvHzx4cJMOBgAAUC6NhtLixYvTunXr
+PPnkkxssF0oAAEBL1WgoXXnllaWYAwAAoNloMJTOOeecXHPNNenfv38qKio2uv+hhx5qyrkAAADK
+psFQGjNmTJLk9ttvL9kwAAAAzUGDobTjjjsmSXbdddeSDQMAANAcNHp5cAAAgK1No6FUV1dXijkA
+AACajUZDacCAARk3blxefvnlUswDAABQdo2G0h133JEddtghI0aMyCmnnJJf/vKXWbt2bSlmAwAA
+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
-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
-y+WXX97w9cUXX9wcswEAAJRFk6H0nve8J+95z3uSJLfcckvJBwIAACi3JkNp0KBBqaio2GX5gw8+
-WIp5AAAAyq7JULrzzjsbvn711VezcOHCbNmypaRDAQAAlFOToXTooYfudPnd7353Lrzwwpx//vml
-mgkAAKCsmgylhQsX7nT5ueeey5/+9KeSDQQAAFBuTYbStGnTGr6uqKhIhw4d8vWvf72kQwEAAJRT
-k6F02223NcccAAAALUbl631z0aJFOeecc9KnT58MGDAg5513XhYsWNDw/U2bNpV8QAAAgObW6B6l
-efPm5cYbb8xll12WY445Jkny29/+Ntdff322bNmSk08+OZdcckn+4z/+o9mGBQAAaA6NhtItt9yS
-f//3f8/BBx/csGzQoEF53/vely9/+cvZf//9U1dX1+QKnnjiiYwaNSrnn39+Pv3pT+e5557LuHHj
-Ul9fnwMPPDCTJ09O69atM3fu3Nx6662pqqrKWWedlWHDhmXbtm0ZP358Vq1alaqqqkyaNCndu3d/
-a7YcAACgEY0eeldRUbFTJP1F165ds3nz5owbNy5XXXXV69755s2bc91112XgwIENy6ZOnZpzzz03
-t99+e/7u7/4uc+bMyebNmzNt2rTMmjUrt956a2bNmpWXXnop9957bzp16pQ777wzF198cW644YY3
-sakAAAB7ptFQ2rx5c6M32rRpU372s5/lgx/84OveeXV1dW666aYccMABDcsWL16ck046KUly0kkn
-5eGHH86yZcvSu3fvtG/fPtXV1Tn22GNTW1ubhQsXZvDgwUmSE044IUuWLHlDGwcAAPC3aDSU+vTp
-s9sz3t18883p1atXKioqmr7zysq0adNmp2WbN29O69atkyRdunTJmjVrsm7dunTu3LnhOp07d87a
-tWtTV1fXsLyioiKVlZXZtm3bnm0ZAADA36jR9yiNGzcun/vc53Lvvffm/e9/f+rr67N06dJUVVXl
-5ptvfktWXl9f/4aW79ixY4/ut7a29m+eib9d37Ssx74lzUL5eB60LCtXriz3CGWxfPnybNiwodxj
-kNd/TWhpv8coHT9n9kSjodShQ4fceeedefjhh/P444+nuro6p556ao477rg3tcL27dtn69atadOm
-TVavXp1u3bqla9euWbt2bcN1Vq9enT59+qRr166pq6tLr169GvYktWrV5Ec/pW/fvm9qRv52LeWx
-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
-I0aMyJIlS8o9EmWyaNGinHDCCfnlL39Z7lEog0mTJmXEiBH51Kc+ld/+9rflHocyeeKJJ3Lqqafm
-jjvuKPcolNHkyZMzYsSInHXWWfnZz35W7nEog1deeSWjR4/Oueeem7PPPjsPPvjg616/RZ/17o2a
-O3duzjzzzHz0ox/NI488kqlTp2bmzJnlHosy+M///M+0bds2d955Z5566qlMmDAhd911V7nHopn9
-6U9/ym233ZYPfvCD5R6FMnjkkUeycuXKzJ49OytWrMgVV1yR2bNnl3ssmtnmzZtz3XXXZeDAgeUe
-hTJatGhRnnrqqcyePTsvvvhihg4dmlNPPbXcY9HM5s+fn/e///258MILs2rVqvzTP/1TPvShDzV6
-/XdUKJ1//vkNX69atSoHHXRQ+YahrD7+8Y/nox/9aJKkc+fOWb9+fZknohwOOuig3HjjjZkwYUK5
-R6EMFi5cmMGDBydJevTokZdeeimbNm1K+/btyzwZzam6ujo33XRTZsyYUe5RKKN+/fqld+/eSZJ9
-9903mzdvTn19fSoqKso8Gc1pyJAhDV+vWrUqBx988Ote/x0VSklSV1eXiy++OC+//HJmzZpV7nEo
-k1atWqVVq9ee3rNmzcrHPvaxMk9EObRp06bcI1BGdXV1Ofrooxsu77///qmrqxNKe5nKykqvBaSy
-sjL77LNPkuSuu+7KoEGDRNJebMSIEVmzZk2mT5/+utd724bSXXfdlbvvvjsVFRUNfxEYNWpUBg4c
-mLvvvjv//d//nfHjxzv0bi/wes+FO+64I48//niT/yPw9vd6zwNIEh8bCDzwwAP54Q9/6N+He7nZ
-s2fniSeeyNixYzN37txGr/e2DaWzzjorZ5111k7LFi9enPXr16dTp075x3/8x1x++eVlmo7mtLvn
-QvLaP5wffPDBTJs2LVVVVWWYjObU2POAvVfXrl1TV1fXcHnNmjU58MADyzgRUE4PPfRQZsyYkZkz
-Z6ZDhw7lHocyWL58ebp06ZKDDz44Rx55ZLZv357nn38+nTt33u3131FnvfvZz36WH//4x0mSJ598
-MoccckiZJ6JcnnnmmXz/+9/PjTfemNatW5d7HFoAexP2PgMHDsz999+fJHnsscfSrVu3tGvXrsxT
-AeWwcePGXH/99Zk+fXo6duxY7nEok//5n//Jf/zHfyR57fDszZs3NxpJSVJR/w7618MLL7yQ8ePH
-5+WXX87WrVtzxRVXNLxxj73LlClTct999+Xggw9uOAzrlltuaXjfEnuHn/3sZ/n2t7+dNWvWpH37
-9tl///0zZ86cco9FM/rXf/3XLF68OFVVVbnyyivTq1evco9EM1u2bFkmTpyY559/PlVVVenUqVNu
-v/32dOrUqdyj0Yx+8IMf5MYbb8y73/3uhn8XTJ482Ym/9jJbtmzJV7/61Tz33HPZsmVLRo0alUGD
-BjV6/XdUKAEAALwV3lGH3gEAALwVhBIAAECBUAIAACgQSgAAAAVCCQAAoEAoAQAAFAglAHbrl7/8
-Zc4555x85jOfyVlnnZXLLrssGzduTJIsXbo0zz777FuynkGDBmXVqlVv+vYPPfRQbrrppjc9z7hx
-4xo+vPyvPfroozn//PPzmc98JiNGjMhFF12U//u//3vT6wOgZRJKAOzi1VdfzeWXX56pU6dm1qxZ
-ueuuu3LwwQfnrrvuSpL88Ic/zDPPPPOWrKuiouItuf2JJ56Yf/7nf34rRtqtcePGZfz48Zk1a1Zm
-z56dQYMGNXzCOwDvPK3KPQAALc+WLVvyyiuvZNOmTenSpUuS10IhSR544IHMmzcvv/3tbzNhwoS0
-atUq119/fdq2bZtXXnklV111Vd73vvdlwoQJ6dq1a5588smsXLkyn/zkJ/PZz34269aty+jRo7Nj
-x44cddRR+cvnnm/evDlf+cpX8uKLL2bz5s2pqanJRRddlMWLF2fatGlp27ZtTjnllJx88sm7vf2P
-fvSjPPzww7nsssty+eWXp6KiIvX19Vm6dGnuvPPO9O7dO1OmTMmSJUuyZcuW9OvXL+PGjUt9fX2+
-+tWv5ve//30OOeSQvPzyy7t9TNavX58NGzY0XD7nnHMavl65cmUmTpyYJGnTpk0mTZqUrl27Ztq0
-afnlL3+Z1q1b573vfW8mTpyY5557LhdffHF69eqVHj165POf//xu51qzZk3Gjh3b8PM4++yz84lP
-fOIt/kkD0BihBMAuOnTokEsuuSRnnHFG+vTpk/79++fDH/5wDj/88AwePDizZs3KF7/4xQwYMCA/
-//nPc/XVV+fII4/MT37yk0yfPj1Tp05Nkjz77LOZPn16Vq1alY9//OP57Gc/m1tvvTXHHHNMxowZ
-k8cffzy33357kmTdunU5+eSTc+aZZ2br1q054YQTMnLkyCTJY489lvnz56djx46ZMmXKbm+fvLZ3
-6eCDD85tt92WJLnjjjty8MEHp3fv3pk3b17WrFnT8L1LLrkkDz74YFq3bp2nn346d999d1555ZUM
-Hjw4H/vYx3Z5TCZMmJDPf/7z6dmzZ/r375+ampocddRRSZKrrroqF110Uf7xH/8x9913X+bNm5fe
-vXvngQceyN13353Kyspceumlueeee9KvX7/84Q9/yI033pjDDjtst3P94he/yMqVK9OjR49cddVV
-2bp1a37wgx+U6KcNwO4IJQB266KLLsrw4cOzYMGC/PrXv87ZZ5+dyy67LCNGjEiShj05BxxwQK6/
-/vps2bIlGzZsSKdOnRruo3///kmSQw45JJs2bUp9fX2efPLJhvs46qij0qFDhyRJly5dsmTJksye
-PTutW7fO1q1bs379+iTJ4Ycfno4dOybJLrf/y/KipUuX5kc/+lHuuOOOJMmiRYuydOnSnHfeeamv
-r8+mTZvy7LPP5tVXX02fPn2SJG3bts0HPvCB3d7fGWeckZqamjz88MP59a9/nYsuuijDhg3Ll7/8
-5SxbtqxhW4cMGZIkmTVrVvr165fKyteOch8wYECWL1+efv36Zb/99sthhx3W6Fx//vOfM2jQoFx8
-8cWZMGFCBg0a1LDNADQPoQTAbr3yyivp1KlThgwZkiFDhuQjH/lIrrvuul3+wX755ZfnG9/4Rvr3
-758HH3wwt9xyS8P3qqqqdrruX+Lqr9+XtH379iSvhcWrr76a2bNnJ0mOO+64huu0bt16p/v569tv
-27Ztl9nr6upy5ZVX5t/+7d9SXV2d5LVD4s4+++z80z/9007XveWWWxpi5q/n2d3jsc8+++SUU07J
-KaecknPOOSef/OQn8+UvfzkVFRXZsWNHozP+9bYXt6exuZLkvvvuy+LFi/PTn/40s2bNyve+973d
-zgbAW8/JHADYxa9+9asMHz684Sx3SfLMM8807AWprKxsCJR169bliCOOyPbt2/PTn/40W7du3e19
-/iUUevTokaVLlyZJli1bls2bNyd5LW569OiRJPn5z3+eLVu27Pa+Grv9X2zfvj2XXXZZxo4dm+7d
-uzcs79u3b/7rv/6rIYS+853v5E9/+lN69OiRZcuWJUk2btyYRx99dJd1/uEPf0hNTU1Wr1690+Px
-d3/3d0mSY489Ng899FCS5N577204PHDRokUN61u4cGGOOeaYnR6L15vr3nvvzaOPPprjjz8+V199
-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
+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
+Y9FC/eUvf8ktt9ySL3zhC+UehRbsiSeeyMKFCzNlypQsWLAgF198caZMmVLusWjBamtrc9VVV6Vv
+377lHoWtwOzZs/PCCy9kypQpeeuttzJo0KAcccQRm3xsizqidMopp+RLX/pSkuS1117LzjvvXOaJ
+aOmOPfbYjB49OknSqVOnLF++vMwT0ZLtvPPOue6669KuXbtyj0ILNmvWrAwcODBJ0r1797z99ttZ
+tWpVmaeiJWvTpk1uuOGG7LjjjuUeha1Anz59Mn78+CTJdtttl9ra2jR0EfAWdUQpSZYuXZrTTz89
+q1evzqRJk8o9Di1cq1at0qrVe/8bTZo0KUcffXSZJ6Ila926dblHYCuwdOnS7LfffvW3d9hhhyxd
+ulSg02QqKyu9v1EylZWV2XbbbZMkd955Z/r375+KiopNPvZjG0p33nln7rrrrlRUVKSuri4VFRU5
+66yz0rdv39x111353e9+l1GjRjn1ji3mg/a52267Lc8991yuv/76co9JC/FB+xuUkl+3CLREDz74
+YH7xi198YCt8bEPphBNOyAknnLDBsscffzzLly9Px44d88///M8ZOXJkmaajJdrUPpe89xfahx56
+KBMmTEhVVVUZJqMlamh/g6bWpUuXLF26tP724sWLs9NOO5VxIoAt65FHHsmNN96Ym2++Oe3bt2/w
+cS3qM0oPPPBA7rnnniTJ888/n27dupV5Ilq6l19+OT//+c9z3XXXpbq6utzjsBXxr/w0lb59+2bG
+jBlJkmeffTZdu3ZN27ZtyzwVwJaxcuXKXH311bn++uvToUOHD3xsRV0L+mn75ptvZtSoUVm9enXW
+rl2biy++OD179iz3WLRg48aNy/33359ddtml/vSoiRMn1n9uCbakBx54INdee20WL16cdu3aZYcd
+dsjUqVPLPRYt0I9+9KM8/vjjqaqqyqWXXpq999673CPRgs2fPz9jxozJG2+8kaqqqnTs2DG33npr
+OnbsWO7RaIHuuOOOXHfddfnUpz5V/3e3sWPHbvIicC0qlAAAALaEFnXqHQAAwJYglAAAAAqEEgAA
+QIFQAgAAKBBKAAAABUIJAACgQCgBsEkPP/xwTjrppHz961/PCSeckPPOOy8rV65MksybNy+vvPLK
+FtlO//7989prr/3D6z/yyCO54YYb/uF5RowYUf/Ly//eU089lVNOOSVf//rXM3To0Jx22mn561//
++g9vD4DmSSgBsJF169Zl5MiRGT9+fCZNmpQ777wzu+yyS+68884kyS9+8Yu8/PLLW2RbFRUVW2T9
+fv365d///d+3xEibNGLEiIwaNSqTJk3KlClT0r9///zkJz9psu0BUF6tyj0AAM3PmjVr8s4772TV
+qlXp3LlzkvdCIUkefPDBTJ8+PU8//XRGjx6dVq1a5eqrr84222yTd955J5dddlk+85nPZPTo0enS
+pUuef/75LFy4MF/5ylfyzW9+M8uWLcs555yTd999N/vuu2/e/73ntbW1ufDCC/PWW2+ltrY2NTU1
+Oe200/L4449nwoQJ2WabbXL44YfnsMMO2+T6d999d2bOnJnzzjsvI0eOTEVFRerq6jJv3rzcfvvt
+6dmzZ8aNG5e5c+dmzZo16dOnT0aMGJG6urpcdNFF+dOf/pRu3bpl9erVm3xNli9fnhUrVtTfPumk
+k+q/XrhwYcaMGZMkad26da688sp06dIlEyZMyMMPP5zq6up8+tOfzpgxY/L666/n9NNPz957753u
+3bvn29/+9ibnWrx4cS644IL6P48TTzwxX/7yl7fwnzQADRFKAGykffv2OfPMM3PcccelV69eOfDA
+A3PkkUdmjz32yMCBAzNp0qScccYZOeigg/Kb3/wml19+efbZZ5/cd999uf766zN+/PgkySuvvJLr
+r78+r732Wo499th885vfzOTJk7P//vvn/PPPz3PPPZdbb701SbJs2bIcdthhOf7447N27doceuih
+GTZsWJLk2WefzW9/+9t06NAh48aN2+T6yXtHl3bZZZfccsstSZLbbrstu+yyS3r27Jnp06dn8eLF
+9fedeeaZeeihh1JdXZ2XXnopd911V955550MHDgwRx999EavyejRo/Ptb387PXr0yIEHHpiamprs
+u+++SZLLLrssp512Wv75n/85999/f6ZPn56ePXvmwQcfzF133ZXKysqcffbZ+eUvf5k+ffrkxRdf
+zHXXXZfdd999k3P97//+bxYuXJju3bvnsssuy9q1a3PHHXc00Z82AJsilADYpNNOOy1DhgzJo48+
+msceeywnnnhizjvvvAwdOjRJ6o/k7Ljjjrn66quzZs2arFixIh07dqx/jgMPPDBJ0q1bt6xatSp1
+dXV5/vnn659j3333Tfv27ZMknTt3zty5czNlypRUV1dn7dq1Wb58eZJkjz32SIcOHZJko/XfX140
+b9683H333bntttuSJLNnz868efNy8sknp66uLqtWrcorr7ySdevWpVevXkmSbbbZJp///Oc3+XzH
+HXdcampqMnPmzDz22GM57bTTMnjw4Jx77rmZP39+/fd61FFHJUkmTZqUPn36pLLyvbPcDzrooDzz
+zDPp06dPtt9+++y+++4NzvXqq6+mf//+Of300zN69Oj079+//nsGoDSEEgCb9M4776Rjx4456qij
+ctRRR+Vf//Vfc9VVV230F/aRI0fmiiuuyIEHHpiHHnooEydOrL+vqqpqg8e+H1d//7mk9evXJ3kv
+LNatW5cpU6YkSQ4++OD6x1RXV2/wPH+//t/+9reNZl+6dGkuvfTS/Nd//VfatGmT5L1T4k488cT8
+27/92waPnThxYn3M/P08m3o9tt122xx++OE5/PDDc9JJJ+UrX/lKzj333FRUVOTdd99tcMa//96L
+309DcyXJ/fffn8cffzy/+tWvMmnSpPzsZz/b5GwAbHku5gDARn7/+99nyJAh9Ve5S5KXX365/ihI
+ZWVlfaAsW7Yse+21V9avX59f/epXWbt27Saf8/1Q6N69e+bNm5ckmT9/fmpra5O8Fzfdu3dPkvzm
+N7/JmjVrNvlcDa3/vvXr1+e8887LBRdckN12261+ee/evfPrX/+6PoR+/OMf5y9/+Uu6d++e+fPn
+J0lWrlyZp556aqNtvvjii6mpqcmiRYs2eD0++clPJkkOOOCAPPLII0mSe++9t/70wNmzZ9dvb9as
+Wdl///03eC0+aK577703Tz31VA455JBcfvnlef311zeKMQCajiNKAGzkn/7pn7Jw4cKccsopadu2
+berq6rLjjjvm0ksvTZL07ds3l112WS666KKcdtppOfnkk9O1a9ecdtppGTVqVCZPnrzRc75/hOXk
+k0/OOeeck1NOOSV77bVXPvGJTyRJBg8enPPOOy+/+93vcthhh+WYY47JBRdckAsvvHCD52lo/ffN
+mDEjzz77bG6++ebcdNNNqaioyFe/+tV88YtfzPz58zN06NBUVVXls5/9bD7xiU9kt912y7333psh
+Q4akW7du9afh/b0999wzo0ePztlnn53WrVunsrIy22yzTX74wx8mSS655JJccsklufXWW1NdXZ0r
+r7wyXbt2zVFHHZVhw4alqqoq++67b44++ui8+uqrGxxtqqmp2eRcq1evzmWXXZbWrVsnee9UyL8/
+8gVA06qo+/t/1gIAAMCpdwAAAEVCCQAAoEAoAQAAFAglAACAAqEEAABQIJQAAAAKhBIAAEDB/w/n
+A6IarhW3RQAAAABJRU5ErkJggg==
 "
 >
 </div>
@@ -12867,24 +12866,10 @@ FAglAACAAqEEAABQIJQAAAAKhBIAAECBUAIAACj4/wGCHXH1i23O8gAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>The material on this website is provided for informational purposes only and does not constitute an offer to sell, a solicitation to buy, or a recommendation or endorsement for any security or strategy, nor does it constitute an offer to provide investment advisory or other services by Quantopian.</em></p>
-<p><em>In addition, the content of the website neither constitutes investment advice nor offers any opinion with respect to the suitability of any security or any specific investment. Quantopian makes no guarantees as to accuracy or completeness of the views expressed in the website. The views are subject to change, and may have become unreliable for various reasons, including changes in market conditions or economic circumstances.</em></p>
+<p><em>This presentation is for informational purposes only and does not constitute an offer to sell, a solicitation to buy, or a recommendation for any security; nor does it constitute an offer to provide investment advisory or other services by Quantopian, Inc. ("Quantopian"). Nothing contained herein constitutes investment advice or offers any opinion with respect to the suitability of any security, and any views expressed herein should not be taken as advice to buy, sell, or hold any security or as an endorsement of any security or company.  In preparing the information contained herein, Quantopian, Inc. has not taken into account the investment needs, objectives, and financial circumstances of any particular investor. Any views expressed and data illustrated herein were prepared based upon information, believed to be reliable, available to Quantopian, Inc. at the time of publication. Quantopian makes no guarantees as to their accuracy or completeness. All information is subject to change and may quickly become unreliable for various reasons, including changes in market conditions or economic circumstances.</em></p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
     </div>
   </div>

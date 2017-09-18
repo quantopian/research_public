@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Updated Pairs Trading Lecture: Now With Less Wind Resistance"</title>
+  <title>Cloned from "Introduction to Pairs Trading"</title>
 
   <style type="text/css">
     /*!
@@ -11775,7 +11775,7 @@ ul.typeahead-list > li > a {
 </ul>
 <p>Notebook released under the Creative Commons Attribution 4.0 License.</p>
 <p>Pairs trading is a classic example of a strategy based on mathematical analysis. The principle is as follows. Let's say you have a pair of securities X and Y that have some underlying economic link. An example might be two companies that manufacture the same product, or two companies in one supply chain. If we can model this economic link with a mathematical model, we can make trades on it. We'll start by constructing a toy example.</p>
-<p>Before we proceed, note that the content in this lecture depends heavily on the <a href="https://www.quantopian.com/lectures#Integration,-Cointegration,-and-Stationarity">Stationarity, Integration, and Cointegration lecture</a> in order to properly understand the mathematical basis for the methodology that we employ here. It is recommended that you go through that lecture before this continuing.</p>
+<p>Before we proceed, note that the content in this lecture depends heavily on the <a href="https://www.quantopian.com/lectures/integration-cointegration-and-stationarity">Stationarity, Integration, and Cointegration lecture</a> in order to properly understand the mathematical basis for the methodology that we employ here. It is recommended that you go through that lecture before this continuing.</p>
 
 </div>
 </div>
@@ -16735,7 +16735,7 @@ B7pUFjtnRFDyAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Calculating-the-Spread">Calculating the Spread<a class="anchor-link" href="#Calculating-the-Spread">&#194;&#182;</a></h2><p>Now we will plot the spread of the two series. In order to actually calculate the spread, we use a linear regression to get the coefficient for the linear combination to construct between our two securities, as shown in the <a href="https://www.quantopian.com/lectures#Integration,-Cointegration,-and-Stationarity">stationarity lecture</a>. Using a linear regression to estimate the coefficient is known as the Engle-Granger method.</p>
+<h2 id="Calculating-the-Spread">Calculating the Spread<a class="anchor-link" href="#Calculating-the-Spread">&#194;&#182;</a></h2><p>Now we will plot the spread of the two series. In order to actually calculate the spread, we use a linear regression to get the coefficient for the linear combination to construct between our two securities, as shown in the <a href="https://www.quantopian.com/lectures/integration-cointegration-and-stationarity">stationarity lecture</a>. Using a linear regression to estimate the coefficient is known as the Engle-Granger method.</p>
 
 </div>
 </div>
@@ -23272,7 +23272,7 @@ hBBeTwIXIYQQQgghhNeTwEUIIYQQQgjh9f4fQnsZxIDEwIIAAAAASUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#194;&#182;</a></h2><p>When actually implementing a pairs trading strategy you would normally want to be trading many different pairs at once. If you find a good pair relationship by analyzing data, there is no guarantee that that relationship will continue into the future. Trading many different pairs creates a diversified portfolio to mitigate the risk of individual pairs "falling out of" cointegration.</p>
-<p>There is a template algorithm attached to this <a href="https://www.quantopian.com/lectures#Introduction-to-Pairs-Trading">lecture</a> that shows an example of how you would implement pairs trading on our platform. Feel free to check it out and modify it with your own pairs to see if you can improve it.</p>
+<p>There is a template <a href="https://www.quantopian.com/lectures/example-basic-pairs-trading-algorithm">algorithm</a> attached to this lecture that shows an example of how you would implement pairs trading on our platform. Feel free to check it out and modify it with your own pairs to see if you can improve it.</p>
 
 </div>
 </div>

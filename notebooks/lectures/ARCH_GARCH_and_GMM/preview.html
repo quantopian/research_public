@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: ARCH, GARCH, and GMM" 1</title>
+  <title>ARCH, GARCH, and GMM</title>
 
   <style type="text/css">
     /*!
@@ -11806,7 +11806,10 @@ ul.typeahead-list > li > a {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Simulating-a-GARCH(1,-1)-Case">Simulating a GARCH(1, 1) Case<a class="anchor-link" href="#Simulating-a-GARCH(1,-1)-Case">&#194;&#182;</a></h2><p>We'll start by using Monte Carlo sampling to simulate a GARCH(1, 1) process. Our dynamics will be</p>
-$$\sigma*1 = \sqrt{\frac{a_0}{1-a_1-b_1}}$$$$\sigma_t^2 = a_0 + a_1 x*{t-1}^2+b*1 \sigma*{t-1}^2$$$$x_t = \sigma_t \epsilon_t$$$$\epsilon \sim \mathcal{N}(0, 1)$$<p>Our parameters will be $a_0 = 1$, $a_1=0.1$, and $b_1=0.8$. We will drop the first 10% (burn-in) of our simulated values.</p>
+$$\sigma_1 = \sqrt{\frac{a_0}{1-a_1-b_1}} \\
+\sigma_t^2 = a_0 + a_1 x_{t-1}^2+b_1 \sigma_{t-1}^2 \\
+x_t = \sigma_t \epsilon_t \\
+\epsilon \sim \mathcal{N}(0, 1)$$<p>Our parameters will be $a_0 = 1$, $a_1=0.1$, and $b_1=0.8$. We will drop the first 10% (burn-in) of our simulated values.</p>
 
 </div>
 </div>
@@ -13246,7 +13249,7 @@ TkSuQmCC
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Testing-for-ARCH-Behavior">Testing for ARCH Behavior<a class="anchor-link" href="#Testing-for-ARCH-Behavior">&#194;&#182;</a></h2><p>The first step is to test for ARCH conditions. To do this we run a regression on $x_t$ fitting the following model.</p>
-$$x*t^2 = a_0 + a_1 x*{t-1}^2 + \dots + a*p x*{t-p}^2$$<p>We use OLS to estimate $\hat\theta = (\hat a_0, \hat a_1, \dots, \hat a_p)$ and the covariance matrix $\hat\Omega$. We can then compute the test statistic</p>
+$$x_t^2 = a_0 + a_1 x_{t-1}^2 + \dots + a_p x_{t-p}^2$$<p>We use OLS to estimate $\hat\theta = (\hat a_0, \hat a_1, \dots, \hat a_p)$ and the covariance matrix $\hat\Omega$. We can then compute the test statistic</p>
 $$F = \hat\theta \hat\Omega^{-1} \hat\theta'$$<p>We will reject if $F$ is greater than the 95% confidence bars in the $\mathcal(X)^2(p)$ distribution.</p>
 <p>To test, we'll set $p=20$ and see what we get.</p>
 
@@ -13950,7 +13953,7 @@ ROqkACUiIiIiIlKnvwF/v+9bpLQyogAAAABJRU5ErkJggg==
 <h2 id="Fitting-GARCH(1,-1)-with-MLE">Fitting GARCH(1, 1) with MLE<a class="anchor-link" href="#Fitting-GARCH(1,-1)-with-MLE">&#194;&#182;</a></h2><p>Once we've decided that the data might have an underlying GARCH(1, 1) model, we would like to fit GARCH(1, 1) to the data by estimating parameters.</p>
 <p>To do this we need the log-likelihood function</p>
 $$\mathcal{L}(\theta) = \sum_{t=1}^T - \ln \sqrt{2\pi} - \frac{x_t^2}{2\sigma_t^2} - \frac{1}{2}\ln(\sigma_t^2)$$<p>To evaluate this function we need $x_t$ and $\sigma_t$ for $1 \leq t \leq T$. We have $x_t$, but we need to compute $\sigma_t$. To do this we need to make a guess for $\sigma_1$. Our guess will be $\sigma_1^2 = \hat E[x_t^2]$. Once we have our initial guess we compute the rest of the $\sigma$'s using the equation</p>
-$$\sigma*t^2 = a_0 + a_1 x*{t-1}^2 + b*1\sigma*{t-1}^2$$
+$$\sigma_t^2 = a_0 + a_1 x_{t-1}^2 + b_1\sigma_{t-1}^2$$
 </div>
 </div>
 </div>
@@ -14757,7 +14760,7 @@ j1Y/NAAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we perform numerical optimization to find our estimate for
-$$\hat\theta = \arg \max*{(a_0, a_1, b_1)}\mathcal{L}(\theta) = \arg \min*{(a_0, a_1, b_1)}-\mathcal{L}(\theta)$$</p>
+$$\hat\theta = \arg \max_{(a_0, a_1, b_1)}\mathcal{L}(\theta) = \arg \min_{(a_0, a_1, b_1)}-\mathcal{L}(\theta)$$</p>
 <p>We have some constraints on this</p>
 $$a_1 \geq 0, b_1 \geq 0, a_1+b_1 &lt; 1$$
 </div>
@@ -14915,10 +14918,12 @@ Jarque-Bera probability normal: 0.547561671115
 <p>GMM now has three steps.</p>
 <p>Start with $W$ as the identity matrix.</p>
 <ol>
-<li>Estimate $\hat\theta*1$ by using numerical optimization to minimize
-$$\min*{\theta \in \Theta} \left(\frac{1}{T} \sum*{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum*{t=1}^T g(x_t, \hat\theta)\right)$$</li>
-<li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)
-$$\hat W*{i+1} = \left(\frac{1}{T}\sum*{t=1}^T g(x_t, \hat\theta_i)g(x_t, \hat\theta_i)'\right)^{-1}$$</li>
+<li>Estimate $\hat\theta_1$ by using numerical optimization to minimize</li>
+</ol>
+$$\min_{\theta \in \Theta} \left(\frac{1}{T} \sum_{t=1}^T g(x_t, \hat\theta)\right)' W \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta)\right)$$<ol>
+<li>Recompute $W$ based on the covariances of the estimated $\theta$. (Focus more on parameters with explanatory power)</li>
+</ol>
+$$\hat W_{i+1} = \left(\frac{1}{T}\sum_{t=1}^T g(x_t, \hat\theta_i)g(x_t, \hat\theta_i)'\right)^{-1}$$<ol>
 <li>Repeat until $|\hat\theta_{i+1} - \hat\theta_i| &lt; \epsilon$ or we reach an iteration threshold.</li>
 </ol>
 <p>Initialize $W$ and $T$ and define the objective function we need to minimize.</p>

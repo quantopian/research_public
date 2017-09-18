@@ -1,6 +1,6 @@
 <head>
-  <meta charset="utf-8" />
-  <title>fundamental_factor_modela</title>
+  <meta charset="utf-8" /
+  <title>Cloned from "Fundamental Factor Models"</title>
 
   <style type="text/css">
     /*!
@@ -11849,7 +11849,7 @@ ul.typeahead-list > li > a {
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
-    <div class="input_area">
+    <div class="input_area"
 <div class=" highlight hl-ipython2"><pre><span class="k">class</span> <span class="nc">Momentum</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
     <span class="c"># will give us the returns from last month</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Returns</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
@@ -11976,7 +11976,7 @@ ul.typeahead-list > li > a {
       <th rowspan="5" valign="top">2016-01-04 00:00:00+00:00</th>
       <th>Equity(2 [ARNC])</th>
       <td>-0.010040</td>
-      <td>True</td>
+      <td>True</td
       <td>0.969455</td>
       <td>1335.0</td>
       <td>True</td>
@@ -12040,11 +12040,18 @@ ul.typeahead-list > li > a {
     <tr>
       <th>Equity(67 [ADSK])</th>
       <td>-0.021365</td>
-      <td>True</td>
+      <td>True</td
       <td>0.126237</td>
       <td>227.0</td>
       <td>False</td>
       <td>False</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>Equity(154 [AEM])</th>
       <td>True</td>
       <td>1.372894e+10</td>
       <td>1181.0</td>
@@ -12052,6 +12059,18 @@ ul.typeahead-list > li > a {
       <td>1110.0</td>
       <td>False</td>
       <td>True</td>
+    </tr>
+    <tr>
+      <th>Equity(42173 [DLPH])</th>
+      <td>True</td>
+      <td>0.238698</td>
+      <td>739.0</td>
+      <td>False</td>
+      <td>True</td>
+      <td>7.070387e+09</td>
+      <td>4300.0</td>
+      <td>0.005602</td>
+      <td>False</td>
     </tr>
   </tbody>
 </table>
@@ -12084,7 +12103,6 @@ ul.typeahead-list > li > a {
 
 <span class="n">R_highpb</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">highpb</span><span class="p">][</span><span class="s">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">R_lowpb</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">lowpb</span><span class="p">][</span><span class="s">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
 <span class="n">R_top</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">top</span><span class="p">][</span><span class="s">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">R_bottom</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">bottom</span><span class="p">][</span><span class="s">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
@@ -16961,6 +16979,25 @@ RU5ErkJggg==
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:2: FutureWarning: TimeSeries is deprecated. Please use Series
+  
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -17064,6 +17101,18 @@ Mean, Std of Unhedged Portfolio: 0.000662822634832 0.0112484662654
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python2.7/dist-packages/IPython/core/interactiveshell.py:2882: FutureWarning: The pandas.stats.ols module is deprecated and will be removed in a future version. We refer to external packages like statsmodels, see some examples here: http://statsmodels.sourceforge.net/stable/regression.html
+  exec(code_obj, self.user_global_ns, self.user_ns)
+</pre>
+</div>
+</div>
 
 <div class="output_area">
 
@@ -19020,7 +19069,6 @@ Durbin Watson statistic:  1.7839884023
 
 
 
-
 <div class="output_text output_subarea output_execute_result">
 <pre>&lt;matplotlib.text.Text at 0x7fa551a6cf10&gt;</pre>
 </div>
@@ -19295,6 +19343,18 @@ YII=
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Before winsorization -1000.0 1000.0
 After winsorization -2.51008975811 3.02911991404
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:1: FutureWarning: TimeSeries is deprecated. Please use Series
+  &#34;&#34;&#34;Entry point for launching an IPython kernel.
 </pre>
 </div>
 </div>
