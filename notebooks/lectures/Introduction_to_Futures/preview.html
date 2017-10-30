@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Introduction to Futures"</title>
+  <title>Cloned from "Introduction to Futures" 4</title>
 
   <style type="text/css">
     /*!
@@ -11767,13 +11767,14 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Introduction-to-Futures-Contracts">Introduction to Futures Contracts<a class="anchor-link" href="#Introduction-to-Futures-Contracts">&#194;&#182;</a></h1><p>by Maxwell Margenot and Delaney Mackenzie</p>
+<h1 id="Introduction-to-Futures-Contracts">Introduction to Futures Contracts<a class="anchor-link" href="#Introduction-to-Futures-Contracts">&#182;</a></h1><p>by Maxwell Margenot and Delaney Mackenzie</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
 <li><a href="https://github.com/quantopian/research_public">github.com/quantopian/research_public</a></li>
 </ul>
 <p>Notebook released under the Creative Commons Attribution 4.0 License.</p>
+<p>--</p>
 <p>Futures contracts are derivatives and they are fundamentally different from equities, so it is important to understand what they are and how they work. In this lecture we will detail the basic unit of a futures contract, the forward contract, specifics on the valuation of futures contracts, and some things to keep in mind when handling futures. Our goal here is to cover what makes futures tick before we get into performing any sort of statistical analysis of them.</p>
 
 </div>
@@ -11798,7 +11799,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Derivatives">Derivatives<a class="anchor-link" href="#Derivatives">&#194;&#182;</a></h2><p>We have stated that a futures contract is a derivative, so let's be clear on what a derivative is. A derivative is a financial instrument whose value is dependent on the value of an underlying asset. This can be a complex relationship or it can be something very simple. Derivatives have been constructed for a variety of different purposes in order to make more and more intricate bets about the markets. They provide new ways to express your expectations of how the markets will move and are used to great effect in conjunction with more conventional investments. Large amounts of resources are devoted to the construction and pricing of exotic derivatives, though that is beyond the scope of this lecture.</p>
+<h2 id="Derivatives">Derivatives<a class="anchor-link" href="#Derivatives">&#182;</a></h2><p>We have stated that a futures contract is a derivative, so let's be clear on what a derivative is. A derivative is a financial instrument whose value is dependent on the value of an underlying asset. This can be a complex relationship or it can be something very simple. Derivatives have been constructed for a variety of different purposes in order to make more and more intricate bets about the markets. They provide new ways to express your expectations of how the markets will move and are used to great effect in conjunction with more conventional investments. Large amounts of resources are devoted to the construction and pricing of exotic derivatives, though that is beyond the scope of this lecture.</p>
 <p>A futures contract is a standardized version of one of the simplest possible derivatives, the <strong>forward contract</strong>. Let's look at how forward contracts behave to give us a little more background on futures.</p>
 
 </div>
@@ -11808,10 +11809,12 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Forward-Contracts">Forward Contracts<a class="anchor-link" href="#Forward-Contracts">&#194;&#182;</a></h2><p>A futures contract at its heart is based on a derivative called a forward contract. This is an agreement between two parties to pay a delivery price, $K$, for an asset at some predetermined point in the future. Forward contracts are basic over the counter (OTC) derivatives, typically used for hedging. They are used for neutralizing risk by locking the price for an asset, obligating both sides of the contract to follow through.</p>
+<h2 id="Forward-Contracts">Forward Contracts<a class="anchor-link" href="#Forward-Contracts">&#182;</a></h2><p>A futures contract at its heart is based on a derivative called a forward contract. This is an agreement between two parties to pay a delivery price, $K$, for an asset at some predetermined point in the future. Forward contracts are basic over the counter (OTC) derivatives, typically used for hedging. They are used for neutralizing risk by locking the price for an asset, obligating both sides of the contract to follow through.</p>
 <p>Entering into a long position on a forward contract entails agreeing to buy the underlying asset while entering into a short position entails agreeing to sell the underlying. Let's say that the price of the good is denotated by $S_i$, indexed with time, with $T$ being the maturity date of the forward contract. Then the <strong>payoff</strong> of a long position in a forward contract is:</p>
-$$ S_T - K $$<p>And the payoff of a short position in a forward contract is:</p>
-$$ K - S_T$$<p>Where $S_T$ is the value of the underlying at maturity and $K$ is the value agreed upon for the underlying at maturity. The specific value of $K$ is negotiated between the parties entering into a forward contract together so it can vary quite a bit, depending on the relevant parties.</p>
+<p>$$ S_T - K $$</p>
+<p>And the payoff of a short position in a forward contract is:</p>
+<p>$$ K - S_T$$</p>
+<p>Where $S_T$ is the value of the underlying at maturity and $K$ is the value agreed upon for the underlying at maturity. The specific value of $K$ is negotiated between the parties entering into a forward contract together so it can vary quite a bit, depending on the relevant parties.</p>
 <p>The payoff of a derivative is simply the realized cash value at the end of its life. This settlement can take place with either the delivery and exchange of actual goods or a simple cash settlement. As we can see in the following graphs, a forward contract has a linear payoff.</p>
 
 </div>
@@ -12408,7 +12411,7 @@ AAUAAFCQAAUAAFCQAAUAAFCQAAUAAFCQAAUAAFDQ/wfGb2XgMF3asgAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Forward-Contract-Issues">Forward Contract Issues<a class="anchor-link" href="#Forward-Contract-Issues">&#194;&#182;</a></h2><p>Of course, we seldom know exactly when we will need an asset. In addition, entering into a private agreement with another party exposes you to <strong>counterparty risk</strong>, the risk that one or the other party in a transaction will renege on a deal. How the contract is actually settled is also up to the two parties, whether it be with an exchange of assets or a simple cash reconciliation. Forward contracts leave the delivery date, delivery method, and quantity up for debate. Their OTC nature gives a large degree of customizability, but directly contributes to the aforementioned issues and a lack of liquidity. It is unlikely that another party will be willing to take on an agreement that is highly customized to someone else's terms. There are definitely merits for the various possibilities for hedging that forward contracts provide, however, which is where futures contracts come in.</p>
+<h2 id="Forward-Contract-Issues">Forward Contract Issues<a class="anchor-link" href="#Forward-Contract-Issues">&#182;</a></h2><p>Of course, we seldom know exactly when we will need an asset. In addition, entering into a private agreement with another party exposes you to <strong>counterparty risk</strong>, the risk that one or the other party in a transaction will renege on a deal. How the contract is actually settled is also up to the two parties, whether it be with an exchange of assets or a simple cash reconciliation. Forward contracts leave the delivery date, delivery method, and quantity up for debate. Their OTC nature gives a large degree of customizability, but directly contributes to the aforementioned issues and a lack of liquidity. It is unlikely that another party will be willing to take on an agreement that is highly customized to someone else's terms. There are definitely merits for the various possibilities for hedging that forward contracts provide, however, which is where futures contracts come in.</p>
 
 </div>
 </div>
@@ -12417,12 +12420,12 @@ AAUAAFCQAAUAAFCQAAUAAFCQAAUAAFCQAAUAAFDQ/wfGb2XgMF3asgAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-is-a-Futures-Contract-Different?">How is a Futures Contract Different?<a class="anchor-link" href="#How-is-a-Futures-Contract-Different?">&#194;&#182;</a></h2><p>Futures contracts are forward contracts that have been standardized for trade on an exchange. A single futures contract is for a set amount of the underlying with agreed-upon settlement, delivery date, and terms. On top of this, the exchange acts as an intermediary, virtually eliminating counterparty risk. However, this isn't to say that all futures contracts are standardized across the entire futures market. Futures for a given asset are standardized, so the terms of corn futures may differ from the terms of pork bellies futures.</p>
+<h2 id="How-is-a-Futures-Contract-Different?">How is a Futures Contract Different?<a class="anchor-link" href="#How-is-a-Futures-Contract-Different?">&#182;</a></h2><p>Futures contracts are forward contracts that have been standardized for trade on an exchange. A single futures contract is for a set amount of the underlying with agreed-upon settlement, delivery date, and terms. On top of this, the exchange acts as an intermediary, virtually eliminating counterparty risk. However, this isn't to say that all futures contracts are standardized across the entire futures market. Futures for a given asset are standardized, so the terms of corn futures may differ from the terms of pork bellies futures.</p>
 <p>Another quirk of futures contracts is that they are settled daily with a margin account at a broker held by the holder of the futures contract. Each day, the change in price of the underlying is reflected in an increase or a decrease in the amount of money in the margin account. This process is called "marking to market".</p>
-<h3 id="Marking-to-Market-and-Margin-Accounts">Marking to Market and Margin Accounts<a class="anchor-link" href="#Marking-to-Market-and-Margin-Accounts">&#194;&#182;</a></h3><p>DISCLAIMER: Margin is not currently modeled automatically on Quantopian. You should restrict your total position allocations manually.</p>
+<h3 id="Marking-to-Market-and-Margin-Accounts">Marking to Market and Margin Accounts<a class="anchor-link" href="#Marking-to-Market-and-Margin-Accounts">&#182;</a></h3><p>DISCLAIMER: Margin is not currently modeled automatically on Quantopian. You should restrict your total position allocations manually.</p>
 <p>Entering into a futures trade entails putting up a certain amount of cash. This amount will vary depending on the terms of the contract and is called your initial margin. This cash goes into a margin account held with the broker you are doing your trading with. Each day, the value of the futures contract position is marked to market. This means that any change in the futures price over the course of the day is reflected by a change in the margin account balance proportional to the number of contracts that you hold positions in.</p>
 <p>You can withdraw any excess in the account over the initial margin if you so choose, but it is important to be mindful of keeping cash available to the broker, above the line of the <strong>maintenance margin</strong>. The maintenance margin is again determined by the terms of the contract.  If the balance in your margin account falls below the maintenance margin, the broker will issue a <strong>margin call</strong>. To comply, you must top up the account with cash up to the initial margin again. If you choose not to or fail to meet the margin call, your position in the contract is closed.</p>
-<h3 id="Example:-Corn-Futures">Example: Corn Futures<a class="anchor-link" href="#Example:-Corn-Futures">&#194;&#182;</a></h3><p>Let's say that we want to get <strong>five</strong> corn futures contracts. Each corn contract is standardized for $5000$ bushels of corn (Around $127$ metric tons!) and corn is quoted in cents per bushel. Let's also say that our initial margin is $\$990$ per contract when we enter a position and our maintenance margin is $\$900$ per contract.</p>
+<h3 id="Example:-Corn-Futures">Example: Corn Futures<a class="anchor-link" href="#Example:-Corn-Futures">&#182;</a></h3><p>Let's say that we want to get <strong>five</strong> corn futures contracts. Each corn contract is standardized for $5000$ bushels of corn (Around $127$ metric tons!) and corn is quoted in cents per bushel. Let's also say that our initial margin is $\$990$ per contract when we enter a position and our maintenance margin is $\$900$ per contract.</p>
 <p>We can look at how this example would play out with actual numbers. Let's pull a small section of pricing data for a corn contract and imagine that we entered into a position and held it until maturity.</p>
 
 </div>
@@ -13871,7 +13874,7 @@ AElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Financial-vs.-Commodity-Futures">Financial vs. Commodity Futures<a class="anchor-link" href="#Financial-vs.-Commodity-Futures">&#194;&#182;</a></h2><p>You can enter into futures contracts on many different types of assets. These range from actual, physical goods such as corn or wheat to more abstract assets, such as some multiplier times a stock market index. Futures contracts based on physical goods are generally called commodity futures, while those based on financial instruments are called financial futures. These can be further broken down into categories based on the general class of commodity or financial instrument.</p>
+<h2 id="Financial-vs.-Commodity-Futures">Financial vs. Commodity Futures<a class="anchor-link" href="#Financial-vs.-Commodity-Futures">&#182;</a></h2><p>You can enter into futures contracts on many different types of assets. These range from actual, physical goods such as corn or wheat to more abstract assets, such as some multiplier times a stock market index. Futures contracts based on physical goods are generally called commodity futures, while those based on financial instruments are called financial futures. These can be further broken down into categories based on the general class of commodity or financial instrument.</p>
 <p>In general, financial futures are more liquid than commodity futures. Let's compare the volume of two contracts deliverable in March 2017, one on the S&amp;P 500 Index and the other on natural gas.</p>
 
 </div>
@@ -15112,7 +15115,7 @@ dtype: float64
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Delivery-and-Naming">Delivery and Naming<a class="anchor-link" href="#Delivery-and-Naming">&#194;&#182;</a></h3><p>Different futures contracts will differ on the available delivery months. Some contracts have delivery every month, while some only have delivery a few times a year. The naming conventions for a given futures contract include the delivery month and year for the specific contract that they refer to. The month codes are standardized and <a href="http://www.investopedia.com/terms/d/deliverymonth.asp">well-documented</a>, but the specific symbol that refers to the underlying varies depending on the broker. For an overview of the contract names that we use on Quantopian, please refer to the <a href="https://www.quantopian.com/posts/futures-data-now-available-in-research">Futures API Introduction</a>.</p>
+<h3 id="Delivery-and-Naming">Delivery and Naming<a class="anchor-link" href="#Delivery-and-Naming">&#182;</a></h3><p>Different futures contracts will differ on the available delivery months. Some contracts have delivery every month, while some only have delivery a few times a year. The naming conventions for a given futures contract include the delivery month and year for the specific contract that they refer to. The month codes are standardized and <a href="http://www.investopedia.com/terms/d/deliverymonth.asp">well-documented</a>, but the specific symbol that refers to the underlying varies depending on the broker. For an overview of the contract names that we use on Quantopian, please refer to the <a href="https://www.quantopian.com/posts/futures-data-now-available-in-research">Futures API Introduction</a>.</p>
 <p>The delivery terms of a futures contract are listed in the contract specifications for that underlying asset. With commodity futures, this often includes terms for the physical delivery of, for example, 1000 barrels of oil. This will vary between assets. Some contracts, particularly financials, allow for cash settlement, making it easier to deliver.</p>
 
 </div>
@@ -15122,7 +15125,7 @@ dtype: float64
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Closing-a-Futures-Position">Closing a Futures Position<a class="anchor-link" href="#Closing-a-Futures-Position">&#194;&#182;</a></h2><p>In order to close a futures position, you simply take up an opposite position in the same contract. The broker will see that you have two opposite positions in the same asset so you are flat, effectively closing the account's exposure. As this requires actually being able to open the opposing position, care needs to be taken to do this in a timely manner as futures have varying liquidity as they approach expiry. The majority of volume for a given contract tends to take place during this same period of time, but there is a chance that liquidity may drop and you will be unable to close your futures positions, resulting in you taking delivery.</p>
+<h2 id="Closing-a-Futures-Position">Closing a Futures Position<a class="anchor-link" href="#Closing-a-Futures-Position">&#182;</a></h2><p>In order to close a futures position, you simply take up an opposite position in the same contract. The broker will see that you have two opposite positions in the same asset so you are flat, effectively closing the account's exposure. As this requires actually being able to open the opposing position, care needs to be taken to do this in a timely manner as futures have varying liquidity as they approach expiry. The majority of volume for a given contract tends to take place during this same period of time, but there is a chance that liquidity may drop and you will be unable to close your futures positions, resulting in you taking delivery.</p>
 <p>The delivery date calendar varies from underlying to underlying and from month to month, which means that you have to take proper care to make sure you unwind your positions in a timely manner.</p>
 <p>Here we plot the volume of futures contracts on "Light Sweet Crude Oil" with January, February, and March delivery.</p>
 
@@ -16460,7 +16463,7 @@ AAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Spot-Prices-and-Futures-Prices">Spot Prices and Futures Prices<a class="anchor-link" href="#Spot-Prices-and-Futures-Prices">&#194;&#182;</a></h2><p>An important feature of futures markets is that as a contract approaches its expiry, its futures price will converge to the spot price. To show this, we will examine how SPY and a S&amp;P 500 E-Mini contract move against each other. SPY tracks the S&amp;P 500 Index, which is the underlying for the S&amp;P 500 E-Mini contract. If we plot ten times the price of the ETF (the value is scaled down from the actual index), then ideally the difference between them should go to 0 as we approach the expiry of the contract.</p>
+<h2 id="Spot-Prices-and-Futures-Prices">Spot Prices and Futures Prices<a class="anchor-link" href="#Spot-Prices-and-Futures-Prices">&#182;</a></h2><p>An important feature of futures markets is that as a contract approaches its expiry, its futures price will converge to the spot price. To show this, we will examine how SPY and a S&amp;P 500 E-Mini contract move against each other. SPY tracks the S&amp;P 500 Index, which is the underlying for the S&amp;P 500 E-Mini contract. If we plot ten times the price of the ETF (the value is scaled down from the actual index), then ideally the difference between them should go to 0 as we approach the expiry of the contract.</p>
 
 </div>
 </div>
@@ -18946,9 +18949,11 @@ EiRBEARBEARBEIRWIkESBEEQBEEQBEFo9f+AkDad/w4ycAAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Connection-Between-Spot-and-Futures-Prices">Connection Between Spot and Futures Prices<a class="anchor-link" href="#Connection-Between-Spot-and-Futures-Prices">&#194;&#182;</a></h3><p>There are several ways to theoretically model futures prices, just as there are many models to model equity prices. A very basic model of futures prices and spot prices  connects them through a parameter called the <strong>cost of carry</strong>. The cost of carry acts as a discount factor for futures prices, such that</p>
-$$ F(t, T) = S(t)\times (1 + c)^{T - t} $$<p>where $F(t, T)$ is the futures price at time $t$ for maturity $T$, $S(t)$ is the spot price at time $t$, and $c$ is the cost of carry (here assumed to be constant). With continuous compounding, this relationship becomes:</p>
-$$ F(t, T) = S(t)e^{c(T - t)} $$<p>This is a naive representation of the relationship in that it relies on a constant rate as well as a few other factors. Depending on the underlying asset, the cost of carry may be composed of several different things. For example, for a physical commodity, it may incorporate storage costs and the convenience yield for immediate access through the spot market, while for some financial commodities it may only encompass the risk free rate.</p>
+<h3 id="Connection-Between-Spot-and-Futures-Prices">Connection Between Spot and Futures Prices<a class="anchor-link" href="#Connection-Between-Spot-and-Futures-Prices">&#182;</a></h3><p>There are several ways to theoretically model futures prices, just as there are many models to model equity prices. A very basic model of futures prices and spot prices  connects them through a parameter called the <strong>cost of carry</strong>. The cost of carry acts as a discount factor for futures prices, such that</p>
+<p>$$ F(t, T) = S(t)\times (1 + c)^{T - t} $$</p>
+<p>where $F(t, T)$ is the futures price at time $t$ for maturity $T$, $S(t)$ is the spot price at time $t$, and $c$ is the cost of carry (here assumed to be constant). With continuous compounding, this relationship becomes:</p>
+<p>$$ F(t, T) = S(t)e^{c(T - t)} $$</p>
+<p>This is a naive representation of the relationship in that it relies on a constant rate as well as a few other factors. Depending on the underlying asset, the cost of carry may be composed of several different things. For example, for a physical commodity, it may incorporate storage costs and the convenience yield for immediate access through the spot market, while for some financial commodities it may only encompass the risk free rate.</p>
 <p>The cost of carry on futures can be thought of similarly to dividends on stocks. When considering futures prices of a single underlying through several different maturities, adjustments must be made to account for the cost of carry when switching to a new maturity.</p>
 <p>The further out we are from expiry, the more the cost of carry impacts the price. Here is a plot of the prices of contracts on light sweet crude for January, February, March, and April 2017 delivery. The further out the contract is from expiry, the higher the price.</p>
 
@@ -20348,7 +20353,7 @@ LSIiIiIi4tJUWkRERERExKX9f9mJmZ+mKGLIAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Contango-and-Backwardation">Contango and Backwardation<a class="anchor-link" href="#Contango-and-Backwardation">&#194;&#182;</a></h2><p>Often in futures markets we expect the futures price to be above the spot price. In this case, we can infer that participants in the market are willing to pay a premium for avoiding storage costs and the like. We call the difference between the futures price and the spot price the basis. A higher futures price than spot price indicates a positive basis, a situation which we call contango. With our cost of carry model, a positive cost of carry indicates contango.</p>
+<h2 id="Contango-and-Backwardation">Contango and Backwardation<a class="anchor-link" href="#Contango-and-Backwardation">&#182;</a></h2><p>Often in futures markets we expect the futures price to be above the spot price. In this case, we can infer that participants in the market are willing to pay a premium for avoiding storage costs and the like. We call the difference between the futures price and the spot price the basis. A higher futures price than spot price indicates a positive basis, a situation which we call contango. With our cost of carry model, a positive cost of carry indicates contango.</p>
 
 </div>
 </div>
@@ -22107,12 +22112,23 @@ AAAUS+ABAACKJfAAAADFEngAAIBifQBKdlAclqpT6gAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Further-Reading">Further Reading<a class="anchor-link" href="#Further-Reading">&#194;&#182;</a></h2><p>Futures are dynamic assets with many moving components to model. This lecture has been an introduction to the core concepts within futures contracts themselves, but has avoided the specifics of designing trading algorithms on futures. We will cover these considerations in more depth as we develop more lectures on this asset.</p>
+<h2 id="Further-Reading">Further Reading<a class="anchor-link" href="#Further-Reading">&#182;</a></h2><p>Futures are dynamic assets with many moving components to model. This lecture has been an introduction to the core concepts within futures contracts themselves, but has avoided the specifics of designing trading algorithms on futures. We will cover these considerations in more depth as we develop more lectures on this asset.</p>
 <p>For further reading on futures, see:</p>
 <ul>
 <li><a href="https://www.quantopian.com/posts/futures-data-now-available-in-research">https://www.quantopian.com/posts/futures-data-now-available-in-research</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Futures_contract">https://en.wikipedia.org/wiki/Futures_contract</a></li>
 <li><a href="http://www.investopedia.com/terms/f/futurescontract.asp">http://www.investopedia.com/terms/f/futurescontract.asp</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>"Options, Futures, and Other Derivatives", by John Hull</li>
 </ul>
 
 </div>
