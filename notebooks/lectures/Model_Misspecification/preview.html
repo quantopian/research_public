@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: This Time You're More Wrong"</title>
+  <title>Cloned from "Model Misspecification"</title>
 
   <style type="text/css">
     /*!
@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Model-specification">Model specification<a class="anchor-link" href="#Model-specification">&#194;&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya and Delaney Granizo-Mackenzie</p>
+<h1 id="Model-Misspecification">Model Misspecification<a class="anchor-link" href="#Model-Misspecification">&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya and Delaney Mackenzie</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -11790,7 +11790,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exclusion-of-important-variables">Exclusion of important variables<a class="anchor-link" href="#Exclusion-of-important-variables">&#194;&#182;</a></h1><p>If we omit a variable which is uncorrelated with the variables that we do include, we will simply not explain the dependent variable as well as we could. However, if the omitted variable (say, $X_2$) is correlated with the included variable ($X_1$), then the omission additionally affects the model. The coefficient of $X_1$ and the constant term in the regression will be biased by trying to compensate for the omission of $X_2$. This can lead us to overestimate the effect of $X_1$ on the dependent variable. Also, estimated values of the coefficients and the estimated standard errors will be inconsistent.</p>
+<h1 id="Exclusion-of-important-variables">Exclusion of important variables<a class="anchor-link" href="#Exclusion-of-important-variables">&#182;</a></h1><p>If we omit a variable which is uncorrelated with the variables that we do include, we will simply not explain the dependent variable as well as we could. However, if the omitted variable (say, $X_2$) is correlated with the included variable ($X_1$), then the omission additionally affects the model. The coefficient of $X_1$ and the constant term in the regression will be biased by trying to compensate for the omission of $X_2$. This can lead us to overestimate the effect of $X_1$ on the dependent variable. Also, estimated values of the coefficients and the estimated standard errors will be inconsistent.</p>
 <p>In particular, we may be led to believe that two variables have a causal relationship because of their high correlation, when in fact they are both caused by a third. For instance, if two stocks both follow the market, or two quantities both tend to increase with time, they will be highly correlated.</p>
 
 </div>
@@ -11931,7 +11931,7 @@ AAPL and SPY:  0.756319173866
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inclusion-of-unnecessary-variables">Inclusion of unnecessary variables<a class="anchor-link" href="#Inclusion-of-unnecessary-variables">&#194;&#182;</a></h1><p>Conversely, we can have a model which includes too many independent variables. If we include a truly unnecessary variable, we will have a lower adjusted R-squared and less precise estimates of the other regression coefficients. That is, our analysis of the model will be weakened, but the model itself will not change.</p>
+<h1 id="Inclusion-of-unnecessary-variables">Inclusion of unnecessary variables<a class="anchor-link" href="#Inclusion-of-unnecessary-variables">&#182;</a></h1><p>Conversely, we can have a model which includes too many independent variables. If we include a truly unnecessary variable, we will have a lower adjusted R-squared and less precise estimates of the other regression coefficients. That is, our analysis of the model will be weakened, but the model itself will not change.</p>
 <p>If we include variables that are only mostly irrelevant, however, we can artificially improve the fit and the R-squared of our model by adding bits of the slightly-correlated variables to conform to the sample data. This runs the risk of overfitting, since the small adjustments we make are sample-specific. For example, below we run a regression with PEP price as the independent variable and PG price as the dependent variable (which makes some sense as they are in the same sector) and then run another regression with three random other stocks added in.</p>
 
 </div>
@@ -14996,7 +14996,7 @@ dFwEQRAEQRAEQWj2/g8qP90pS610CgAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Errors-in-independent-variables">Errors in independent variables<a class="anchor-link" href="#Errors-in-independent-variables">&#194;&#182;</a></h1><p>If we use indices or dates as our independent variables, they are error-free. However, when we wish to use the value of a stock $X_t$ as an independent variable, we can only measure the price, which is full of small, random fluctuations. So we actually observe $Z_t = X_t + u_t$ for some error $u_t$. Our model is
+<h1 id="Errors-in-independent-variables">Errors in independent variables<a class="anchor-link" href="#Errors-in-independent-variables">&#182;</a></h1><p>If we use indices or dates as our independent variables, they are error-free. However, when we wish to use the value of a stock $X_t$ as an independent variable, we can only measure the price, which is full of small, random fluctuations. So we actually observe $Z_t = X_t + u_t$ for some error $u_t$. Our model is
 $$ Y_t = b_0 + b_1 X_t + \epsilon_t $$</p>
 <p>that is, that some variable is linearly related to the value of a stock. But since we only know the value of $Z_t$, we use the model
 $$ Y_t = b_0 + b_1 Z_t + (-b_1u_t + \epsilon_t) $$</p>
@@ -15009,7 +15009,7 @@ $$ Y_t = b_0 + b_1 Z_t + (-b_1u_t + \epsilon_t) $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Incorrect-functional-form">Incorrect functional form<a class="anchor-link" href="#Incorrect-functional-form">&#194;&#182;</a></h1><p>After we pick the variables we wish to include, we need to specify a shape for the function. Although a regression requires that the function be linear in the coefficients, we can manipulate the variables to achieve various types of functions. For instance, the model $Y_i = b_0 + b_1 X_i^2 + \epsilon_i$ gives a quadratic relationship between $X$ and $Y$, while the log-linear model $\ln Y_i = b_0 + b_1 X_i + \epsilon_i$ gives an exponential one. Generally we select the form based on our expectation of the relationship: for example, a log-linear model is good when we expect the <i>rate of growth</i> of $Y$ to be related to $X$.</p>
+<h1 id="Incorrect-functional-form">Incorrect functional form<a class="anchor-link" href="#Incorrect-functional-form">&#182;</a></h1><p>After we pick the variables we wish to include, we need to specify a shape for the function. Although a regression requires that the function be linear in the coefficients, we can manipulate the variables to achieve various types of functions. For instance, the model $Y_i = b_0 + b_1 X_i^2 + \epsilon_i$ gives a quadratic relationship between $X$ and $Y$, while the log-linear model $\ln Y_i = b_0 + b_1 X_i + \epsilon_i$ gives an exponential one. Generally we select the form based on our expectation of the relationship: for example, a log-linear model is good when we expect the <i>rate of growth</i> of $Y$ to be related to $X$.</p>
 <p>If the wrong form is selected, then we may be unable to get a good fit. In fact, the model may lead to absurd conclusions. For example, if we use a linear model where a logarithmic one would have been more appropriate, we may predict that the number of companies in a certain category becomes negative instead of approaching zero.</p>
 <p>We also have to be careful not to pick a functional form that overfits the data. Arbitrarily using high-degree polynomials leads to overfitting since they have more degrees of freedom. Another issue is data-mining: if we try different models until we find the one that looks best, we are overfitting to the sample at the expense of future predictivity.</p>
 
@@ -15020,7 +15020,7 @@ $$ Y_t = b_0 + b_1 Z_t + (-b_1u_t + \epsilon_t) $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Pooling-different-populations">Pooling different populations<a class="anchor-link" href="#Pooling-different-populations">&#194;&#182;</a></h1><p>If we attempt to use one model for two populations for which separate models would be more appropriate, we get results that are misleading in one direction or the other. For instance, if we mix data about men's and women's wages, there may be too much spread to find a model that fits well, as in the artificial example below.</p>
+<h1 id="Pooling-different-populations">Pooling different populations<a class="anchor-link" href="#Pooling-different-populations">&#182;</a></h1><p>If we attempt to use one model for two populations for which separate models would be more appropriate, we get results that are misleading in one direction or the other. For instance, if we mix data about men's and women's wages, there may be too much spread to find a model that fits well, as in the artificial example below.</p>
 
 </div>
 </div>
@@ -16446,7 +16446,7 @@ AAAmFCUAAAAAMKEoAQAAAIAJRQkAAAAATChKAAAAAGDy/wnNSXrIlzucAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Nonstationary-time-series">Nonstationary time series<a class="anchor-link" href="#Nonstationary-time-series">&#194;&#182;</a></h1><p>A stationary process is one whose joint probability distribution does not change with time. In particular, its mean and variance are constant through time. When we apply regression models to time series, we must make the additional assumption that they are stationary. Otherwise, the t-statistics for the parameters will not be valid.</p>
+<h1 id="Nonstationary-time-series">Nonstationary time series<a class="anchor-link" href="#Nonstationary-time-series">&#182;</a></h1><p>A stationary process is one whose joint probability distribution does not change with time. In particular, its mean and variance are constant through time. When we apply regression models to time series, we must make the additional assumption that they are stationary. Otherwise, the t-statistics for the parameters will not be valid.</p>
 <p>A random walk is a process for which the best estimate for the next value is the previous value; if you were to walk randomly, your location after the each step would be somewhere near your location before the step but in an unpredictable direction. Formally, such a one-dimensional walk is described by the equation
 $$ x_t = x_{t-1} + \epsilon_t $$</p>
 <p>where the error $\epsilon_t$ is homoskedastic, has mean zero, and is not autocorrelated. For example, exchange rates are often assumed to be random walks. Random walks have variance increasing with time, and are therefore not stationary. They are subject to spurious results, and two random walks will appear highly correlated very often. Try running the code below several times:</p>
@@ -16458,7 +16458,7 @@ $$ x_t = x_{t-1} + \epsilon_t $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="All-the-walks">All the walks<a class="anchor-link" href="#All-the-walks">&#194;&#182;</a></h3>
+<h3 id="All-the-walks">All the walks<a class="anchor-link" href="#All-the-walks">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -23482,7 +23482,7 @@ DwAAAICsR/ABAAAAkPX+H55DMTvREcI9AAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Just-those-correlated-with-a-randomly-chosen-one">Just those correlated with a randomly chosen one<a class="anchor-link" href="#Just-those-correlated-with-a-randomly-chosen-one">&#194;&#182;</a></h3>
+<h3 id="Just-those-correlated-with-a-randomly-chosen-one">Just those correlated with a randomly chosen one<a class="anchor-link" href="#Just-those-correlated-with-a-randomly-chosen-one">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -30745,6 +30745,17 @@ HyIiIiIi8rw/L6EOPkNeCLsAAAAASUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Therefore we cannot reject the hypothesis that <code>yw</code> has a unit root (as we know it does, by construction). If we know that a time series has a unit root and we would like to analyze it anyway, we can model instead the first differenced series $y_t = x_t - x_{t-1}$ if that is stationary, and use it to predict future values of $x$. We can also use regression if both the dependent and independent variables are time series with unit roots and the two are cointegrated.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>"Quantitative Investment Analysis", by DeFusco, McLeavey, Pinto, and Runkle</li>
+</ul>
 
 </div>
 </div>
