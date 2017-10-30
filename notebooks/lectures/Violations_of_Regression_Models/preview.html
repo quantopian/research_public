@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Violation of Regression Model Assumptions"</title>
+  <title>Cloned from "Violations of Regression Models"</title>
 
   <style type="text/css">
     /*!
@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-regression-model">The regression model<a class="anchor-link" href="#The-regression-model">&#194;&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya and Delaney Granizo-Mackenzie</p>
+<h1 id="Violations-of-Regression-Models">Violations of Regression Models<a class="anchor-link" href="#Violations-of-Regression-Models">&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya and Delaney Mackenzie</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -11790,7 +11790,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Focus-on-the-Residuals">Focus on the Residuals<a class="anchor-link" href="#Focus-on-the-Residuals">&#194;&#182;</a></h1><p>Rather than focusing on your model construction, it is possible to gain a huge amount of information from your residuals (errors). Your model may be incredibly complex and impossible to analyze, but as long as you have predictions and observed values, you can compute residuals. Once you have your residuals you can perform many statistical tests.</p>
+<h1 id="Focus-on-the-Residuals">Focus on the Residuals<a class="anchor-link" href="#Focus-on-the-Residuals">&#182;</a></h1><p>Rather than focusing on your model construction, it is possible to gain a huge amount of information from your residuals (errors). Your model may be incredibly complex and impossible to analyze, but as long as you have predictions and observed values, you can compute residuals. Once you have your residuals you can perform many statistical tests.</p>
 <p>If your residuals do not follow a given distribution (usually normal, but depends on your model), then you know that something is wrong and you should be concerned with the accuracy of your predictions.</p>
 
 </div>
@@ -11800,9 +11800,9 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Residuals-not-normally-distributed">Residuals not normally distributed<a class="anchor-link" href="#Residuals-not-normally-distributed">&#194;&#182;</a></h1><p>If the error term is not normally distributed, then our tests of statistical significance will be off. Fortunately, the central limit theorem tells us that, for large enough data samples, the coefficient distributions will be close to normal even if the errors are not. Therefore our analysis will still be valid for large data datasets.</p>
-<h2 id="Testing-for-normality">Testing for normality<a class="anchor-link" href="#Testing-for-normality">&#194;&#182;</a></h2><p>A good test for normality is the Jarque-Bera test. It has a python implementation at <code>statsmodels.stats.stattools.jarque_bera</code> , we will use it frequently in this notebook.</p>
-<h3 id="Always-test-for-normality!">Always test for normality!<a class="anchor-link" href="#Always-test-for-normality!">&#194;&#182;</a></h3><p>It's incredibly easy and can save you a ton of time.</p>
+<h1 id="Residuals-not-normally-distributed">Residuals not normally-distributed<a class="anchor-link" href="#Residuals-not-normally-distributed">&#182;</a></h1><p>If the error term is not normally distributed, then our tests of statistical significance will be off. Fortunately, the central limit theorem tells us that, for large enough data samples, the coefficient distributions will be close to normal even if the errors are not. Therefore our analysis will still be valid for large data datasets.</p>
+<h2 id="Testing-for-normality">Testing for normality<a class="anchor-link" href="#Testing-for-normality">&#182;</a></h2><p>A good test for normality is the Jarque-Bera test. It has a python implementation at <code>statsmodels.stats.stattools.jarque_bera</code> , we will use it frequently in this notebook.</p>
+<h3 id="Always-test-for-normality!">Always test for normality!<a class="anchor-link" href="#Always-test-for-normality!">&#182;</a></h3><p>It's incredibly easy and can save you a ton of time.</p>
 
 </div>
 </div>
@@ -11869,7 +11869,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Heteroskedasticity">Heteroskedasticity<a class="anchor-link" href="#Heteroskedasticity">&#194;&#182;</a></h1><p>Heteroskedasticity means that the variance of the error terms is not constant across observations. Intuitively, this means that the observations are not uniformly distributed along the regression line. It often occurs in cross-sectional data where the differences in the samples we are measuring lead to differences in the variance.</p>
+<h1 id="Heteroskedasticity">Heteroskedasticity<a class="anchor-link" href="#Heteroskedasticity">&#182;</a></h1><p>Heteroskedasticity means that the variance of the error terms is not constant across observations. Intuitively, this means that the observations are not uniformly distributed along the regression line. It often occurs in cross-sectional data where the differences in the samples we are measuring lead to differences in the variance.</p>
 
 </div>
 </div>
@@ -12860,7 +12860,7 @@ AAAAABggNAEAAACAAUITAAAAABj4/8jxxIuqBPKNAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Testing-for-Heteroskedasticity">Testing for Heteroskedasticity<a class="anchor-link" href="#Testing-for-Heteroskedasticity">&#194;&#182;</a></h3><p>You can test for heteroskedasticity using a few tests, we'll use the Breush Pagan test from the statsmodels library. We'll also test for normality, which in this case also picks up the weirdness in the second case. HOWEVER, it is possible to have normally distributed residuals which are also heteroskedastic, so both tests must be performed to be sure.</p>
+<h3 id="Testing-for-Heteroskedasticity">Testing for Heteroskedasticity<a class="anchor-link" href="#Testing-for-Heteroskedasticity">&#182;</a></h3><p>You can test for heteroskedasticity using a few tests, we'll use the Breush Pagan test from the statsmodels library. We'll also test for normality, which in this case also picks up the weirdness in the second case. HOWEVER, it is possible to have normally distributed residuals which are also heteroskedastic, so both tests must be performed to be sure.</p>
 
 </div>
 </div>
@@ -12916,7 +12916,7 @@ p-value for residuals2 being heteroskedastic 1.72642319402e-06
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Correcting-for-Heteroskedasticity">Correcting for Heteroskedasticity<a class="anchor-link" href="#Correcting-for-Heteroskedasticity">&#194;&#182;</a></h3>
+<h3 id="Correcting-for-Heteroskedasticity">Correcting for Heteroskedasticity<a class="anchor-link" href="#Correcting-for-Heteroskedasticity">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13015,7 +13015,7 @@ Warnings:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Serial-correlation-of-errors">Serial correlation of errors<a class="anchor-link" href="#Serial-correlation-of-errors">&#194;&#182;</a></h1><p>A common and serious problem is when errors are correlated across observations (known serial correlation or autocorrelation). This can occur, for instance, when some of the data points are related, or when we use time-series data with periodic fluctuations. If one of the independent variables depends on previous values of the dependent variable - such as when it is equal to the value of the dependent variable in the previous period - or if incorrect model specification leads to autocorrelation, then the coefficient estimates will be inconsistent and therefore invalid. Otherwise, the parameter estimates will be valid, but the fit statistics will be off. For instance, if the correlation is positive, we will have inflated F- and t-statistics, leading us to overestimate the significance of the model.</p>
+<h1 id="Serial-correlation-of-errors">Serial correlation of errors<a class="anchor-link" href="#Serial-correlation-of-errors">&#182;</a></h1><p>A common and serious problem is when errors are correlated across observations (known serial correlation or autocorrelation). This can occur, for instance, when some of the data points are related, or when we use time-series data with periodic fluctuations. If one of the independent variables depends on previous values of the dependent variable - such as when it is equal to the value of the dependent variable in the previous period - or if incorrect model specification leads to autocorrelation, then the coefficient estimates will be inconsistent and therefore invalid. Otherwise, the parameter estimates will be valid, but the fit statistics will be off. For instance, if the correlation is positive, we will have inflated F- and t-statistics, leading us to overestimate the significance of the model.</p>
 <p>If the errors are homoskedastic, we can test for autocorrelation using the Durbin-Watson test, which is conveniently reported in the regression summary in <code>statsmodels</code>.</p>
 
 </div>
@@ -13924,7 +13924,7 @@ AADA0v4/HKMExZL9mPcAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Testing-for-Autocorrelation">Testing for Autocorrelation<a class="anchor-link" href="#Testing-for-Autocorrelation">&#194;&#182;</a></h3><p>We can test for autocorrelation in both our prices and residuals. We'll use the built-in method to do this, which is based on the Ljun-Box test. This test computes the probability that the n-th lagged datapoint is predictive of the current. If no max lag is given, then the function computes a max lag and returns the p-values for all lags up to that one. We can see here that for the 5 most recent datapoints, a significant correlation exists with the current. Therefore we conclude that both the data is autocorrelated.</p>
+<h3 id="Testing-for-Autocorrelation">Testing for Autocorrelation<a class="anchor-link" href="#Testing-for-Autocorrelation">&#182;</a></h3><p>We can test for autocorrelation in both our prices and residuals. We'll use the built-in method to do this, which is based on the Ljun-Box test. This test computes the probability that the n-th lagged datapoint is predictive of the current. If no max lag is given, then the function computes a max lag and returns the p-values for all lags up to that one. We can see here that for the 5 most recent datapoints, a significant correlation exists with the current. Therefore we conclude that both the data is autocorrelated.</p>
 <p>We also test for normality for fun.</p>
 
 </div>
@@ -13993,7 +13993,7 @@ Jarque-Bera p-value that residuals are normally distributed 2.11092237997e-10
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Newey-West">Newey-West<a class="anchor-link" href="#Newey-West">&#194;&#182;</a></h2><p>Newey-West is a method of computing variance which accounts for autocorrelation. A naive variance computation will actually produce inaccurate standard errors with the presence of autocorrelation.</p>
+<h2 id="Newey-West">Newey-West<a class="anchor-link" href="#Newey-West">&#182;</a></h2><p>Newey-West is a method of computing variance which accounts for autocorrelation. A naive variance computation will actually produce inaccurate standard errors with the presence of autocorrelation.</p>
 <p>We can attempt to change the regression equation to eliminate serial correlation. A simpler fix is adjusting the standard errors using an appropriate method and using the adjusted values to check for significance. Below we use the Newey-West method from <code>statsmodels</code> to compute adjusted standard errors for the coefficients. They are higher than those originally reported by the regression, which is what we expected for positively correlated errors.</p>
 
 </div>
@@ -14042,7 +14042,7 @@ Adjusted standard errors: 0.507679344438 0.00511956168035
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Multicollinearity">Multicollinearity<a class="anchor-link" href="#Multicollinearity">&#194;&#182;</a></h1><p>When using multiple independent variables, it is important to check for multicollinearity; that is, an approximate linear relation between the independent variables, such as
+<h1 id="Multicollinearity">Multicollinearity<a class="anchor-link" href="#Multicollinearity">&#182;</a></h1><p>When using multiple independent variables, it is important to check for multicollinearity; that is, an approximate linear relation between the independent variables, such as
 $$ X_2 \approx 5 X_1 - X_3 + 4.5 $$</p>
 <p>With multicollinearity, it is difficult to identify the independent effect of each variable, since we can change around the coefficients according to the linear relation without changing the model. As with truly unnecessary variables, this will usually not hurt the accuracy of the model, but will cloud our analysis. In particular, the estimated coefficients will have large standard errors. The coefficients will also no longer represent the partial effect of each variable, since with multicollinearity we cannot change one variable while holding the others constant.</p>
 <p>High correlation between independent variables is indicative of multicollinearity. However, it is not enough, since we would want to detect correlation between one of the variables and a linear combination of the other variables. If we have high R-squared but low t-statistics on the coefficients (the fit is good but the coefficients are not estimated precisely) we may suspect multicollinearity. To resolve the problem, we can drop one of the independent variables involved in the linear relation.</p>
@@ -16640,7 +16640,7 @@ CCGEEKomSY8QQgghhBBC1STpEUIIIYQQQqjafwDKw2sTTYtYTQAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Example:-Anscombe's-quartet">Example: Anscombe's quartet<a class="anchor-link" href="#Example:-Anscombe's-quartet">&#194;&#182;</a></h1><p>Anscombe constructed 4 datasets which not only have the same mean and variance in each variable, but also the same correlation coefficient, regression line, and R-squared regression value. Below, we test this result as well as plotting the datasets. A quick glance at the graphs shows that only the first dataset satisfies the regression model assumptions. Consequently, the high R-squared values of the other three are not meaningful, which agrees with our intuition that the other three are not modeled well by the lines of best fit.</p>
+<h1 id="Example:-Anscombe's-quartet">Example: Anscombe's quartet<a class="anchor-link" href="#Example:-Anscombe's-quartet">&#182;</a></h1><p>Anscombe constructed 4 datasets which not only have the same mean and variance in each variable, but also the same correlation coefficient, regression line, and R-squared regression value. Below, we test this result as well as plotting the datasets. A quick glance at the graphs shows that only the first dataset satisfies the regression model assumptions. Consequently, the high R-squared values of the other three are not meaningful, which agrees with our intuition that the other three are not modeled well by the lines of best fit.</p>
 
 </div>
 </div>
@@ -17213,6 +17213,17 @@ CImIiIiIiO2oERIREREREdtRIyQiIiIiIrbz/zgUcxUVqyBdAAAAAElFTkSuQmCC
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>"Quantitative Investment Analysis", by DeFusco, McLeavey, Pinto, and Runkle</li>
+</ul>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
