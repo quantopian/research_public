@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Variance" 2</title>
+  <title>Cloned from "Variance"</title>
 
   <style type="text/css">
     /*!
@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Measures-of-Dispersion">Measures of Dispersion<a class="anchor-link" href="#Measures-of-Dispersion">&#194;&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya, Maxwell Margenot, and Delaney Granizo-Mackenzie.</p>
+<h1 id="Measures-of-Dispersion">Measures of Dispersion<a class="anchor-link" href="#Measures-of-Dispersion">&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya, Maxwell Margenot, and Delaney Mackenzie.</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -11842,7 +11842,7 @@ Mean of X: 60.2
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Range">Range<a class="anchor-link" href="#Range">&#194;&#182;</a></h1><p>Range is simply the difference between the maximum and minimum values in a dataset. Not surprisingly, it is very sensitive to outliers. We'll use <code>numpy</code>'s peak to peak (ptp) function for this.</p>
+<h1 id="Range">Range<a class="anchor-link" href="#Range">&#182;</a></h1><p>Range is simply the difference between the maximum and minimum values in a dataset. Not surprisingly, it is very sensitive to outliers. We'll use <code>numpy</code>'s peak to peak (ptp) function for this.</p>
 
 </div>
 </div>
@@ -11882,8 +11882,9 @@ Mean of X: 60.2
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Mean-Absolute-Deviation-(MAD)">Mean Absolute Deviation (MAD)<a class="anchor-link" href="#Mean-Absolute-Deviation-(MAD)">&#194;&#182;</a></h1><p>The mean absolute deviation is the average of the distances of observations from the arithmetic mean. We use the absolute value of the deviation, so that 5 above the mean and 5 below the mean both contribute 5, because otherwise the deviations always sum to 0.</p>
-$$ MAD = \frac{\sum_{i=1}^n |X_i - \mu|}{n} $$<p>where $n$ is the number of observations and $\mu$ is their mean.</p>
+<h1 id="Mean-Absolute-Deviation-(MAD)">Mean Absolute Deviation (MAD)<a class="anchor-link" href="#Mean-Absolute-Deviation-(MAD)">&#182;</a></h1><p>The mean absolute deviation is the average of the distances of observations from the arithmetic mean. We use the absolute value of the deviation, so that 5 above the mean and 5 below the mean both contribute 5, because otherwise the deviations always sum to 0.</p>
+<p>$$ MAD = \frac{\sum_{i=1}^n |X_i - \mu|}{n} $$</p>
+<p>where $n$ is the number of observations and $\mu$ is their mean.</p>
 
 </div>
 </div>
@@ -11925,7 +11926,7 @@ $$ MAD = \frac{\sum_{i=1}^n |X_i - \mu|}{n} $$<p>where $n$ is the number of obse
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Variance-and-standard-deviation">Variance and standard deviation<a class="anchor-link" href="#Variance-and-standard-deviation">&#194;&#182;</a></h1><p>The variance $\sigma^2$ is defined as the average of the squared deviations around the mean:
+<h1 id="Variance-and-standard-deviation">Variance and standard deviation<a class="anchor-link" href="#Variance-and-standard-deviation">&#182;</a></h1><p>The variance $\sigma^2$ is defined as the average of the squared deviations around the mean:
 $$ \sigma^2 = \frac{\sum_{i=1}^n (X_i - \mu)^2}{n} $$</p>
 <p>This is sometimes more convenient than the mean absolute deviation because absolute value is not differentiable, while squaring is smooth, and some optimization algorithms rely on differentiability.</p>
 <p>Standard deviation is defined as the square root of the variance, $\sigma$, and it is the easier of the two to interpret because it is in the same units as the observations.</p>
@@ -12025,7 +12026,7 @@ Confirming that 0.75 &gt; 0.36
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Semivariance-and-semideviation">Semivariance and semideviation<a class="anchor-link" href="#Semivariance-and-semideviation">&#194;&#182;</a></h1><p>Although variance and standard deviation tell us how volatile a quantity is, they do not differentiate between deviations upward and deviations downward. Often, such as in the case of returns on an asset, we are more worried about deviations downward. This is addressed by semivariance and semideviation, which only count the observations that fall below the mean. Semivariance is defined as
+<h1 id="Semivariance-and-semideviation">Semivariance and semideviation<a class="anchor-link" href="#Semivariance-and-semideviation">&#182;</a></h1><p>Although variance and standard deviation tell us how volatile a quantity is, they do not differentiate between deviations upward and deviations downward. Often, such as in the case of returns on an asset, we are more worried about deviations downward. This is addressed by semivariance and semideviation, which only count the observations that fall below the mean. Semivariance is defined as
 $$ \frac{\sum_{X_i &lt; \mu} (X_i - \mu)^2}{n_&lt;} $$
 where $n_&lt;$ is the number of observations which are smaller than the mean. Semideviation is the square root of the semivariance.</p>
 
@@ -12121,8 +12122,19 @@ Target semideviation of X: 13.7113092008
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="These-are-Only-Estimates">These are Only Estimates<a class="anchor-link" href="#These-are-Only-Estimates">&#194;&#182;</a></h1><p>All of these computations will give you sample statistics, that is standard deviation of a sample of data. Whether or not this reflects the current true population standard deviation is not always obvious, and more effort has to be put into determining that. This is especially problematic in finance because all data are time series and the mean and variance may change over time. There are many different techniques and subtleties here, some of which are address in other lectures in the <a href="https://www.quantopian.com/lectures">Quantopian Lecture Series</a>.</p>
-<p>In general do not assume that because somethign is true of your sample, it will remain true going forward.</p>
+<h1 id="These-are-Only-Estimates">These are Only Estimates<a class="anchor-link" href="#These-are-Only-Estimates">&#182;</a></h1><p>All of these computations will give you sample statistics, that is standard deviation of a sample of data. Whether or not this reflects the current true population standard deviation is not always obvious, and more effort has to be put into determining that. This is especially problematic in finance because all data are time series and the mean and variance may change over time. There are many different techniques and subtleties here, some of which are address in other lectures in the <a href="https://www.quantopian.com/lectures">Quantopian Lecture Series</a>.</p>
+<p>In general do not assume that because something is true of your sample, it will remain true going forward.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>"Quantitative Investment Analysis", by DeFusco, McLeavey, Pinto, and Runkle</li>
+</ul>
 
 </div>
 </div>
