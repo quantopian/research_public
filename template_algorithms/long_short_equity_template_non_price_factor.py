@@ -1,8 +1,7 @@
 """This algorithm demonstrates the concept of long-short equity.
-It uses two fundamental factors to rank equities in our universe.
-It then longs the top of the ranking and shorts the bottom.
-For information on long-short equity strategies, please see the corresponding
-lecture on our lectures page:
+It combines two fundamental factors and a sentiment factor to rank equities in our universe. 
+It then longs the top of the ranking and shorts the bottom. 
+For information on long-short equity strategies, please see the corresponding lecture on our lectures page:
 
 https://www.quantopian.com/lectures
 
@@ -19,15 +18,16 @@ from quantopian.algorithm import attach_pipeline, pipeline_output, order_optimal
 from quantopian.pipeline import Pipeline
 from quantopian.pipeline.factors import CustomFactor, SimpleMovingAverage, AverageDollarVolume, RollingLinearRegressionOfReturns
 from quantopian.pipeline.data.builtin import USEquityPricing
-from quantopian.pipeline.data import Fundamentals
+from quantopian.pipeline.data import morningstar
 from quantopian.pipeline.filters.morningstar import IsPrimaryShare
-from quantopian.pipeline.classifiers.fundamentals import Sector  
+from quantopian.pipeline.classifiers.morningstar import Sector
+from quantopian.pipeline.data.psychsignal import aggregated_twitter_withretweets_stocktwits as aggregated_sentiment
 
 import numpy as np
 import pandas as pd
 
 from quantopian.pipeline.filters import Q1500US
-import quantopian.experimental.optimize as opt
+import quantopian.optimize as opt
 
 # Constraint Parameters
 MAX_GROSS_LEVERAGE = 1.0
@@ -46,20 +46,19 @@ MAX_LONG_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
 MAX_SECTOR_EXPOSURE = 0.10
 MAX_BETA_EXPOSURE = 0.20
         
-class Momentum(CustomFactor):
+class Sentiment(CustomFactor):
     """
-    Here we define a basic momentum factor using a CustomFactor. We take
-    the momentum from the past year up until the beginning of this month
-    and penalize it by the momentum over this month. We are tempering a 
-    long-term trend with a short-term reversal in hopes that we get a
-    better measure of momentum.
+    Here we define a basic sentiment factor using a CustomFactor. We take
+    the quantity of bull-scored messages in excess of bear-scored messages and
+    find the average daily change in this metric across the past 200 days. The
+    hypothesis is that a long-term positive sentiment pattern is an indicator
+    of future returns.
     """
-    inputs = [USEquityPricing.close]
-    window_length = 252
-
-    def compute(self, today, assets, out, prices):
-        out[:] = ((prices[-21] - prices[-252])/prices[-252] -
-                  (prices[-1] - prices[-21])/prices[-21])
+    inputs =[aggregated_sentiment.bull_minus_bear]
+    window_length = 200
+    def compute(self, today, asset_ids, out, test):
+        
+        out[:] = np.nanmean(np.diff(test, axis=0), axis = 0)
 
 def make_pipeline():
     """
@@ -71,12 +70,12 @@ def make_pipeline():
     In particular, this function can be copy/pasted into research and run by itself.
     """
     
-    # Create our momentum, value, and quality factors
-    momentum = Momentum()
+    # Create our sentiment, value, and quality factors
+    sentiment = Sentiment()
     # By appending .latest to the imported morningstar data, we get builtin Factors
     # so there's no need to define a CustomFactor
-    value = Fundamentals.ebit.latest / Fundamentals.enterprise_value.latest
-    quality = Fundamentals.roe.latest
+    value = morningstar.income_statement.ebit.latest / morningstar.valuation.enterprise_value.latest
+    quality = morningstar.operation_ratios.roe.latest
     
     # Classify all securities by sector so that we can enforce sector neutrality later
     sector = Sector()
@@ -84,11 +83,11 @@ def make_pipeline():
     # Screen out non-desirable securities by defining our universe. 
     # Removes ADRs, OTCs, non-primary shares, LP, etc.
     # Also sets a minimum $500MM market cap filter and $5 price filter
-    mkt_cap_filter = Fundamentals.market_cap.latest >= 500000000    
+    mkt_cap_filter = morningstar.valuation.market_cap.latest >= 500000000    
     price_filter = USEquityPricing.close.latest >= 5
     universe = Q1500US() & price_filter & mkt_cap_filter
 
-    # Construct a Factor representing the rank of each asset by our momentum,
+    # Construct a Factor representing the rank of each asset by our sentiment,
     # value, and quality metrics. We aggregate them together here using simple
     # addition.
     #
@@ -96,7 +95,7 @@ def make_pipeline():
     # to meet our initial criteria **before** computing ranks.  This means that the
     # stock with rank 10.0 is the 10th-lowest stock that was included in the Q1500US.
     combined_rank = (
-        momentum.rank(mask=universe).zscore() +
+        sentiment.rank(mask=universe).zscore() +
         value.rank(mask=universe).zscore() +
         quality.rank(mask=universe).zscore()
     )
@@ -129,7 +128,7 @@ def make_pipeline():
         'combined_rank':combined_rank,
         'quality':quality,
         'value':value,
-        'momentum':momentum,
+        'sentiment':sentiment,
         'sector':sector,
         'market_beta':beta
     },
@@ -178,6 +177,7 @@ def recording_statements(context, data):
 def rebalance(context, data):
     ### Optimize API
     pipeline_data = context.pipeline_data
+    todays_universe = pipeline_data.index
     
     ### Extract from pipeline any specific risk factors you want 
     # to neutralize that you have already calculated 
@@ -207,7 +207,7 @@ def rebalance(context, data):
     # Add a sector neutrality constraint using the sector
     # classifier that we included in pipeline
     constraints.append(
-        opt.NetPartitionExposure.with_equal_bounds(
+        opt.NetGroupExposure.with_equal_bounds(
             labels=pipeline_data.sector,
             min=-MAX_SECTOR_EXPOSURE,
             max=MAX_SECTOR_EXPOSURE,
@@ -215,7 +215,7 @@ def rebalance(context, data):
     # Take the risk factors that you extracted above and
     # list your desired max/min exposures to them -
     # Here we selection +/- 0.01 to remain near 0.
-    neutralize_risk_factors = opt.WeightedExposure(
+    neutralize_risk_factors = opt.FactorExposure(
         loadings=risk_factor_exposures,
         min_exposures={'market_beta':-MAX_BETA_EXPOSURE},
         max_exposures={'market_beta':MAX_BETA_EXPOSURE}

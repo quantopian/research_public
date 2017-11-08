@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Case Study Traditional Value Factor"</title>
+  <title>Why Hedge Systematic Risk II</title>
 
   <style type="text/css">
     /*!
@@ -11767,14 +11767,14 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Traditional-Value-Factor-Algorithm">Traditional Value Factor Algorithm<a class="anchor-link" href="#Traditional-Value-Factor-Algorithm">&#194;&#182;</a></h1><p>By Gil Wassermann</p>
-<p>Strategy taken from "130/30: The New Long-Only" by Andrew Lo and Pankaj Patel</p>
+<h1 id="Why-You-Should-Hedge-Beta-and-Sector-Exposures-(Part-II)">Why You Should Hedge Beta and Sector Exposures (Part II)<a class="anchor-link" href="#Why-You-Should-Hedge-Beta-and-Sector-Exposures-(Part-II)">&#194;&#182;</a></h1><p>by Jonathan Larkin and Maxwell Margenot</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
-<li>www.quantopian.com/lectures</li>
-<li>github.com/quantopian/research_public</li>
+<li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
+<li><a href="https://github.com/quantopian/research_public">github.com/quantopian/research_public</a></li>
 </ul>
-<p>Notebook released under the Creative Commons Attribution 4.0 License. Please do not remove this attribution.</p>
+<p>Notebook released under the Creative Commons Attribution 4.0 License.</p>
+<hr>
 
 </div>
 </div>
@@ -11783,17 +11783,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Before the crisis of 2007, 130/30 funds were all the rage. The idea of a 130/30 fund is simple: take a long position of 130% and a short position of 30%; this combination gives a net exposure of 100% (the same as a long-only fund) as well as the added benefit of the ability to short stocks. The ability to short in a trading strategy is crucial as it allows a fund manager to capitalize on a security's poor performance, which is impossible in a traditional, long-only strategy.</p>
-<p>This notebook, using factors outlined by Andrew Lo and Pankaj Patel in "130/30: The New Long Only", will demonstrate how to create an algorithmic 130/30 strategy. It will also highlight Quantopian's Pipeline API which is a powerful tool for developing factor trading strategies.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>First, let us import all necessary libraries and functions for this algorithm</p>
+<p>In the first lecture on <a href="quantopian.com/lectures/why-hedge-systematic-risk-part-i">Why You Should Hedge Beta and Sector Exposure</a>, we covered the information coefficient (IC) and effective breadth, providing yet more reasons to make as many independent bets as possible. Here we expand upon the concepts detailed there by decomposing portfolios of varying numbers of securities to further explore the effects of systematic risk.</p>
 
 </div>
 </div>
@@ -11804,13 +11794,7 @@ ul.typeahead-list > li > a {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">quantopian.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="kn">from</span> <span class="nn">quantopian.pipeline.data.builtin</span> <span class="kn">import</span> <span class="n">USEquityPricing</span>
-<span class="kn">from</span> <span class="nn">quantopian.research</span> <span class="kn">import</span> <span class="n">run_pipeline</span>
-<span class="kn">from</span> <span class="nn">quantopian.pipeline.data</span> <span class="kn">import</span> <span class="n">Fundamentals</span>
-<span class="kn">from</span> <span class="nn">quantopian.pipeline.factors</span> <span class="kn">import</span> <span class="n">CustomFactor</span>
 </pre></div>
 
 </div>
@@ -11822,13 +11806,13 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Traditional-Value">Traditional Value<a class="anchor-link" href="#Traditional-Value">&#194;&#182;</a></h1><p>In this notebook, we will develop a strategy based on the "traditional value" metrics described in the Lo/Patel whitepaper. The factors employed in this strategy designate stocks as either cheap or expensive using classic fundamental analysis. The factors that Lo/Patel used are:</p>
+<h2 id="Hedging-Beta-and-Sector-Risk-is-Good-for-Allocators-(Which-is-Good-for-You!)">Hedging Beta and Sector Risk is Good for Allocators (Which is Good for You!)<a class="anchor-link" href="#Hedging-Beta-and-Sector-Risk-is-Good-for-Allocators-(Which-is-Good-for-You!)">&#194;&#182;</a></h2><p>Let's work from two basic beliefs:</p>
 <ul>
-<li>Dividend Yield</li>
-<li>Price to Book Value</li>
-<li>Price to Trailing 12-Month Sales</li>
-<li>Price to Trainling 12-Month Cash Flows</li>
+<li>You would like someone to fund your algorithm</li>
+<li>The institution that funds your algorithm is not going to allocate 100% of its money to you. In other words, your algorithm is one in a portfolio of algorithms.</li>
 </ul>
+<p>The implication of the second belief is subtle. Why should it matter that your high Sharpe algo is part of a portfolio? The key to understanding the importance of this and what it has to do with beta and sector exposure is the following mathematical result:</p>
+<p><strong>In a portfolio, stock specific risk can be diversified out while common factor risk cannot.</strong></p>
 
 </div>
 </div>
@@ -11837,8 +11821,13 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dividend-Yield">Dividend Yield<a class="anchor-link" href="#Dividend-Yield">&#194;&#182;</a></h2><p>Dividend yield is calculated as:</p>
-$$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>When a company makes profit, it faces a choice. It could either reinvest those profits in the company with an eye to increase efficiency, purchase new technology, etc. or it could pay dividends to its equity holders. While reinvestment may increase a company's future share price and thereby reward investors, the most concrete way equity holders are rewarded is through dividends. An equity with a high dividend yield is particularly attractive as the quantity of dividends paid to investors represent a larger proportion of the share price itself. Now we shall create a Dividend Yield factor using the Pipeline API framework and Pipeline's list of fundamental values.</p>
+<div class="alert alert-warning">
+<b>TL;DR:</b> Beta and sector exposure are **common factors**, i.e., they are among a handful of risk characteristics that are shared among all stocks. Risk exposure to common factors does not diversify away in a portfolio of algos. An allocator will not be able to make a large allocation to you if your algo presents common factor risk. The combination of many algos with modest common factor risk can lead to overwhelming common factor risk at the portfolio level. Allocators do not like this. If you want to get a large capital allocation, you must have low beta and sector exposure consistently over time.
+</div><h1 id="Foundations">Foundations<a class="anchor-link" href="#Foundations">&#194;&#182;</a></h1><h3 id="Single-Stock-Risk-Decomposition">Single Stock Risk Decomposition<a class="anchor-link" href="#Single-Stock-Risk-Decomposition">&#194;&#182;</a></h3><p>To build intuition, let's posit a single factor model:</p>
+$$r_i = \alpha_i + \beta_i r_m + \epsilon_i$$<p>where $\alpha_i$ is the intercept, $\epsilon_i$ is the error, and $r_m$ is the market return. This is the <a href="https://www.quantopian.com/lectures/the-capital-asset-pricing-model-and-arbitrage-pricing-theory">Capital Asset Pricing Model (CAPM)</a>, which posits that the returns to a stock can be attributable to its beta-weighted exposure to the market and a return which is idiosyncratic to that stock. Two important assumptions here are that the $\epsilon_i$s are uncorrelated to the market and each other across stocks. See the <a href="https://www.quantopian.com/lectures/beta-hedging">Lecture on Beta Hedging</a> for more background.</p>
+<p>In this case, the "risk", as measured by the variance, for an individual stock is:</p>
+$$\sigma_i^2 = \beta_i^2 \sigma_m^2 + \sigma_{\epsilon_i}^2$$<p>A stocks variance is broken into the <strong>common risk</strong>, $\beta_i^2\sigma_m^2$, and <strong>specific risk</strong>, $\sigma_{\epsilon_i}$. <strong>Common risk</strong> is risk in the stock driven by market risk which is common among all stocks proportionate to the stock's beta. <strong>Specific risk</strong> is the risk that is unique to that individual stock.</p>
+<p>Let's look at two examples and decompose the risk into the percent due to common factor risk.</p>
 
 </div>
 </div>
@@ -11848,12 +11837,11 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 1 : Dividend Yield</span>
-<span class="k">class</span> <span class="nc">Div_Yield</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">div_yield5_year</span><span class="p">]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">d_y</span><span class="p">):</span>
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">d_y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">stock_risk</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">market_vol</span><span class="p">,</span> <span class="n">idio_vol</span><span class="p">):</span>
+    <span class="n">common_risk</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">market_vol</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">specific_risk</span> <span class="o">=</span> <span class="n">idio_vol</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">total_risk</span> <span class="o">=</span> <span class="n">common_risk</span> <span class="o">+</span> <span class="n">specific_risk</span>
+    <span class="k">return</span> <span class="n">total_risk</span><span class="p">,</span> <span class="n">common_risk</span><span class="o">/</span><span class="n">total_risk</span>
 </pre></div>
 
 </div>
@@ -11865,8 +11853,7 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>While this factor could be calculated using other fundamental metrics, Fundamentals removes the need for any calculation. It is good practice to check the list of <a href="https://www.quantopian.com/help/fundamentals">fundamentals</a> before creating a custom factor from scratch.</p>
-<p>We will initialize a temporary Pipeline to get a sense of the values.</p>
+<p>We take two separate stocks, each with different market beta exposures and idiosyncratic volatility.</p>
 
 </div>
 </div>
@@ -11876,609 +11863,34 @@ $$Dividend\;Yield = \frac{Annual\;Dividends\;per\;share}{Price\;per\;share}$$<p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># create the pipeline</span>
-<span class="n">temp_pipe_1</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-
-<span class="c"># add the factor to the pipeline</span>
-<span class="n">temp_pipe_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Div_Yield</span><span class="p">(),</span> <span class="s">&#39;Dividend Yield&#39;</span><span class="p">)</span>
-
-<span class="c"># run the pipeline and get data for first 5 equities</span>
-<span class="n">run_pipeline</span><span class="p">(</span><span class="n">temp_pipe_1</span><span class="p">,</span> <span class="n">start_date</span> <span class="o">=</span> <span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># Betas</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="mf">1.1</span>
+<span class="c"># Market volatility</span>
+<span class="n">market_vol</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="c"># Idiosyncratic volatilities</span>
+<span class="n">idio_vol_1</span> <span class="o">=</span> <span class="mf">0.10</span> 
+<span class="n">idio_vol_2</span> <span class="o">=</span> <span class="mf">0.07</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[3]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Dividend Yield</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [ARNC])</th>
-      <td>0.0110</td>
-    </tr>
-    <tr>
-      <th>Equity(41 [ARCB])</th>
-      <td>0.0064</td>
-    </tr>
-    <tr>
-      <th>Equity(52 [ABM])</th>
-      <td>0.0240</td>
-    </tr>
-    <tr>
-      <th>Equity(62 [ABT])</th>
-      <td>0.0279</td>
-    </tr>
-    <tr>
-      <th>Equity(64 [ABX])</th>
-      <td>0.0192</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Price-to-Book-Value">Price to Book Value<a class="anchor-link" href="#Price-to-Book-Value">&#194;&#182;</a></h2><p>Price to Book Value (a.k.a Price to Book Ratio) is calculated as:</p>
-$$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net Asset Value per share can be thought of (very roughly) as a company's total assets less its total liabilities, all divided by the number of shares outstanding.</p>
-<p>The P/B Ratio gives a sense of a stock being either over- or undervalued. A high P/B ratio suggests that a stock's price is overvalued, and should therefore be shorted, whereas a low P/B ratio is attractive as the stock gained by purchasing the equity is hypothetically "worth more" than the price paid for it.</p>
-<p>We will now create a P/B Ratio custom factor and look at some of the results.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 2 : P/B Ratio</span>
-<span class="k">class</span> <span class="nc">Price_to_Book</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">pb_ratio</span><span class="p">]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">total_1</span><span class="p">,</span> <span class="n">pct_common_1</span> <span class="o">=</span> <span class="n">stock_risk</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">market_vol</span><span class="p">,</span> <span class="n">idio_vol_1</span><span class="p">)</span>
+<span class="n">total_2</span><span class="p">,</span> <span class="n">pct_common_2</span> <span class="o">=</span> <span class="n">stock_risk</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span> <span class="n">market_vol</span><span class="p">,</span> <span class="n">idio_vol_2</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">pbr</span><span class="p">):</span>
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">pbr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        
-<span class="c"># create the Pipeline</span>
-<span class="n">temp_pipe_2</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">&quot;Stock 1 risk (annualized standard deviation): </span><span class="si">%0.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">total_1</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Stock 1: percent of total risk due to common risk: </span><span class="si">%0.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">pct_common_1</span>
 
-<span class="c"># add the factor to the Pipeline</span>
-<span class="n">temp_pipe_2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Price_to_Book</span><span class="p">(),</span> <span class="s">&#39;P/B Ratio&#39;</span><span class="p">)</span>
-
-<span class="c"># run the Pipeline and get data for first 5 equities</span>
-<span class="n">run_pipeline</span><span class="p">(</span><span class="n">temp_pipe_2</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>P/B Ratio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [ARNC])</th>
-      <td>0.899825</td>
-    </tr>
-    <tr>
-      <th>Equity(21 [AAME])</th>
-      <td>0.976077</td>
-    </tr>
-    <tr>
-      <th>Equity(24 [AAPL])</th>
-      <td>5.632086</td>
-    </tr>
-    <tr>
-      <th>Equity(25 [ARNC_PR])</th>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>Equity(31 [ABAX])</th>
-      <td>5.281542</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There are two points to make about this data series.</p>
-<p>Firstly, AA_PR's P/B Ratio is given as NaN by Pipeline. NaN stands for "not a number" and occurs when a value can not be fetched by Pipeline. Eventually, we will remove these NaN values from the dataset as they often lead to confusing errors when manipulating the data.</p>
-<p>Secondly, a low P/B Ratio and a high Dividend Yield are attractive for investors, whereas a a high P/B Ratio and a low Dividend Yield are unattractive. Therefore, we will "invert" the P/B ratio by making each value negative in the factor output so that, when the data is aggregated later in the algorithm, the maxima and minima have the same underlying "meaning".</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Price-to-Trailing-12-Month-Sales">Price to Trailing 12-Month Sales<a class="anchor-link" href="#Price-to-Trailing-12-Month-Sales">&#194;&#182;</a></h2><p>This is calculated as a simple ratio between price per share and trailing 12-month (TTM) sales.</p>
-<p>TTM is a transformation rather than a metric and effectively calculates improvement or deterioration of a fundamental value from a particular quarter one year previously. For example, if one wanted to calculate today's TTM Sales for company XYZ, one would take the most recent quarter's revenue and divide it by the difference between this quarter's revenue and this quarter's revenue last year added to the revenue as given by the company's most recent fiscal year-end filing.</p>
-<p>To calculate the exact TTM of a security is indeed possible using Pipeline; however, the code required is slow. Luckily, this value can be well approximated by the built-in Fundamental Morningstar ratios, which use annual sales to calculate the Price to Sales fundamental value. This slight change boosts the code's speed enormously yet has very little impact on the results of the strategy itself.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Price to TTM Sales is similar to the P/B Ratio in terms of function. The major difference in these two ratios is the fact that inclusion of TTM means that seasonal fluctuations are minimized, as previous data is used to smooth the value. In our case, annualized values accomplish this same smoothing.</p>
-<p>Also, note that the values produced are negative; this factor requires the same inversion as the P/B Ratio.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 3 : Price to Trailing 12 Month Sales       </span>
-<span class="k">class</span> <span class="nc">Price_to_TTM_Sales</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">ps_ratio</span><span class="p">]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
-    
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">ps</span><span class="p">):</span>
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        
-<span class="c"># create the pipeline</span>
-<span class="n">temp_pipe_3</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-
-<span class="c"># add the factor to the pipeline</span>
-<span class="n">temp_pipe_3</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Price_to_TTM_Sales</span><span class="p">(),</span> <span class="s">&#39;Price / TTM Sales&#39;</span><span class="p">)</span>
-
-<span class="c"># run the pipeline and get data for first 5 equities</span>
-<span class="n">run_pipeline</span><span class="p">(</span><span class="n">temp_pipe_3</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Price / TTM Sales</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [ARNC])</th>
-      <td>-0.453038</td>
-    </tr>
-    <tr>
-      <th>Equity(21 [AAME])</th>
-      <td>-0.629844</td>
-    </tr>
-    <tr>
-      <th>Equity(24 [AAPL])</th>
-      <td>-2.988556</td>
-    </tr>
-    <tr>
-      <th>Equity(25 [ARNC_PR])</th>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>Equity(31 [ABAX])</th>
-      <td>-5.640918</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Price-to-Trailing-12-Month-Cashflows">Price to Trailing 12-Month Cashflows<a class="anchor-link" href="#Price-to-Trailing-12-Month-Cashflows">&#194;&#182;</a></h2><p>This is calculated as a simple ratio between price per share and TTM free cashflow  (here using the built-in Fundamental Morningstar ratio as an approximaton).</p>
-<p>This ratio serves a similar function to the previous two. A future notebook will explore the subtle differences in these metrics, but they largely serve the same purpose. Once again, low values are attractive and high values are unattractive, so the metric must be inverted.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Custom Factor 4 : Price to Trailing 12 Month Cashflow</span>
-<span class="k">class</span> <span class="nc">Price_to_TTM_Cashflows</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">pcf_ratio</span><span class="p">]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
-    
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">pcf</span><span class="p">):</span>
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="o">-</span><span class="n">pcf</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> 
-        
-<span class="c"># create the pipeline</span>
-<span class="n">temp_pipe_4</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-
-<span class="c"># add the factor to the pipeline</span>
-<span class="n">temp_pipe_4</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Price_to_TTM_Cashflows</span><span class="p">(),</span> <span class="s">&#39;Price / TTM Cashflows&#39;</span><span class="p">)</span>
-
-<span class="c"># run the pipeline and get data for first 5 equities</span>
-<span class="n">run_pipeline</span><span class="p">(</span><span class="n">temp_pipe_4</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Price / TTM Cashflows</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [ARNC])</th>
-      <td>-4.929472</td>
-    </tr>
-    <tr>
-      <th>Equity(21 [AAME])</th>
-      <td>-34.732899</td>
-    </tr>
-    <tr>
-      <th>Equity(24 [AAPL])</th>
-      <td>-8.594865</td>
-    </tr>
-    <tr>
-      <th>Equity(25 [ARNC_PR])</th>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>Equity(31 [ABAX])</th>
-      <td>-42.920180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Full-Pipeline">The Full Pipeline<a class="anchor-link" href="#The-Full-Pipeline">&#194;&#182;</a></h2><p>Now that each individual factor has been added, it is now time to get all the necessary data at once. In the algorithm, this will take place once every day.</p>
-<p>Later in the process, we will need a factor in order to create an approximate S&amp;P500, so we will also include another factor called SPY_proxy (SPY is an ETF that tracks the S&amp;P500). The S&amp;P500 is a collection of 500 of the largest companies traded on the stock market. Our interpretation of the S&amp;P500 is a group of 500 companies with the greatest market capitalizations; however, the actual S&amp;P500 will be slightly different as Standard and Poors, who create the index, have a more nuanced algorithm for calculation.</p>
-<p>We will also alter our P/B Ratio factor in order to account for the inversion.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># This factor creates the synthetic S&amp;P500</span>
-<span class="k">class</span> <span class="nc">SPY_proxy</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">market_cap</span><span class="p">]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
-    
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">mc</span><span class="p">):</span>
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">mc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        
-<span class="c"># Custom Factor 2 : P/B Ratio</span>
-<span class="k">class</span> <span class="nc">Price_to_Book</span><span class="p">(</span><span class="n">CustomFactor</span><span class="p">):</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fundamentals</span><span class="o">.</span><span class="n">pb_ratio</span><span class="p">]</span>
-    <span class="n">window_length</span> <span class="o">=</span> <span class="mi">1</span>
-
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">pbr</span><span class="p">):</span>
-        <span class="n">out</span><span class="p">[:]</span> <span class="o">=</span> <span class="o">-</span><span class="n">pbr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        
-<span class="k">def</span> <span class="nf">Data_Pull</span><span class="p">():</span>
-    
-    <span class="c"># create the piepline for the data pull</span>
-    <span class="n">Data_Pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-    
-    <span class="c"># create SPY proxy</span>
-    <span class="n">Data_Pipe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">SPY_proxy</span><span class="p">(),</span> <span class="s">&#39;SPY Proxy&#39;</span><span class="p">)</span>
-
-    <span class="c"># Div Yield</span>
-    <span class="n">Data_Pipe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Div_Yield</span><span class="p">(),</span> <span class="s">&#39;Dividend Yield&#39;</span><span class="p">)</span> 
-    
-    <span class="c"># Price to Book</span>
-    <span class="n">Data_Pipe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Price_to_Book</span><span class="p">(),</span> <span class="s">&#39;Price to Book&#39;</span><span class="p">)</span>
-    
-    <span class="c"># Price / TTM Sales</span>
-    <span class="n">Data_Pipe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Price_to_TTM_Sales</span><span class="p">(),</span> <span class="s">&#39;Price / TTM Sales&#39;</span><span class="p">)</span>
-    
-    <span class="c"># Price / TTM Cashflows</span>
-    <span class="n">Data_Pipe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Price_to_TTM_Cashflows</span><span class="p">(),</span> <span class="s">&#39;Price / TTM Cashflow&#39;</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">Data_Pipe</span>
-
-<span class="c"># NB: Data pull is a function that returns a Pipeline object, so need ()</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span><span class="n">Data_Pull</span><span class="p">(),</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2015-11-11&#39;</span><span class="p">)</span>
-<span class="n">results</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Dividend Yield</th>
-      <th>Price / TTM Cashflow</th>
-      <th>Price / TTM Sales</th>
-      <th>Price to Book</th>
-      <th>SPY Proxy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">2015-11-11 00:00:00+00:00</th>
-      <th>Equity(2 [ARNC])</th>
-      <td>0.011</td>
-      <td>-4.929472</td>
-      <td>-0.453038</td>
-      <td>-0.899825</td>
-      <td>1.128021e+10</td>
-    </tr>
-    <tr>
-      <th>Equity(21 [AAME])</th>
-      <td>NaN</td>
-      <td>-34.732899</td>
-      <td>-0.629844</td>
-      <td>-0.976077</td>
-      <td>1.029634e+08</td>
-    </tr>
-    <tr>
-      <th>Equity(24 [AAPL])</th>
-      <td>NaN</td>
-      <td>-8.594865</td>
-      <td>-2.988556</td>
-      <td>-5.632086</td>
-      <td>6.722177e+11</td>
-    </tr>
-    <tr>
-      <th>Equity(25 [ARNC_PR])</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>Equity(31 [ABAX])</th>
-      <td>NaN</td>
-      <td>-42.920180</td>
-      <td>-5.640918</td>
-      <td>-5.281542</td>
-      <td>1.186963e+09</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Aggregation">Aggregation<a class="anchor-link" href="#Aggregation">&#194;&#182;</a></h2><p>Now that we have all our data, we need to manipulate this in order to create a single ranking of the securities. Lo/Patel recommend the following algorithm:</p>
-<ul>
-<li><p>Extract the S&amp;P500 from the set of equities and find the mean and standard deviation of each factor for this dataset (standard_frame_compute)</p>
-</li>
-<li><p>Use these computed values to standardize each factor (standard_frame_compute)</p>
-</li>
-<li><p>Replace values that are greater that 10 or less that -10 with 10 and -10 respectively in order to limit the effect of outliers (filter_fn)</p>
-</li>
-<li><p>Sum these values for each equity and divide by the number of factors in order to give a value between -10 and 10 (composite score)</p>
-</li>
-</ul>
-<p>The code for this is shown below.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># limit effect of outliers</span>
-<span class="k">def</span> <span class="nf">filter_fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">10</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">10.0</span>
-    <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="mf">10.0</span>
-    <span class="k">return</span> <span class="n">x</span>   
-
-<span class="c"># standardize using mean and sd of S&amp;P500</span>
-<span class="k">def</span> <span class="nf">standard_frame_compute</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-    
-    <span class="c"># basic clean of dataset to remove infinite values</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-    
-    <span class="c"># need standardization params from synthetic S&amp;P500</span>
-    <span class="n">df_SPY</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;SPY Proxy&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-    <span class="c"># create separate dataframe for SPY</span>
-    <span class="c"># to store standardization values</span>
-    <span class="n">df_SPY</span> <span class="o">=</span> <span class="n">df_SPY</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
-    
-    <span class="c"># get dataframes into numpy array</span>
-    <span class="n">df_SPY</span> <span class="o">=</span> <span class="n">df_SPY</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
-    
-    <span class="c"># store index values</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
-    
-    <span class="n">df_standard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    
-    
-    <span class="k">for</span> <span class="n">col_SPY</span><span class="p">,</span> <span class="n">col_full</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df_SPY</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
-        
-        <span class="c"># summary stats for S&amp;P500</span>
-        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">col_SPY</span><span class="p">)</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">col_SPY</span><span class="p">)</span>
-        <span class="n">col_standard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(((</span><span class="n">col_full</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">))</span> 
-
-        <span class="c"># create vectorized function (lambda equivalent)</span>
-        <span class="n">fltr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">filter_fn</span><span class="p">)</span>
-        <span class="n">col_standard</span> <span class="o">=</span> <span class="p">(</span><span class="n">fltr</span><span class="p">(</span><span class="n">col_standard</span><span class="p">))</span>
-        
-        <span class="c"># make range between -10 and 10</span>
-        <span class="n">col_standard</span> <span class="o">=</span> <span class="p">(</span><span class="n">col_standard</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        
-        <span class="c"># attach calculated values as new row in df_standard</span>
-        <span class="n">df_standard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">df_standard</span><span class="p">,</span> <span class="n">col_standard</span><span class="p">))</span>
-     
-    <span class="c"># get rid of first entry (empty scores)</span>
-    <span class="n">df_standard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">df_standard</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="p">(</span><span class="n">df_standard</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
-
-<span class="c"># Sum up and sort data</span>
-<span class="k">def</span> <span class="nf">composite_score</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-
-    <span class="c"># sum up transformed data</span>
-    <span class="n">df_composite</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    
-    <span class="c"># put into a pandas dataframe and connect numbers</span>
-    <span class="c"># to equities via reindexing</span>
-    <span class="n">df_composite</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_composite</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
-    
-    <span class="c"># sort descending</span>
-    <span class="n">df_composite</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">df_composite</span>
-
-<span class="c"># compute the standardized values</span>
-<span class="n">results_standard</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">standard_frame_compute</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-
-<span class="c"># aggregate the scores</span>
-<span class="n">ranked_scores</span> <span class="o">=</span> <span class="n">composite_score</span><span class="p">(</span><span class="n">results_standard</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
-
-<span class="c"># print the final rankings</span>
-<span class="n">ranked_scores</span>
+<span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Stock 2 risk (annualized standard deviation): </span><span class="si">%0.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">total_2</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Stock 2: percent of total risk due to common risk: </span><span class="si">%0.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">pct_common_2</span>
 </pre></div>
 
 </div>
@@ -12494,85 +11906,14 @@ $$P/B\;Ratio = \frac{Price\;per\;share}{Net\;Asset\;Value\;per\;share}$$<p>Net A
 <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:17: FutureWarning: sort(columns=....) is deprecated, use sort_values(by=.....)
-/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:66: FutureWarning: sort is deprecated, use sort_values(inplace=True) for INPLACE sorting
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Stock 1 risk (annualized standard deviation): 0.2059 
+Stock 1: percent of total risk due to common risk: 0.7642 
+
+Stock 2 risk (annualized standard deviation): 0.1792 
+Stock 2: percent of total risk due to common risk: 0.8475 
 </pre>
 </div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(2015-11-11 00:00:00+00:00, Equity(35162 [ARR]))      1.941979
-(2015-11-11 00:00:00+00:00, Equity(27019 [WIN]))      1.670852
-(2015-11-11 00:00:00+00:00, Equity(39622 [NKA]))      1.631767
-(2015-11-11 00:00:00+00:00, Equity(28076 [RSO]))      1.575746
-(2015-11-11 00:00:00+00:00, Equity(32675 [BBEP]))     1.508037
-(2015-11-11 00:00:00+00:00, Equity(27993 [LINE]))     1.448997
-(2015-11-11 00:00:00+00:00, Equity(11461 [DOM]))      1.439093
-(2015-11-11 00:00:00+00:00, Equity(24102 [NRP]))      1.415778
-(2015-11-11 00:00:00+00:00, Equity(5061 [MSFT]))      1.408201
-(2015-11-11 00:00:00+00:00, Equity(34662 [NYMT]))     1.333686
-(2015-11-11 00:00:00+00:00, Equity(8347 [XOM]))       1.324958
-(2015-11-11 00:00:00+00:00, Equity(33159 [LGCY]))     1.251848
-(2015-11-11 00:00:00+00:00, Equity(33178 [MVO]))      1.247968
-(2015-11-11 00:00:00+00:00, Equity(38477 [CYS]))      1.226731
-(2015-11-11 00:00:00+00:00, Equity(35054 [NMM]))      1.213649
-(2015-11-11 00:00:00+00:00, Equity(3149 [GE]))        1.178168
-(2015-11-11 00:00:00+00:00, Equity(38887 [TWO]))      1.170784
-(2015-11-11 00:00:00+00:00, Equity(40060 [FULL]))     1.162997
-(2015-11-11 00:00:00+00:00, Equity(26517 [PSEC]))     1.160164
-(2015-11-11 00:00:00+00:00, Equity(6653 [T]))         1.146484
-(2015-11-11 00:00:00+00:00, Equity(21907 [MNDO]))     1.107410
-(2015-11-11 00:00:00+00:00, Equity(32443 [PGH]))      1.087876
-(2015-11-11 00:00:00+00:00, Equity(32293 [OBE]))      1.056844
-(2015-11-11 00:00:00+00:00, Equity(7143 [SAN]))       1.049898
-(2015-11-11 00:00:00+00:00, Equity(17657 [ORAN]))     1.046273
-(2015-11-11 00:00:00+00:00, Equity(27487 [RDS_A]))    1.040481
-(2015-11-11 00:00:00+00:00, Equity(39942 [AT]))       1.038906
-(2015-11-11 00:00:00+00:00, Equity(34931 [VNR]))      1.034368
-(2015-11-11 00:00:00+00:00, Equity(33024 [KCAP]))     1.026654
-(2015-11-11 00:00:00+00:00, Equity(27470 [RDS_B]))    1.022292
-                                                        ...   
-(2015-11-11 00:00:00+00:00, Equity(26017 [UTG]))     -0.982711
-(2015-11-11 00:00:00+00:00, Equity(26781 [MKTX]))    -0.983476
-(2015-11-11 00:00:00+00:00, Equity(34797 [MAIN]))    -1.026855
-(2015-11-11 00:00:00+00:00, Equity(1068 [BPT]))      -1.153233
-(2015-11-11 00:00:00+00:00, Equity(41886 [FNV]))     -1.172843
-(2015-11-11 00:00:00+00:00, Equity(22545 [NXJ]))     -1.209950
-(2015-11-11 00:00:00+00:00, Equity(28356 [GLO]))     -1.214150
-(2015-11-11 00:00:00+00:00, Equity(18522 [ARMH]))    -1.248968
-(2015-11-11 00:00:00+00:00, Equity(27200 [GLQ]))     -1.287656
-(2015-11-11 00:00:00+00:00, Equity(26521 [GLV]))     -1.289762
-(2015-11-11 00:00:00+00:00, Equity(7551 [TPL]))      -1.306126
-(2015-11-11 00:00:00+00:00, Equity(40168 [CFD]))     -1.336972
-(2015-11-11 00:00:00+00:00, Equity(24489 [GLNG]))    -1.348952
-(2015-11-11 00:00:00+00:00, Equity(5272 [NRT]))      -1.370774
-(2015-11-11 00:00:00+00:00, Equity(24731 [LEN_B]))   -1.519243
-(2015-11-11 00:00:00+00:00, Equity(1423 [CET]))      -1.525415
-(2015-11-11 00:00:00+00:00, Equity(4263 [KMB]))      -1.531782
-(2015-11-11 00:00:00+00:00, Equity(2382 [DXR]))      -1.561114
-(2015-11-11 00:00:00+00:00, Equity(2404 [EAT]))      -1.562417
-(2015-11-11 00:00:00+00:00, Equity(35902 [PM]))      -1.570361
-(2015-11-11 00:00:00+00:00, Equity(1936 [CSWC]))     -1.618194
-(2015-11-11 00:00:00+00:00, Equity(26414 [FEN]))     -1.750639
-(2015-11-11 00:00:00+00:00, Equity(20277 [RAI]))     -1.769105
-(2015-11-11 00:00:00+00:00, Equity(4417 [LEN]))      -1.885524
-(2015-11-11 00:00:00+00:00, Equity(2420 [ECF]))      -1.917463
-(2015-11-11 00:00:00+00:00, Equity(4849 [SPGI]))     -1.927483
-(2015-11-11 00:00:00+00:00, Equity(33555 [CQP]))     -2.062992
-(2015-11-11 00:00:00+00:00, Equity(4564 [LB]))       -2.086269
-(2015-11-11 00:00:00+00:00, Equity(5281 [NEN]))      -2.200646
-(2015-11-11 00:00:00+00:00, Equity(13508 [CLB]))     -2.521344
-dtype: float64</pre>
-</div>
-
 </div>
 
 </div>
@@ -12583,8 +11924,200 @@ dtype: float64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Stock-Choice">Stock Choice<a class="anchor-link" href="#Stock-Choice">&#194;&#182;</a></h2><p>Now that we have ranked our securities, we need to choose a long basket and a short basket. Since we need to keep the ratio 130/30 between longs and shorts, why not have 26 longs and 6 shorts (in the algorithm we will weigh each of these equally, giving us our desired leverage and exposure).</p>
-<p>On the graph below, we plot a histogram of the securities to get a sense of the distribution of scores. The red lines represent the cutoff points for the long and short buckets. One thing to notice is that the vast majority of equities are ranked near the middle of the histogram, whereas the tails are quite thin. This would suggest that there is something special about the securities chosen to be in these baskets, and -hopefully- these special qualities will yield positive alpha for the strategy.</p>
+<p>This is just looking at the breakdown of the risk associated with each individual stock. We can combine these into a portfolio to see how their combined volatility is affected by common factor risk.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Two-Stock-Portfolio-Risk-Decomposition">Two Stock Portfolio Risk Decomposition<a class="anchor-link" href="#Two-Stock-Portfolio-Risk-Decomposition">&#194;&#182;</a></h3><p>Now let's imagine you have a two stock portfolio with percentage weights $w_1$ and $w_2$. The risk of the portfolio (derived below), $\Pi$, under the one-factor model is then:</p>
+$$\sigma_{\Pi}^2 = \overbrace{\sigma_m^2\left( w_1^2\beta_1^2 + w_2^2\beta_2^2 + 2w_1w_2\beta_1\beta_1 \right)}^{\text{common risk}} + \overbrace{w_1^2\epsilon_1^2 + w_2^2 \epsilon_2^2}^{\text{specifc risk}}$$<p>This is the simplest possible example of portfolio factor risk, one factor and two assets, yet we can already use it to gain intuition about portfolio risk and hedging.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># The weights for each security in our portfolio</span>
+<span class="n">w1</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="mf">0.5</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">two_stocks_one_factor</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">market_vol</span><span class="p">,</span> <span class="n">idio_vol_1</span><span class="p">,</span> <span class="n">idio_vol_2</span><span class="p">):</span>
+    <span class="n">common_risk</span> <span class="o">=</span> <span class="p">(</span><span class="n">market_vol</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="n">w1</span><span class="o">*</span><span class="n">b1</span><span class="o">*</span><span class="n">b1</span> <span class="o">+</span> <span class="n">w2</span><span class="o">*</span><span class="n">w2</span><span class="o">*</span><span class="n">b2</span><span class="o">*</span><span class="n">b2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">w1</span><span class="o">*</span><span class="n">w2</span><span class="o">*</span><span class="n">b1</span><span class="o">*</span><span class="n">b2</span><span class="p">)</span>
+    <span class="n">specific_risk</span> <span class="o">=</span>  <span class="n">w1</span><span class="o">*</span><span class="n">w1</span><span class="o">*</span><span class="n">idio_vol_1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">w2</span><span class="o">*</span><span class="n">w2</span><span class="o">*</span><span class="n">idio_vol_2</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">total_risk</span> <span class="o">=</span> <span class="n">common_risk</span> <span class="o">+</span> <span class="n">specific_risk</span>
+    <span class="k">return</span> <span class="n">total_risk</span><span class="p">,</span> <span class="n">common_risk</span><span class="o">/</span><span class="n">total_risk</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The risk for a two stock, equally-weighted, long-only portfolio:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">total</span><span class="p">,</span> <span class="n">pct_common</span> <span class="o">=</span> <span class="n">two_stocks_one_factor</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">market_vol</span><span class="p">,</span> <span class="n">idio_vol_1</span><span class="p">,</span> <span class="n">idio_vol_2</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Portfolio risk (annualized standard deviation): </span><span class="si">%0.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Percent of total risk due to common risk: </span><span class="si">%0.4f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">pct_common</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Portfolio risk (annualized standard deviation): 0.1830 
+Percent of total risk due to common risk: 0.8887
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The astute reader will notice that the proportion of risk in the portfolio due to common factor risk is <strong>larger for the portfolio</strong> than for the weighted sum of the common risk proportion for the two components. To repeat the key point in this lecture: <strong>In a portfolio, stock specific risk diversifies while common factor risk does not.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The risk for a two stock, beta-hedged long-short portfolio:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">w2</span> <span class="o">=</span> <span class="o">-</span><span class="n">w1</span><span class="o">*</span><span class="n">b1</span><span class="o">/</span><span class="n">b2</span>    <span class="c"># set weight 2 such that the portfolio has zero beta</span>
+
+<span class="n">total</span><span class="p">,</span> <span class="n">pct_common</span> <span class="o">=</span> <span class="n">two_stocks_one_factor</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">market_vol</span><span class="p">,</span> <span class="n">idio_vol_1</span><span class="p">,</span> <span class="n">idio_vol_2</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Portfolio risk (annualized standard deviation): </span><span class="si">%0.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Percent of total risk due to common risk: </span><span class="si">%0.4f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">pct_common</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Portfolio risk (annualized standard deviation): 0.0629 
+Percent of total risk due to common risk: 0.0000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that we eliminated <strong>all</strong> the common risk with a perfect beta hedge.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Portfolio-Risk">Portfolio Risk<a class="anchor-link" href="#Portfolio-Risk">&#194;&#182;</a></h1><p>If $X$ is a column vector of n random variables, $X_1,\dots,X_n$, and $c$ is a column vector of coefficients (constants), then the <a href="https://en.wikipedia.org/wiki/Variance">variance of the weighted sum</a> $c'X$ is</p>
+$$\text{Var}(c'X) = c'\Sigma c$$<p>where $\Sigma$ is the covariance matrix of the $X$'s.</p>
+<p>In our application, $c$ is our stock weight vector $w$ and $\Sigma$ is the covariance matrix of stock returns.</p>
+$$\sigma_{\Pi}^2 = w' \Sigma w$$<p>Just as we decompose the single stock risk above, we can decompose the covariance matrix to separate <em>common risk</em> and <em>specific risk</em></p>
+$$\Sigma = BFB' + D$$<p>Thus</p>
+$$\sigma_{\Pi}^2  = w'(BFB' + D)w$$$$\sigma_{\Pi}^2  = w'BFB'w + w'Dw$$<p>Which for the two stock portfolio above works out to</p>
+\begin{equation}
+\sigma_{\Pi}^2 =
+\overbrace{
+\begin{bmatrix} w_1 &amp; w_2 \end{bmatrix}
+\begin{bmatrix} \beta_{1} \\ \beta_{2} \end{bmatrix} 
+\sigma_m^2
+\begin{bmatrix} \beta_{1} &amp; \beta_{2} \end{bmatrix}
+\begin{bmatrix} w_1 \\ w_2 \end{bmatrix}
+}^{\text{common risk}}
++ \overbrace{\begin{bmatrix} w_1 &amp; w_2 \end{bmatrix}
+\begin{bmatrix} \epsilon_1^2 &amp; 0\\ 0 &amp; \epsilon_2^2 \end{bmatrix}
+\begin{bmatrix} w_1 \\ w_2 \end{bmatrix}}^{\text{specific risk}}
+\end{equation}<p>If you work through this matrix multiplication, you get the stated result above</p>
+$$\sigma_{\Pi}^2 = \overbrace{\sigma_m^2\left( w_1^2\beta_1^2 + w_2^2\beta_2^2 + 2w_1w_2\beta_1\beta_1 \right)}^{\text{common risk}} + \overbrace{w_1^2\epsilon_1^2 + w_2^2 \epsilon_2^2}^{\text{specifc risk}}$$<h3 id="Multi-Factor-Models">Multi-Factor Models<a class="anchor-link" href="#Multi-Factor-Models">&#194;&#182;</a></h3><p>Of course, we can expand the CAPM to include <em>additional</em> risk factors besides market beta. We could posit that there are in total $m$ risks which are <em>common</em> to all stocks.</p>
+$$r_i = \alpha_i + \beta_{1,i} f_1 + \dots + \beta_{m,i} f_m + \epsilon_i$$<p>or more concisely</p>
+$$r_i = \alpha_i + \sum_{j=1}^m \beta_{j,i} f_j + \epsilon_i$$<p>or, considering all stocks, $i$, from 1 to N, even more concisely, for a given period $t$,</p>
+$$r = \alpha + Bf + \epsilon$$<p>where $r$ is the Nx1 column vector of returns, $B$ is the Nx$m$ matrix of factor betas, $f$ is the Nx1 column of factor returns, and $\epsilon$ is the Nx1 column vector of idiosyncratic returns. Finally,</p>
+$$\sigma_{\Pi}^2  = w'BFB'w + w'Dw$$<p>where $B$ is the Nx$m$ matrix of factor betas, $F$ is the $m$x$m$ covariance matrix of factor returns, and $D$ is a NxN matrix with the $\epsilon_i$'s on diagonal, and zeros everywhere else.</p>
+<p>With this result, <em>assuming we had a suitable risk model giving us the matrices $B$, $F$, and $D$</em>, we could calculate our portfolio risk and the proportion of risk coming from common risk.</p>
+<p>Likewise, just as we set $w_2$ above in the two stock case to the value that neutralized the exposure to the single factor $\beta$, in the multi-factor case we could use the factor betas matrix $B$ to construct a portfolio which is neutral to <strong>all</strong> common factors. <strong>A portfolio which is neutral to all common factors has zero common factor risk.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Portfolios-of-Algos">Portfolios of Algos<a class="anchor-link" href="#Portfolios-of-Algos">&#194;&#182;</a></h1><p>Even without a risk model, we can get some intuition as to how the risk of a portfolio of algos looks.</p>
+<p>What does a resulting portfolio of algos look like when the individual algos have non-zero common risk? Taking some inspiration from a recent journal article <a href="http://www.iijournals.com/doi/abs/10.3905/jpm.2017.43.2.013?journalCode=jpm">The Dangers of Diversification</a> by Garvey, Kahn, and Savi, imagine that each algo has a certain <em>budget of common risk</em> it can take. This budget is defined as the percent common risk of total risk in the algo.</p>
+<p>In the first case, we assume that all algos have this same budget (and use all the budget!) and the correlation between their common risks is 1.0. This is simular to the case of a single factor model.</p>
 
 </div>
 </div>
@@ -12594,21 +12127,82 @@ dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># create histogram of scores</span>
-<span class="n">ranked_scores</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">portfolio_risk_decomposition</span><span class="p">(</span><span class="n">budget</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">correl</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">algo_count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">algo_total_risk</span><span class="o">=</span><span class="mf">0.04</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">algo_count</span>
+    
+    <span class="n">algo_common_risk</span> <span class="o">=</span> <span class="n">budget</span><span class="o">*</span><span class="p">(</span><span class="n">algo_total_risk</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">algo_idio_risk</span> <span class="o">=</span> <span class="n">algo_total_risk</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">algo_common_risk</span>
 
-<span class="c"># make scores into list for ease of manipulation</span>
-<span class="n">ranked_scores_list</span> <span class="o">=</span> <span class="n">ranked_scores</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">N</span>
+    
+    <span class="n">covar</span> <span class="o">=</span> <span class="n">correl</span><span class="o">*</span><span class="n">algo_common_risk</span>
+    <span class="n">common_risk</span> <span class="o">=</span> <span class="n">N</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">algo_common_risk</span> <span class="o">+</span> <span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">N</span> <span class="o">-</span> <span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">covar</span>
+    <span class="n">idio_risk</span> <span class="o">=</span> <span class="n">algo_idio_risk</span><span class="o">*</span><span class="n">w</span>
+    <span class="n">total_risk</span> <span class="o">=</span> <span class="n">common_risk</span> <span class="o">+</span> <span class="n">idio_risk</span>
+    
+    <span class="k">return</span> <span class="n">total_risk</span><span class="p">,</span> <span class="n">common_risk</span><span class="o">/</span><span class="n">total_risk</span>
+</pre></div>
 
-<span class="c"># add labels to axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Standardized Scores&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Quantity in Basket&#39;</span><span class="p">)</span>
+</div>
+</div>
+</div>
 
-<span class="c"># show long bucket</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ranked_scores_list</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">portfolio_risk_decomposition</span><span class="p">(</span><span class="n">budget</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">algo_count</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">correl</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">algo_total_risk</span><span class="o">=</span><span class="mf">0.04</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Portfolio total risk: </span><span class="si">%.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Portfolio percent of common risk: </span><span class="si">%.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">b</span>
+</pre></div>
 
-<span class="c"># show short bucket</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ranked_scores_list</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">);</span>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Portfolio total risk: 0.0196 
+Portfolio percent of common risk: 0.8333 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">algos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">algos</span><span class="p">,</span>
+    <span class="n">portfolio_risk_decomposition</span><span class="p">(</span><span class="n">budget</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">correl</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">algo_count</span><span class="o">=</span><span class="n">algos</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">algos</span><span class="p">,</span>
+    <span class="n">portfolio_risk_decomposition</span><span class="p">(</span><span class="n">budget</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">correl</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">algo_count</span><span class="o">=</span><span class="n">algos</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Percent of Portfolio Risk due to Common Risk&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Number of Algos in Portfolio&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Percent of Portfolio of Algos Risk due to Common Risk&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="p">[</span><span class="s">&#39;20% Single Algo Common Risk Budget&#39;</span><span class="p">,</span> <span class="s">&#39;40% Single Algo Common Risk Budget&#39;</span><span class="p">]</span>
+<span class="p">);</span>
 </pre></div>
 
 </div>
@@ -12627,213 +12221,684 @@ dtype: float64</pre>
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-yNy5c0s9LgAAsBUq+RGlV199NbW1tfn2t7+dFStW5Iwzzsg777yT6urqJEnnzp2zePHiLFu2LJ06
-dapfr1OnTlmyZEmpxwUAALZCJQ+lurq6+tPvXn311Zx88smpq6vb4P6G1vuw5syZ8w/PCR/WR93f
-em/GOvA++87Hz8KFC8s9QrP1zDPPZMWKFeUeg2ZkU+9xfm5SLo2G0uzZs3PQQQdtsOzBBx/MwIED
-N2uDO+64Y3r16pXKysp84hOfSLt27dKqVausXbs2rVu3zqJFi9K1a9d06dJlgyNIixYtSq9evT7U
-Nnr37r1Zs8FHNWfOnM3a3+yjbI7N3d8orw4dOiT3vl7uMZql/fbbLz169Cj3GDQTH/Qe572PLe3D
-xHeDn1F65ZVXMmvWrFx55ZWZNWtW/X+PPPJIvv/972/2UH379s3s2bNTV1eXN998M6tXr84hhxyS
-6dOnJ0lmzJiRfv36pWfPnnnmmWeycuXKrFq1KvPmzfM/CQAAUBINHlFasmRJ7r///rz66quZMGFC
-/fLKysoMHTp0szfYtWvXHHnkkRkyZEgqKipy6aWXZr/99svIkSNzxx13pFu3bhk0aFCqqqpy/vnn
-59RTT01lZWXOOuustG/ffrO3CwAA8GE1GEq9evVKr1690r9//80+za4hQ4YMyZAhQzZYNnHixI0e
-V1NTk5qami26bQAAgMY0ennwffbZJ2effXaGDx+eJLnzzjvz5z//uannAgAAKJtGQ+nSSy/Ncccd
-V3/VuU996lO55JJLmnwwAACAcmk0lNatW5fDDz88FRUVSZI+ffo0+VAAAADl1GgoJcnbb79dH0p/
-+tOfsmbNmiYdCgAAoJwa/T1KZ5xxRoYMGZIlS5bkmGOOyZtvvpmrr766FLMBAACURaOh1KdPn9xz
-zz354x//mNatW2ePPfZwRAkAAGjRGj317vTTT09FRUV69uyZffbZJ08//XQGDx5citkAAADKotFQ
-+uIXv5hvfOMbeeONNzJ+/Phcfvnlueaaa0oxGwAAQFk0eurdl7/85ey888455phjcuCBB+auu+7K
-NttsU4rZAAAAyqLBUBo/fvwGtz//+c/nhRdeyA033JAk+e53v9u0kwEAAJRJg6FUVVW1we199903
-++67b5MPBAAAUG4NhtKZZ55Z//XKlSvTvn37LF26NH/+859zwAEHlGQ4AACAcmj0Yg5XXHFF7r//
-/rz11lsZOnRobr311lx++eUlGA0AAKA8Gg2l5557LkOGDMmvfvWrDBo0KNdcc00WLlxYitkAAADK
-otFQqqurS5I89NBDOeyww5Ika9eubdqpAAAAyqjRUNpjjz1y1FFHZdWqVfnMZz6Te+65Jx07dizF
-bAAAAGXR6O9R+t73vpc//vGP6d69e5Jkr732yne+850mHwwAAKBcGg2lJFm8eHGef/75JO+ddnf9
-9dfnt7/9bZMOBgAAUC6NhtKIESOyfPnyPP/88znggAPy5JNP5uyzzy7FbAAAAGXR6GeUFi1alJtv
-vjl77LFHrr322vzsZz/Lk08+WYrZAAAAyqLRUFq/fn3efffd/O1vf8uaNWuy6667ZsGCBaWYDQAA
-oCwaPfXu0EMPzc0335yBAwdm0KBB2W233UoxFwAAQNk0Gkpnn3121q9fn6qqqvTq1SvLli1L3759
-SzEbAABAWTR66l2SVFVV5Q9/+EOeeuqptG3bNm3btm3quQAAAMqmwVC67777cuCBB+b444/P73//
-+4waNSp//etfc+211+bGG28s5YwAAAAl1eCpd5MmTcrdd9+d1157Leecc07uu+++bL/99lm3bl2G
-DRuWb33rW6WcEwAAoGQaDKVtttkmu+66a3bdddfstttu2X777ZMk1dXV2WabbUo2IAAAQKl9qM8o
-tWnTZoPbFRUVTTIMAABAc9DgEaUFCxZk5MiRG31dV1eXF198sTTTAQAAlEGDoXTBBRfUf33IIYds
-cN+hhx7adBMBAACUWYOhNGjQoFLOAQAA0Gx8qM8oAQAAbE2EEgAAQEGDp94V1dXVpa6urv52ZaXG
-AgAAWqZGQ+mmm27K9ddfn1WrViV5L5gqKiryf//3f00+HAAAQDk0GkpTp07NtGnT0q1bt1LMAwAA
-UHaNnj+3++67iyQAAGCr0ugRpb333jvnn39+DjzwwFRVVdUvHzx4cJMOBgAAUC6NhtLixYvTunXr
-PPnkkxssF0oAAEBL1WgoXXnllaWYAwAAoNloMJTOOeecXHPNNenfv38qKio2uv+hhx5qyrkAAADK
-psFQGjNmTJLk9ttvL9kwAAAAzUGDobTjjjsmSXbdddeSDQMAANAcNHp5cAAAgK1No6FUV1dXijkA
-AACajUZDacCAARk3blxefvnlUswDAABQdo2G0h133JEddtghI0aMyCmnnJJf/vKXWbt2bSlmAwAA
-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
-tWpVmaeiJWvTpk1uuOGG7LjjjuUeha1Anz59Mn78+CTJdtttl9ra2jR0EfAWdUQpSZYuXZrTTz89
-q1evzqRJk8o9Di1cq1at0qrVe/8bTZo0KUcffXSZJ6Ila926dblHYCuwdOnS7LfffvW3d9hhhyxd
-ulSg02QqKyu9v1EylZWV2XbbbZMkd955Z/r375+KiopNPvZjG0p33nln7rrrrlRUVKSuri4VFRU5
-66yz0rdv39x111353e9+l1GjRjn1ji3mg/a52267Lc8991yuv/76co9JC/FB+xuUkl+3CLREDz74
-YH7xi198YCt8bEPphBNOyAknnLDBsscffzzLly9Px44d88///M8ZOXJkmaajJdrUPpe89xfahx56
-KBMmTEhVVVUZJqMlamh/g6bWpUuXLF26tP724sWLs9NOO5VxIoAt65FHHsmNN96Ym2++Oe3bt2/w
-cS3qM0oPPPBA7rnnniTJ888/n27dupV5Ilq6l19+OT//+c9z3XXXpbq6utzjsBXxr/w0lb59+2bG
-jBlJkmeffTZdu3ZN27ZtyzwVwJaxcuXKXH311bn++uvToUOHD3xsRV0L+mn75ptvZtSoUVm9enXW
-rl2biy++OD179iz3WLRg48aNy/33359ddtml/vSoiRMn1n9uCbakBx54INdee20WL16cdu3aZYcd
-dsjUqVPLPRYt0I9+9KM8/vjjqaqqyqWXXpq999673CPRgs2fPz9jxozJG2+8kaqqqnTs2DG33npr
-OnbsWO7RaIHuuOOOXHfddfnUpz5V/3e3sWPHbvIicC0qlAAAALaEFnXqHQAAwJYglAAAAAqEEgAA
-QIFQAgAAKBBKAAAABUIJAACgQCgBsEkPP/xwTjrppHz961/PCSeckPPOOy8rV65MksybNy+vvPLK
-FtlO//7989prr/3D6z/yyCO54YYb/uF5RowYUf/Ly//eU089lVNOOSVf//rXM3To0Jx22mn561//
-+g9vD4DmSSgBsJF169Zl5MiRGT9+fCZNmpQ777wzu+yyS+68884kyS9+8Yu8/PLLW2RbFRUVW2T9
-fv365d///d+3xEibNGLEiIwaNSqTJk3KlClT0r9///zkJz9psu0BUF6tyj0AAM3PmjVr8s4772TV
-qlXp3LlzkvdCIUkefPDBTJ8+PU8//XRGjx6dVq1a5eqrr84222yTd955J5dddlk+85nPZPTo0enS
-pUuef/75LFy4MF/5ylfyzW9+M8uWLcs555yTd999N/vuu2/e/73ntbW1ufDCC/PWW2+ltrY2NTU1
-Oe200/L4449nwoQJ2WabbXL44YfnsMMO2+T6d999d2bOnJnzzjsvI0eOTEVFRerq6jJv3rzcfvvt
-6dmzZ8aNG5e5c+dmzZo16dOnT0aMGJG6urpcdNFF+dOf/pRu3bpl9erVm3xNli9fnhUrVtTfPumk
-k+q/XrhwYcaMGZMkad26da688sp06dIlEyZMyMMPP5zq6up8+tOfzpgxY/L666/n9NNPz957753u
-3bvn29/+9ibnWrx4cS644IL6P48TTzwxX/7yl7fwnzQADRFKAGykffv2OfPMM3PcccelV69eOfDA
-A3PkkUdmjz32yMCBAzNp0qScccYZOeigg/Kb3/wml19+efbZZ5/cd999uf766zN+/PgkySuvvJLr
-r78+r732Wo499th885vfzOTJk7P//vvn/PPPz3PPPZdbb701SbJs2bIcdthhOf7447N27doceuih
-GTZsWJLk2WefzW9/+9t06NAh48aN2+T6yXtHl3bZZZfccsstSZLbbrstu+yyS3r27Jnp06dn8eLF
-9fedeeaZeeihh1JdXZ2XXnopd911V955550MHDgwRx999EavyejRo/Ptb387PXr0yIEHHpiamprs
-u+++SZLLLrssp512Wv75n/85999/f6ZPn56ePXvmwQcfzF133ZXKysqcffbZ+eUvf5k+ffrkxRdf
-zHXXXZfdd999k3P97//+bxYuXJju3bvnsssuy9q1a3PHHXc00Z82AJsilADYpNNOOy1DhgzJo48+
-msceeywnnnhizjvvvAwdOjRJ6o/k7Ljjjrn66quzZs2arFixIh07dqx/jgMPPDBJ0q1bt6xatSp1
-dXV5/vnn659j3333Tfv27ZMknTt3zty5czNlypRUV1dn7dq1Wb58eZJkjz32SIcOHZJko/XfX140
-b9683H333bntttuSJLNnz868efNy8sknp66uLqtWrcorr7ySdevWpVevXkmSbbbZJp///Oc3+XzH
-HXdcampqMnPmzDz22GM57bTTMnjw4Jx77rmZP39+/fd61FFHJUkmTZqUPn36pLLyvbPcDzrooDzz
-zDPp06dPtt9+++y+++4NzvXqq6+mf//+Of300zN69Oj079+//nsGoDSEEgCb9M4776Rjx4456qij
-ctRRR+Vf//Vfc9VVV230F/aRI0fmiiuuyIEHHpiHHnooEydOrL+vqqpqg8e+H1d//7mk9evXJ3kv
-LNatW5cpU6YkSQ4++OD6x1RXV2/wPH+//t/+9reNZl+6dGkuvfTS/Nd//VfatGmT5L1T4k488cT8
-27/92waPnThxYn3M/P08m3o9tt122xx++OE5/PDDc9JJJ+UrX/lKzj333FRUVOTdd99tcMa//96L
-309DcyXJ/fffn8cffzy/+tWvMmnSpPzsZz/b5GwAbHku5gDARn7/+99nyJAh9Ve5S5KXX365/ihI
-ZWVlfaAsW7Yse+21V9avX59f/epXWbt27Saf8/1Q6N69e+bNm5ckmT9/fmpra5O8Fzfdu3dPkvzm
-N7/JmjVrNvlcDa3/vvXr1+e8887LBRdckN12261+ee/evfPrX/+6PoR+/OMf5y9/+Uu6d++e+fPn
-J0lWrlyZp556aqNtvvjii6mpqcmiRYs2eD0++clPJkkOOOCAPPLII0mSe++9t/70wNmzZ9dvb9as
-Wdl///03eC0+aK577703Tz31VA455JBcfvnlef311zeKMQCajiNKAGzkn/7pn7Jw4cKccsopadu2
-berq6rLjjjvm0ksvTZL07ds3l112WS666KKcdtppOfnkk9O1a9ecdtppGTVqVCZPnrzRc75/hOXk
-k0/OOeeck1NOOSV77bVXPvGJTyRJBg8enPPOOy+/+93vcthhh+WYY47JBRdckAsvvHCD52lo/ffN
-mDEjzz77bG6++ebcdNNNqaioyFe/+tV88YtfzPz58zN06NBUVVXls5/9bD7xiU9kt912y7333psh
-Q4akW7du9afh/b0999wzo0ePztlnn53WrVunsrIy22yzTX74wx8mSS655JJccsklufXWW1NdXZ0r
-r7wyXbt2zVFHHZVhw4alqqoq++67b44++ui8+uqrGxxtqqmp2eRcq1evzmWXXZbWrVsnee9UyL8/
-8gVA06qo+/t/1gIAAMCpdwAAAEVCCQAAoEAoAQAAFAglAACAAqEEAABQIJQAAAAKhBIAAEDB/w/n
-A6IarhW3RQAAAABJRU5ErkJggg==
+<img src="data:image/png;base64,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
 "
 >
 </div>
@@ -12848,7 +12913,7 @@ A6IarhW3RQAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Please see the full algorithm for backtested returns!</p>
+<p>From this plot, you can see that from the allocator's perspective, a "small" budget that allows for 20% of individual algo total risk to be driven by common risk leads to a 20 algo portfolio <strong>with 83%</strong> of it's risk driven by common risk! Ideally an allocator wants you to have <strong>zero common factor risk</strong>.</p>
 
 </div>
 </div>
@@ -12857,8 +12922,9 @@ A6IarhW3RQAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>NB: In the implementation of the algorithm, a series of filters is used in order to ensure that only tradeable stocks are included. The methodology for this filter can be found in <a href="https://www.quantopian.com/posts/pipeline-trading-universe-best-practice">https://www.quantopian.com/posts/pipeline-trading-universe-best-practice</a>.</p>
-
+<div class="alert alert-warning">
+<b>TL;DR:</b> Even if you can't predict portfolio risk and don't have a risk model to decompose risk, you can form a portfolio with **zero common risk** by hedging the beta exposure to common factors. The most important common factors in the US Equity market are market beta and sector beta. Hedge your beta and be sector neutral if you want a large allocation from any allocator.
+</div>
 </div>
 </div>
 </div>
