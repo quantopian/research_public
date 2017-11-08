@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Auto-Regressive-(AR)-Models">Auto Regressive (AR) Models<a class="anchor-link" href="#Auto-Regressive-(AR)-Models">&#194;&#182;</a></h1><p>by Maxwell Margenot, Delaney Granizo-Mackenzie, and Lee Tobey</p>
+<h1 id="Autoregressive-(AR)-Models">Autoregressive (AR) Models<a class="anchor-link" href="#Autoregressive-(AR)-Models">&#182;</a></h1><p>by Maxwell Margenot, Delaney Mackenzie, and Lee Tobey</p>
 <p>Lee Tobey is the founder of <a href="https://www.hedgewise.com/">Hedgewise</a>.</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
@@ -11775,6 +11775,7 @@ ul.typeahead-list > li > a {
 <li><a href="https://github.com/quantopian/research_public">github.com/quantopian/research_public</a></li>
 </ul>
 <p>Notebook released under the Creative Commons Attribution 4.0 License.</p>
+<hr>
 
 </div>
 </div>
@@ -11783,21 +11784,24 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="AR-Models">AR Models<a class="anchor-link" href="#AR-Models">&#194;&#182;</a></h2><p>An autoregressive, or AR$(p)$, model is created by regressing a time series on its past values, its lags. The simplest form of an autoregressive model is an AR$(1)$ model, signifying using only one lag term. A first order autocorrelation model like this for a time series $x_t$ is:</p>
-$$
+<h2 id="AR-Models">AR Models<a class="anchor-link" href="#AR-Models">&#182;</a></h2><p>An autoregressive, or AR$(p)$, model is created by regressing a time series on its past values, its lags. The simplest form of an autoregressive model is an AR$(1)$ model, signifying using only one lag term. A first order autocorrelation model like this for a time series $x_t$ is:</p>
+<p>$$
 x_t = b_0 + b_1 x_{t - 1} + \epsilon_t
-$$<p>Where $x_{t - 1}$ represents the value of the time series at time $(t - 1)$ and $\epsilon_t$ is the error term. We can extend this to an AR$(p)$ model, denoted:</p>
-$$
+$$</p>
+<p>Where $x_{t - 1}$ represents the value of the time series at time $(t - 1)$ and $\epsilon_t$ is the error term. We can extend this to an AR$(p)$ model, denoted:</p>
+<p>$$
 x_t = b_0 + b_1 x_{t-1} + b_2 x_{t - 2} \ldots + b_p x_{t - p} + \epsilon_t
-$$<p>For an AR model to function properly, we must require that the time series is covariance stationary. This means that it follows three conditions:</p>
+$$</p>
+<p>For an AR model to function properly, we must require that the time series is covariance stationary. This means that it follows three conditions:</p>
 <ol>
 <li>The expected value of the time series is constant and finite at all times, i.e. $E[y_t] = \mu$ and $\mu &lt; \infty$ for all values of $t$.</li>
 <li>The variance of the time series is constant and finite for all time periods.</li>
 <li>The covariance of the time series with itself for a fixed number of periods in either the future or the past is constant and finite for all time periods, i.e</li>
 </ol>
-$$
+<p>$$
 COV(y_t, y_{t - s}) = \lambda, \  |\lambda| &lt; \infty, \text{ $\lambda$ constant}, \  t = 1, 2, \ \ldots, T; \  s = 0, \pm 1, \pm 2, \ldots, \pm T
-$$<p>Note that this mathematical representation includes condition 2.</p>
+$$</p>
+<p>Note that this mathematical representation includes condition 2.</p>
 <p>If these conditions are not satisfied, our estimation results will not have real-world meaning. Our estimates for the parameters will be biased, making any tests that we try to form using the model invalid. Unfortunately, it can be a real pain to find a covariance-stationary time series in the wild in financial markets. For example, when we look at the stock price of Apple, we can clearly see an upward trend. The mean is increasing with time. There are ways, however to make a non-stationary time series stationary. Once we have performed this transformation, we can build an autoregressive models under the above assumptions.</p>
 
 </div>
@@ -11807,7 +11811,7 @@ $$<p>Note that this mathematical representation includes condition 2.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Simulating-Data">Simulating Data<a class="anchor-link" href="#Simulating-Data">&#194;&#182;</a></h2><p>Here we will draw data samples from a simulated AR$(3)$ process.</p>
+<h2 id="Simulating-Data">Simulating Data<a class="anchor-link" href="#Simulating-Data">&#182;</a></h2><p>Here we will draw data samples from a simulated AR$(3)$ process.</p>
 
 </div>
 </div>
@@ -12720,7 +12724,7 @@ rkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tail-Risk">Tail Risk<a class="anchor-link" href="#Tail-Risk">&#194;&#182;</a></h2><p>Autoregressive processes will tend to have more extreme values than data drawn from say a normal distribution. This is because the value at each time point is influenced by recent values. If the series randomly jumps up, it is more likely to stay up than a non-autoregressive series. This is known as 'fat-tailledness' (fat-tailed distribution) because the extremes on the pdf will be fatter than in a normal distribution.</p>
+<h2 id="Tail-Risk">Tail Risk<a class="anchor-link" href="#Tail-Risk">&#182;</a></h2><p>Autoregressive processes will tend to have more extreme values than data drawn from say a normal distribution. This is because the value at each time point is influenced by recent values. If the series randomly jumps up, it is more likely to stay up than a non-autoregressive series. This is known as 'fat-tailledness' (fat-tailed distribution) because the extremes on the pdf will be fatter than in a normal distribution.</p>
 <p>Much talk of tail risk in finance comes from the fact that tail events do occur and are hard to model due to their infrequent occurrence. If we have reason to suspect that a process is autoregressive, we should expect risk from extreme tail events and adjust accordingly.</p>
 <p>AR models are just one of the sources of tail risk, so don't assume that because a series is non-AR, it does not have tail risk.</p>
 <p>We'll check for that behavior now.</p>
@@ -12777,7 +12781,7 @@ Frequency of std events in a normal process
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Estimations-of-Variance-Will-be-Wrong">Estimations of Variance Will be Wrong<a class="anchor-link" href="#Estimations-of-Variance-Will-be-Wrong">&#194;&#182;</a></h2><p>Because an AR process has a tail heavy and non-normal distribution of outcomes, estimates of variance on AR processes will be wrong. This is dangerous because variance is used to calculate many quantities in staistics, most importantly confidence intervals and p-values. Because the width of the confidence interval is often based on a variance estimate, we can no longer trust p-values that come from AR processes. For more information on p-values please see the Hypothesis Testing notebook in the <a href="https://www.quantopian.com/lectures">Quantopian Lecture Series</a>.</p>
+<h2 id="Estimations-of-Variance-Will-be-Wrong">Estimations of Variance Will be Wrong<a class="anchor-link" href="#Estimations-of-Variance-Will-be-Wrong">&#182;</a></h2><p>Because an AR process has a tail heavy and non-normal distribution of outcomes, estimates of variance on AR processes will be wrong. This is dangerous because variance is used to calculate many quantities in staistics, most importantly confidence intervals and p-values. Because the width of the confidence interval is often based on a variance estimate, we can no longer trust p-values that come from AR processes. For more information on p-values please see the Hypothesis Testing notebook in the <a href="https://www.quantopian.com/lectures">Quantopian Lecture Series</a>.</p>
 <p>Let's check this here. First we'll define some helper functions that compute a naive 95% confidence interval for the true value of the mean on some input series.</p>
 
 </div>
@@ -12904,7 +12908,7 @@ Frequency of std events in a normal process
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Looks like something is severly wrong. What's going on here is that the AR series moves around a lot more, but the estimate of variance assumes stationarity and doesn't take into account all of that motion. As a result the confidence intervals are way smaller than they should be and don't contain the correct value nearly enough.</p>
 <p>This gives us a false sense of security. Stationarity tests should usually catch AR behavior and let us know that estimates of variance will be wrong. For more information please see the Integration, Cointegration, and Stationarity lecture of the <a href="https://www.quantopian.com/lectures">Quantopian Lecture Series</a>.</p>
-<h4 id="Correcting-for-Variance">Correcting for Variance<a class="anchor-link" href="#Correcting-for-Variance">&#194;&#182;</a></h4><p>In practice it can be very difficult to accurately estimate variance on an AR series, but one attempt to do this is the Newey-West estimation. You can find information on it <a href="https://en.wikipedia.org/wiki/Newey%E2%80%93West_estimator">here</a>.</p>
+<h4 id="Correcting-for-Variance">Correcting for Variance<a class="anchor-link" href="#Correcting-for-Variance">&#182;</a></h4><p>In practice it can be very difficult to accurately estimate variance on an AR series, but one attempt to do this is the Newey-West estimation. You can find information on it <a href="https://en.wikipedia.org/wiki/Newey%E2%80%93West_estimator">here</a>.</p>
 
 </div>
 </div>
@@ -12913,13 +12917,15 @@ Frequency of std events in a normal process
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Testing-for-AR-Behavior">Testing for AR Behavior<a class="anchor-link" href="#Testing-for-AR-Behavior">&#194;&#182;</a></h2><p>In order to determine the order, $p$, of an AR$(p)$ model, we look at the autocorrelations of the time series. These are the correlations of the series with its past values. The $k$-th order autocorrelation is</p>
-$$
+<h2 id="Testing-for-AR-Behavior">Testing for AR Behavior<a class="anchor-link" href="#Testing-for-AR-Behavior">&#182;</a></h2><p>In order to determine the order, $p$, of an AR$(p)$ model, we look at the autocorrelations of the time series. These are the correlations of the series with its past values. The $k$-th order autocorrelation is</p>
+<p>$$
 \rho_k = \frac{COV(x_t, x_{t - k})}{\sigma_x^2} = \frac{E[(x_t - \mu)(x_{t - k} - \mu)}{\sigma_x^2}
-$$<p>Where $k$ represents the number of periods lagged. We cannot directly observe the autocorrelations so we estimate them as</p>
-$$
+$$</p>
+<p>Where $k$ represents the number of periods lagged. We cannot directly observe the autocorrelations so we estimate them as</p>
+<p>$$
 \hat{\rho}_k = \frac{\sum_{t = k + 1}^T[(x_t - \bar{x})(x_{t - k} - \bar{x})]}{\sum_{t = 1}^T (x_t - \bar{x})^2}
-$$<p>For our purposes, we can use a pair of tools called the autocorrelation function (ACF) and the partial autocorrelation function (PACF) in order to determine the order of our model. The PACF controls for shorter lags, unlike the ACF. These functions are included with many statistical packages and compute the sample autocorrelations for us, allowing us to determine the appropriate value of $p$.</p>
+$$</p>
+<p>For our purposes, we can use a pair of tools called the autocorrelation function (ACF) and the partial autocorrelation function (PACF) in order to determine the order of our model. The PACF controls for shorter lags, unlike the ACF. These functions are included with many statistical packages and compute the sample autocorrelations for us, allowing us to determine the appropriate value of $p$.</p>
 <p>We will demonstrate these functions on our above example of a stationary series:</p>
 
 </div>
@@ -13540,7 +13546,7 @@ AgAAKCAsAQAAFBCWAAAACghLAAAABf4/mCxAoaM3kMIAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Statistical-Testing">Statistical Testing<a class="anchor-link" href="#Statistical-Testing">&#194;&#182;</a></h4><p>Just looking at the graphs alone isn't enough. We need to use some degree of statistical rigor. The <code>acf</code> and <code>pacf</code> functions will return confidence intervals on all the autocorrelations. We can check if these intervals overlap with zero. If they do then we say that zero is within the set confidence interval for the true parameter value, and don't treat the lag as having any meaningful autocorrelation.</p>
+<h4 id="Statistical-Testing">Statistical Testing<a class="anchor-link" href="#Statistical-Testing">&#182;</a></h4><p>Just looking at the graphs alone isn't enough. We need to use some degree of statistical rigor. The <code>acf</code> and <code>pacf</code> functions will return confidence intervals on all the autocorrelations. We can check if these intervals overlap with zero. If they do then we say that zero is within the set confidence interval for the true parameter value, and don't treat the lag as having any meaningful autocorrelation.</p>
 <p>NOTE: This only works if the assumptions underlying the confidence interval computations are satisfied. Please check these assumptions before you assume the test is meaningful. The assumptions will differ in every case, so please read the statistical documentation of your own test and go from there.</p>
 
 </div>
@@ -14130,7 +14136,7 @@ CEsAAAAFhCUAAIAC/x+g19uGWcVyuAAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Fitting-a-Model">Fitting a Model<a class="anchor-link" href="#Fitting-a-Model">&#194;&#182;</a></h2>
+<h2 id="Fitting-a-Model">Fitting a Model<a class="anchor-link" href="#Fitting-a-Model">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14488,11 +14494,12 @@ CEsAAAAFhCUAAIACwhIAAECB/w+HJHl5qKYKygAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Choosing-the-Number-of-Lags">Choosing the Number of Lags<a class="anchor-link" href="#Choosing-the-Number-of-Lags">&#194;&#182;</a></h3><h4 id="Estimations-Will-Yield-Too-Many-Lags">Estimations Will Yield Too Many Lags<a class="anchor-link" href="#Estimations-Will-Yield-Too-Many-Lags">&#194;&#182;</a></h4><p>We can see our model estimated quite a few parameters. In this case we know there are too many because we simulated the data as an AR(3) process. The reason that AR models will estimate many more lags than is actually the case is due to indirect dependency. If $X_t$ depends on $X_{t-1}$, then indirectly and to a lesser extent it will depend on $X_{t-2}$. In the presence of more than one lag in the data generating process, we will get potentially complex harmonic structures in the lags. These indirect dependencies will be picked up by a simple estimation.</p>
-<h4 id="You-Want-the-Fewest-Parameters-That-Yield-a-Decent-Model">You Want the Fewest Parameters That Yield a Decent Model<a class="anchor-link" href="#You-Want-the-Fewest-Parameters-That-Yield-a-Decent-Model">&#194;&#182;</a></h4><p>In general it's rarely the case that you can get anything useful out of a model with many parameters, see the Overfitting lecture for why in the Quantopian Lecture Series. In this case we want to select a number of lags that we believe explains what is happening, but without overfitting and choosing a model with way too many lags.</p>
+<h3 id="Choosing-the-Number-of-Lags">Choosing the Number of Lags<a class="anchor-link" href="#Choosing-the-Number-of-Lags">&#182;</a></h3><h4 id="Estimations-Will-Yield-Too-Many-Lags">Estimations Will Yield Too Many Lags<a class="anchor-link" href="#Estimations-Will-Yield-Too-Many-Lags">&#182;</a></h4><p>We can see our model estimated quite a few parameters. In this case we know there are too many because we simulated the data as an AR(3) process. The reason that AR models will estimate many more lags than is actually the case is due to indirect dependency. If $X_t$ depends on $X_{t-1}$, then indirectly and to a lesser extent it will depend on $X_{t-2}$. In the presence of more than one lag in the data generating process, we will get potentially complex harmonic structures in the lags. These indirect dependencies will be picked up by a simple estimation.</p>
+<h4 id="You-Want-the-Fewest-Parameters-That-Yield-a-Decent-Model">You Want the Fewest Parameters That Yield a Decent Model<a class="anchor-link" href="#You-Want-the-Fewest-Parameters-That-Yield-a-Decent-Model">&#182;</a></h4><p>In general it's rarely the case that you can get anything useful out of a model with many parameters, see the Overfitting lecture for why in the Quantopian Lecture Series. In this case we want to select a number of lags that we believe explains what is happening, but without overfitting and choosing a model with way too many lags.</p>
 <p>Observing the ACF and PACF indicates that only the first 3 lags may be useful. However, we will expand the number of lags to 10 to double-check our initial data. We will use information criterion, specifically Akaike Information Criterion (AIC) and Bayes Information Criterion (BIC) to decide the correct number of parameters. For more information on choosing models using information criterion, please see the corresponding lecture in the Quantopian Lecture Series.</p>
 <p>Interpreting the AIC and BIC is done as follows. Compute the AIC and BIC for all models we wish to consider, and note the smallest AIC and BIC recorded $AIC_{min}$ and $BIC_{min}$. These are the models which minimize information loss under each metric. For each type of IC We then can compute the <em>relative likelihood</em> of each model $i$ by taking</p>
-$$l = e^{(IC_{min} - IC_{i})/2}$$<p>We can interpret $l$ as model $i$ is $l$ times as likely to minimize information loss, compared to the minimum AIC model. It might take a few reads to understand this, so let's just see it in action.</p>
+<p>$$l = e^{(IC_{min} - IC_{i})/2}$$</p>
+<p>We can interpret $l$ as model $i$ is $l$ times as likely to minimize information loss, compared to the minimum AIC model. It might take a few reads to understand this, so let's just see it in action.</p>
 
 </div>
 </div>
@@ -14620,7 +14627,7 @@ Number of parameters in minimum BIC model 3
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Evaluating-Residuals">Evaluating Residuals<a class="anchor-link" href="#Evaluating-Residuals">&#194;&#182;</a></h3><p>One final step we might do before performing an out of sample test for this model would be to evaluate its residual behavior. The AIC and BIC already do this to an extent, effectively measuring how much information is left on the table (in the residuals) after the model has made its predictions. For more information on residuals analysis see the Violations of Regression Models lecture. Here we'll just check for normality of the residuals.</p>
+<h3 id="Evaluating-Residuals">Evaluating Residuals<a class="anchor-link" href="#Evaluating-Residuals">&#182;</a></h3><p>One final step we might do before performing an out of sample test for this model would be to evaluate its residual behavior. The AIC and BIC already do this to an extent, effectively measuring how much information is left on the table (in the residuals) after the model has made its predictions. For more information on residuals analysis see the Violations of Regression Models lecture. Here we'll just check for normality of the residuals.</p>
 
 </div>
 </div>
@@ -14671,6 +14678,18 @@ Number of parameters in minimum BIC model 3
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The residuals seem normally distributed. There are more model validation steps that could be done, but these are the core ones for an AR model. The next steps would be testing the model out of sample, and then using it to make predictions on your data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>"Quantitative Investment Analysis", by DeFusco, McLeavey, Pinto, and Runkle</li>
+<li>"Analysis of Financial Time Series", by Ruey Tsay</li>
+</ul>
 
 </div>
 </div>
