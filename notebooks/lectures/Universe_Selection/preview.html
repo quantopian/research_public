@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Universe-Selection">Universe Selection<a class="anchor-link" href="#Universe-Selection">&#194;&#182;</a></h1><p>by Gil Wassermann, Maxwell Margenot</p>
+<h1 id="Universe-Selection">Universe Selection<a class="anchor-link" href="#Universe-Selection">&#182;</a></h1><p>by Gil Wassermann, Maxwell Margenot</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -11784,7 +11784,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-is-a-Universe?">What is a Universe?<a class="anchor-link" href="#What-is-a-Universe?">&#194;&#182;</a></h2><p>On a high level, universe selection is the process of choosing the pool of securities upon which your algorithm will trade. For example, an algorithm designed to play with the characteristics of a universe consisting of technology equities may perform exceptionally well in that universe with the tradeoff of falling flat in other sectors. Experimenting with different universes by tweaking their components is an essential part of developing a trading strategy.</p>
+<h2 id="What-is-a-Universe?">What is a Universe?<a class="anchor-link" href="#What-is-a-Universe?">&#182;</a></h2><p>On a high level, universe selection is the process of choosing the pool of securities upon which your algorithm will trade. For example, an algorithm designed to play with the characteristics of a universe consisting of technology equities may perform exceptionally well in that universe with the tradeoff of falling flat in other sectors. Experimenting with different universes by tweaking their components is an essential part of developing a trading strategy.</p>
 <p>Using Pipeline, we have access to around 8300 securities to choose from each day. However, the securities within this basket are markedly different. Some are different asset classes, some belong to different sectors and super-sectors, some employ different business models, some practice different management styles, and so on. By defining a universe, a trader can narrow in on securities with one or more of these attributes in order to craft a strategy that is most effective for that subset of the population.</p>
 <p>Without a properly-constructed universe, your algorithm may be exposed to risks that you just aren't aware of. For example, it could be possible that your universe selection methodology only selects a stock basket whose constituents do not trade very often. Let's say that your algorithm wants to place an order of 100,000 shares for a company that only trades 1,000 on a given day. The inability to fill this order or others might prevent you from achieving the optimal weights for your portfolio, thereby undermining your strategy. These risks can be  controlled for by careful and thoughtful universe slection.</p>
 <p>On the Quantopian platform, universes are often implemented as a Pipeline screen. If you are not familiar with Pipeline, feel free to check out the <a href="https://www.quantopian.com/tutorials/pipeline">tutorial</a>. Below is an example implementation of a universe that limits Pipeline output to the 500 securities with the largest revenue each day. This can be seen as a naive implementation of the Fortune500.</p>
@@ -11934,7 +11934,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Lectures500">Lectures500<a class="anchor-link" href="#Lectures500">&#194;&#182;</a></h2><h3 id="Sector-Exposure">Sector Exposure<a class="anchor-link" href="#Sector-Exposure">&#194;&#182;</a></h3><p>If I create a universe that only looks at equities in the technology sector, my algorithm will have an extreme sector bias. Companies in the same industry sector are affected by similar macroeconomic trends and therefore their performance tends to be correlated. In the case of particular strategies, we may find the benefits of working exclusively within a particular sector greater than the downside risks, but this is not suitable for creating a general-purpose, quality universe.</p>
+<h2 id="Lectures500">Lectures500<a class="anchor-link" href="#Lectures500">&#182;</a></h2><h3 id="Sector-Exposure">Sector Exposure<a class="anchor-link" href="#Sector-Exposure">&#182;</a></h3><p>If I create a universe that only looks at equities in the technology sector, my algorithm will have an extreme sector bias. Companies in the same industry sector are affected by similar macroeconomic trends and therefore their performance tends to be correlated. In the case of particular strategies, we may find the benefits of working exclusively within a particular sector greater than the downside risks, but this is not suitable for creating a general-purpose, quality universe.</p>
 <p>Let's have a look at the sector breakdown of the Lectures500.</p>
 
 </div>
@@ -13636,7 +13636,7 @@ ERFppP4/AV75i+0kv/YAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Turnover">Turnover<a class="anchor-link" href="#Turnover">&#194;&#182;</a></h3><p>Another thing to consider when designing a universe is the rate at which the universe changes. Turnover is a way of measuring this rate of change. Turnover is defined as the number of equities to enter or exit the universe in a particular time window.</p>
+<h3 id="Turnover">Turnover<a class="anchor-link" href="#Turnover">&#182;</a></h3><p>Another thing to consider when designing a universe is the rate at which the universe changes. Turnover is a way of measuring this rate of change. Turnover is defined as the number of equities to enter or exit the universe in a particular time window.</p>
 <p>Let us imagine a universe with a turnover of 0. This universe would be completely unchanged by market movements. Moreover, stocks inappropriate for the universe would never be removed and stocks that should be included will never enter.</p>
 <p>Conversely, imagine a universe that changes every one of its constituents every day. An algorithm built on this universe will be forced to sell its entire portfolio every day. This incurs transaction costs which erode returns.</p>
 <p>When creating a universe, there is an inherent tradeoff between stagnation and sensitivity to the market.</p>
@@ -14817,7 +14817,7 @@ AAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Smoothing">Smoothing<a class="anchor-link" href="#Smoothing">&#194;&#182;</a></h4><p>A good way to reduce turnover is through smoothing functions. Smoothing is the process of taking noisy data and aggregating it in order to analyze its underlying trends. When applied to universe selection, a good smoothing function prevents equities at the universe boundary from entering and exiting frequently.</p>
+<h4 id="Smoothing">Smoothing<a class="anchor-link" href="#Smoothing">&#182;</a></h4><p>A good way to reduce turnover is through smoothing functions. Smoothing is the process of taking noisy data and aggregating it in order to analyze its underlying trends. When applied to universe selection, a good smoothing function prevents equities at the universe boundary from entering and exiting frequently.</p>
 <p>One example of a potential smoothing function is a filter that finds equities that have passed the Lectures500 criteria for 16 or more days out of the past 21 days. We will call this filter <code>AtLeast16</code>. This aggregation many days of data lends a certain degree of flexibility to the edges of our universe. If, for example, Equity XYZ is very close to the boundary for inclusion, in a given month, it may flit in and out of the Lectures500 day after day. However, with the <code>AtLeast16</code> filter, Equity XYZ is allowed to enter and exit the daily universe a maximum of 5 times before it is excluded from the smoothed universe.</p>
 <p>Let's apply a smoothing function to our universe and see its effect on turnover.</p>
 
@@ -16090,62 +16090,18 @@ QRAEQRAE1RIBjyAIgiAIgiAIqiUCHkEQBEEQBEEQVEsEPIIgCIIgCIIgqJYIeARBEARBEARBUC0R
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Tradability-Concerns">Tradability Concerns<a class="anchor-link" href="#Tradability-Concerns">&#194;&#182;</a></h3><p>While controlling for sector exposure and turnover are important, perhaps the most important part of any universe selection methodology is ensuring that the securities included in the universe <strong>can</strong> be traded.</p>
-<p>Recently we released two of our own universes, the Q500US and the Q1500US, built with the same basic methodology. These universes are very similar to the Lectures500 under the hood and are built with all the concerns listed here in mind. As part of this release, we developed a tradability filter. The filter will return True in the follow cases:</p>
-<ol>
-<li>The stock must be the primary share class for its company.</li>
-<li>The company issuing the stock must have known market
-capitalization.</li>
-<li>The stock must not be a depository receipt.</li>
-<li>The stock must not be traded over the counter (OTC).</li>
-<li>The stock must not be for a limited partnership.</li>
-<li>The stock must have a known previous-day close price.</li>
-<li>The stock must have had nonzero volume on the previous trading
-day.</li>
-</ol>
-<p>Let's add these tradability constraints to the Lectures500US.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">quantopian.pipeline.filters</span> <span class="kn">import</span> <span class="n">default_us_equity_universe_mask</span>
-
-<span class="n">Lectures500</span> <span class="o">=</span> <span class="n">Lectures500</span> <span class="o">&amp;</span> <span class="n">default_us_equity_universe_mask</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We have now built a workable universe and have optimized it based on particular constraints!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Q500US-and-Q1500US">Q500US and Q1500US<a class="anchor-link" href="#Q500US-and-Q1500US">&#194;&#182;</a></h2><p>Although the Lectures500 is a decent universe, we highly recommend that you use the Q1500US when designing your algorithms.</p>
-<p>The Q1500US is defined as follows:</p>
-
-<pre><code>At the start of each month, throw out "hard-to-trade" equities, then choose the top 1500 equities 
-by 200-day average dollar volume (ADV), choosing no more than 30% of the requested equities from
-any single sector.
-
-</code></pre>
+<h2 id="QTradableStocksUS">QTradableStocksUS<a class="anchor-link" href="#QTradableStocksUS">&#182;</a></h2><p>Although the Lectures500 is a decent universe, we highly recommend that you use the QTradableStocksUS when designing your algorithms.</p>
+<p>The QTradableStocksUS is defined using the following limits:</p>
+<ul>
+<li>Market cap: over \$500M: This restriction eliminates many undiversifiable risks like low liquidity and difficulty in shorting.</li>
+<li>Dollar volume: It is important that stocks in our universe be relatively easy to trade when entering and exiting positions. The QTradableStocksUS manages that by including only stocks that have median daily dollar volume of \$2.5m or more over the trailing 200 days.</li>
+<li>Prior day's close: If a stock's price is lower than \$5, the bid-ask spread becomes larger relative to the price, and the transaction cost becomes too high.
+200 days of price and volume: If a stock has missing data for the previous 200 days, the company is excluded. This targets stocks with trading halts, IPOs, and other situations that make them harder to assess.</li>
+<li>Primary/Common share: The QTradableStocksUS chooses a single share class for each company. The criteria is to find the common share with the most dollar volume.
+ADRs, Limited Partnerships: QTradableStocksUS excludes ADRs and LPs.</li>
+</ul>
 <p>and can be implemented in a single line of code.</p>
-<p>For more information about these universes, as well as a description of a paramaterized function we have released to enable custom universes like the Lectures500 to be created with ease, check out <a href="https://www.quantopian.com/posts/the-q500us-and-q1500us">this link</a>.</p>
+<p>For more information about the QTradableStocksUS, check out <a href="https://www.quantopian.com/posts/working-on-our-best-universe-yet-qtradablestocksus">this link</a>.</p>
 
 </div>
 </div>
