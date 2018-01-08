@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Means"</title>
+  <title>Cloned from "Means"</title>
 
   <style type="text/css">
     /*!
@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Measures-of-Central-Tendency">Measures of Central Tendency<a class="anchor-link" href="#Measures-of-Central-Tendency">&#194;&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya, Maxwell Margenot, and Delaney Granizo-Mackenzie.</p>
+<h1 id="Measures-of-Central-Tendency">Measures of Central Tendency<a class="anchor-link" href="#Measures-of-Central-Tendency">&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya, Maxwell Margenot, and Delaney Mackenzie.</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -11776,7 +11776,7 @@ ul.typeahead-list > li > a {
 <p>Notebook released under the Creative Commons Attribution 4.0 License.</p>
 <hr>
 <p>In this notebook we will discuss ways to summarize a set of data using a single number. The goal is to capture information about the distribution of data.</p>
-<h1 id="Arithmetic-mean">Arithmetic mean<a class="anchor-link" href="#Arithmetic-mean">&#194;&#182;</a></h1><p>The arithmetic mean is used very frequently to summarize numerical data, and is usually the one assumed to be meant by the word "average." It is defined as the sum of the observations divided by the number of observations:
+<h1 id="Arithmetic-mean">Arithmetic mean<a class="anchor-link" href="#Arithmetic-mean">&#182;</a></h1><p>The arithmetic mean is used very frequently to summarize numerical data, and is usually the one assumed to be meant by the word "average." It is defined as the sum of the observations divided by the number of observations:
 $$\mu = \frac{\sum_{i=1}^N X_i}{N}$$</p>
 <p>where $X_1, X_2, \ldots , X_N$ are our observations.</p>
 
@@ -11840,7 +11840,7 @@ $$\sum_{i=1}^n w_i X_i $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Median">Median<a class="anchor-link" href="#Median">&#194;&#182;</a></h1><p>The median of a set of data is the number which appears in the middle of the list when it is sorted in increasing or decreasing order. When we have an odd number $n$ of data points, this is simply the value in position $(n+1)/2$. When we have an even number of data points, the list splits in half and there is no item in the middle; so we define the median as the average of the values in positions $n/2$ and $(n+2)/2$.</p>
+<h1 id="Median">Median<a class="anchor-link" href="#Median">&#182;</a></h1><p>The median of a set of data is the number which appears in the middle of the list when it is sorted in increasing or decreasing order. When we have an odd number $n$ of data points, this is simply the value in position $(n+1)/2$. When we have an even number of data points, the list splits in half and there is no item in the middle; so we define the median as the average of the values in positions $n/2$ and $(n+2)/2$.</p>
 <p>The median is less affected by extreme values in the data than the arithmetic mean. It tells us the value that splits the data set in half, but not how much smaller or larger the other values are.</p>
 
 </div>
@@ -11883,7 +11883,7 @@ Median of x2: 4.0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Mode">Mode<a class="anchor-link" href="#Mode">&#194;&#182;</a></h1><p>The mode is the most frequently occuring value in a data set. It can be applied to non-numerical data, unlike the mean and the median. One situation in which it is useful is for data whose possible values are independent. For example, in the outcomes of a weighted die, coming up 6 often does not mean it is likely to come up 5; so knowing that the data set has a mode of 6 is more useful than knowing it has a mean of 4.5.</p>
+<h1 id="Mode">Mode<a class="anchor-link" href="#Mode">&#182;</a></h1><p>The mode is the most frequently occuring value in a data set. It can be applied to non-numerical data, unlike the mean and the median. One situation in which it is useful is for data whose possible values are independent. For example, in the outcomes of a weighted die, coming up 6 often does not mean it is likely to come up 5; so knowing that the data set has a mode of 6 is more useful than knowing it has a mean of 4.5.</p>
 
 </div>
 </div>
@@ -12005,7 +12005,7 @@ Mode of bins: [(-0.0012151920594887407, 0.0011015927020092131)]
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Geometric-mean">Geometric mean<a class="anchor-link" href="#Geometric-mean">&#194;&#182;</a></h1><p>While the arithmetic mean averages using addition, the geometric mean uses multiplication:
+<h1 id="Geometric-mean">Geometric mean<a class="anchor-link" href="#Geometric-mean">&#182;</a></h1><p>While the arithmetic mean averages using addition, the geometric mean uses multiplication:
 $$ G = \sqrt[n]{X_1X_1\ldots X_n} $$</p>
 <p>for observations $X_i \geq 0$. We can also rewrite it as an arithmetic mean using logarithms:
 $$ \ln G = \frac{\sum_{i=1}^n \ln X_i}{n} $$</p>
@@ -12143,7 +12143,7 @@ Final price as computed with R_G: 205.52
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Harmonic-mean">Harmonic mean<a class="anchor-link" href="#Harmonic-mean">&#194;&#182;</a></h1><p>The harmonic mean is less commonly used than the other types of means. It is defined as
+<h1 id="Harmonic-mean">Harmonic mean<a class="anchor-link" href="#Harmonic-mean">&#182;</a></h1><p>The harmonic mean is less commonly used than the other types of means. It is defined as
 $$ H = \frac{n}{\sum_{i=1}^n \frac{1}{X_i}} $$</p>
 <p>As with the geometric mean, we can rewrite the harmonic mean to look like an arithmetic mean. The reciprocal of the harmonic mean is the arithmetic mean of the reciprocals of the observations:
 $$ \frac{1}{H} = \frac{\sum_{i=1}^n \frac{1}{X_i}}{n} $$</p>
@@ -12198,8 +12198,19 @@ Harmonic mean of x2: 2.86972365624
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Point-Estimates-Can-Be-Deceiving">Point Estimates Can Be Deceiving<a class="anchor-link" href="#Point-Estimates-Can-Be-Deceiving">&#194;&#182;</a></h1><p>Means by nature hide a lot of information, as they collapse entire distributions into one number. As a result often 'point estimates' or metrics that use one number, can disguise large programs in your data. You should be careful to ensure that you are not losing key information by summarizing your data, and you should rarely, if ever, use a mean without also referring to a measure of spread.</p>
-<h2 id="Underlying-Distribution-Can-be-Wrong">Underlying Distribution Can be Wrong<a class="anchor-link" href="#Underlying-Distribution-Can-be-Wrong">&#194;&#182;</a></h2><p>Even when you are using the right metrics for mean and spread, they can make no sense if your underlying distribution is not what you think it is. For instance, using standard deviation to measure frequency of an event will usually assume normality. Try not to assume distributions unless you have to, in which case you should rigourously check that the data do fit the distribution you are assuming.</p>
+<h1 id="Point-Estimates-Can-Be-Deceiving">Point Estimates Can Be Deceiving<a class="anchor-link" href="#Point-Estimates-Can-Be-Deceiving">&#182;</a></h1><p>Means by nature hide a lot of information, as they collapse entire distributions into one number. As a result often 'point estimates' or metrics that use one number, can disguise large programs in your data. You should be careful to ensure that you are not losing key information by summarizing your data, and you should rarely, if ever, use a mean without also referring to a measure of spread.</p>
+<h2 id="Underlying-Distribution-Can-be-Wrong">Underlying Distribution Can be Wrong<a class="anchor-link" href="#Underlying-Distribution-Can-be-Wrong">&#182;</a></h2><p>Even when you are using the right metrics for mean and spread, they can make no sense if your underlying distribution is not what you think it is. For instance, using standard deviation to measure frequency of an event will usually assume normality. Try not to assume distributions unless you have to, in which case you should rigourously check that the data do fit the distribution you are assuming.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>"Quantitative Investment Analysis", by DeFusco, McLeavey, Pinto, and Runkle</li>
+</ul>
 
 </div>
 </div>
