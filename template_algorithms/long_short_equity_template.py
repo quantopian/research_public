@@ -77,8 +77,8 @@ def make_pipeline():
 
     # Build Filters representing the top and bottom 150 stocks by our combined ranking system.
     # We'll use these as our tradeable universe each day.
-    longs = combined_rank.top(NUM_LONG_POSITIONS)
-    shorts = combined_rank.bottom(NUM_SHORT_POSITIONS)
+    longs = combined_rank.top(NUM_LONG_POSITIONS, mask=universe)
+    shorts = combined_rank.bottom(NUM_SHORT_POSITIONS, mask=universe)
 
     # The final output of our pipeline should only include
     # the top/bottom 300 stocks by our criteria
