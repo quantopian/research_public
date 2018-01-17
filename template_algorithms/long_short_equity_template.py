@@ -91,7 +91,6 @@ def make_pipeline():
         'combined_rank':combined_rank,
         'quality':quality,
         'value':value,
-        'momentum':momentum,
         'sector':sector
     },
     screen = long_short_screen)
