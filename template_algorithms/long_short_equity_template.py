@@ -42,21 +42,6 @@ NUM_SHORT_POSITIONS = 300
 MAX_SHORT_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
 MAX_LONG_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
 
-class Momentum(CustomFactor):
-    """
-    Here we define a basic momentum factor using a CustomFactor. We take
-    the momentum from the past year up until the beginning of this month
-    and penalize it by the momentum over this month. We are tempering a 
-    long-term trend with a short-term reversal in hopes that we get a
-    better measure of momentum.
-    """
-    inputs = [USEquityPricing.close]
-    window_length = 252
-
-    def compute(self, today, assets, out, prices):
-        out[:] = ((prices[-21] - prices[-252])/prices[-252] -
-                  (prices[-1] - prices[-21])/prices[-21])
-
 def make_pipeline():
     """
     Create and return our pipeline.
@@ -67,8 +52,6 @@ def make_pipeline():
     In particular, this function can be copy/pasted into research and run by itself.
     """
     
-    # Create our momentum, value, and quality factors
-    momentum = Momentum()
     # By appending .latest to the imported morningstar data, we get builtin Factors
     # so there's no need to define a CustomFactor
     value = Fundamentals.ebit.latest / Fundamentals.enterprise_value.latest
@@ -84,17 +67,12 @@ def make_pipeline():
     price_filter = USEquityPricing.close.latest >= 5
     universe = QTradableStocksUS() & price_filter & mkt_cap_filter
 
-    # Construct a Factor representing the rank of each asset by our momentum,
-    # value, and quality metrics. We aggregate them together here using simple
-    # addition.
-    #
-    # By applying a mask to the rank computations, we remove any stocks that failed
-    # to meet our initial criteria **before** computing ranks.  This means that the
-    # stock with rank 10.0 is the 10th-lowest stock that was included in the QTradableStocksUS.
+    # Construct a Factor representing the rank of each asset by our value
+    # quality metrics. We aggregate them together here using simple addition
+    # after zscore-ing them
     combined_rank = (
-        momentum.rank(mask=universe).zscore() +
-        value.rank(mask=universe).zscore() +
-        quality.rank(mask=universe).zscore()
+        value.zscore() +
+        quality.zscore()
     )
 
     # Build Filters representing the top and bottom 150 stocks by our combined ranking system.
@@ -130,6 +108,9 @@ def initialize(context):
     context.spy = sid(8554)
 
     attach_pipeline(make_pipeline(), 'long_short_equity_template')
+
+    # attach the pipeline for the risk model factors that we 
+    # want to neutralize in the optimization step
     attach_pipeline(risk_loading_pipeline(), 'risk_factors')
 
     # Schedule my rebalance function
@@ -150,6 +131,8 @@ def before_trading_start(context, data):
     # securities to pass my screen and the columns are the factors
     # added to the pipeline object above
     context.pipeline_data = pipeline_output('long_short_equity_template')
+
+    # This dataframe will contain all of our risk loadings
     context.risk_loadings = pipeline_output('risk_factors')
 
 def recording_statements(context, data):
@@ -175,21 +158,13 @@ def rebalance(context, data):
     ### Define the list of constraints
     constraints = []
     # Constrain our maximum gross leverage
-    constraints.append(opt.MaxGrossLeverage(MAX_GROSS_LEVERAGE))
+    constraints.append(opt.MaxGrossExposure(MAX_GROSS_LEVERAGE))
 
     # Require our algorithm to remain dollar neutral
     constraints.append(opt.DollarNeutral())
 
-    # Add a sector neutrality constraint using the sector
-    # classifier that we included in pipeline
-    constraints.append(
-        opt.NetPartitionExposure.with_equal_bounds(
-            labels=pipeline_data.sector,
-            min=-MAX_SECTOR_EXPOSURE,
-            max=MAX_SECTOR_EXPOSURE,
-        ))
-
-    # TODO
+    # Add the RiskModelExposure constraint to make use of the
+    # default risk model constraints
     neutralize_risk_factors = opt.experimental.RiskModelExposure(
         risk_model_loadings=risk_loadings
         )
@@ -216,4 +191,3 @@ def rebalance(context, data):
         constraints=constraints
     )
     
-
