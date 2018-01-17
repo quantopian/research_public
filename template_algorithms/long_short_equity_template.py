@@ -26,8 +26,8 @@ from quantopian.pipeline.classifiers.fundamentals import Sector
 import numpy as np
 import pandas as pd
 
-from quantopian.pipeline.filters import Q1500US
-import quantopian.experimental.optimize as opt
+import quantopian.optimize as opt
+from quantopian.pipeline.experimental import QTradableStocksUS, risk_loading_pipeline
 
 # Constraint Parameters
 MAX_GROSS_LEVERAGE = 1.0
@@ -42,25 +42,6 @@ NUM_SHORT_POSITIONS = 300
 MAX_SHORT_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
 MAX_LONG_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
 
-# Risk Exposures
-MAX_SECTOR_EXPOSURE = 0.10
-MAX_BETA_EXPOSURE = 0.20
-        
-class Momentum(CustomFactor):
-    """
-    Here we define a basic momentum factor using a CustomFactor. We take
-    the momentum from the past year up until the beginning of this month
-    and penalize it by the momentum over this month. We are tempering a 
-    long-term trend with a short-term reversal in hopes that we get a
-    better measure of momentum.
-    """
-    inputs = [USEquityPricing.close]
-    window_length = 252
-
-    def compute(self, today, assets, out, prices):
-        out[:] = ((prices[-21] - prices[-252])/prices[-252] -
-                  (prices[-1] - prices[-21])/prices[-21])
-
 def make_pipeline():
     """
     Create and return our pipeline.
@@ -71,8 +52,6 @@ def make_pipeline():
     In particular, this function can be copy/pasted into research and run by itself.
     """
     
-    # Create our momentum, value, and quality factors
-    momentum = Momentum()
     # By appending .latest to the imported morningstar data, we get builtin Factors
     # so there's no need to define a CustomFactor
     value = Fundamentals.ebit.latest / Fundamentals.enterprise_value.latest
@@ -86,42 +65,25 @@ def make_pipeline():
     # Also sets a minimum $500MM market cap filter and $5 price filter
     mkt_cap_filter = Fundamentals.market_cap.latest >= 500000000    
     price_filter = USEquityPricing.close.latest >= 5
-    universe = Q1500US() & price_filter & mkt_cap_filter
+    universe = QTradableStocksUS() & price_filter & mkt_cap_filter
 
-    # Construct a Factor representing the rank of each asset by our momentum,
-    # value, and quality metrics. We aggregate them together here using simple
-    # addition.
-    #
-    # By applying a mask to the rank computations, we remove any stocks that failed
-    # to meet our initial criteria **before** computing ranks.  This means that the
-    # stock with rank 10.0 is the 10th-lowest stock that was included in the Q1500US.
+    # Construct a Factor representing the rank of each asset by our value
+    # quality metrics. We aggregate them together here using simple addition
+    # after zscore-ing them
     combined_rank = (
-        momentum.rank(mask=universe).zscore() +
-        value.rank(mask=universe).zscore() +
-        quality.rank(mask=universe).zscore()
+        value.zscore() +
+        quality.zscore()
     )
 
     # Build Filters representing the top and bottom 150 stocks by our combined ranking system.
     # We'll use these as our tradeable universe each day.
-    longs = combined_rank.top(NUM_LONG_POSITIONS)
-    shorts = combined_rank.bottom(NUM_SHORT_POSITIONS)
+    longs = combined_rank.top(NUM_LONG_POSITIONS, mask=universe)
+    shorts = combined_rank.bottom(NUM_SHORT_POSITIONS, mask=universe)
 
     # The final output of our pipeline should only include
     # the top/bottom 300 stocks by our criteria
     long_short_screen = (longs | shorts)
     
-    # Define any risk factors that we will want to neutralize
-    # We are chiefly interested in market beta as a risk factor so we define it using
-    # Bloomberg's beta calculation
-    # Ref: https://www.lib.uwo.ca/business/betasbydatabasebloombergdefinitionofbeta.html
-    beta = 0.66*RollingLinearRegressionOfReturns(
-                    target=sid(8554),
-                    returns_length=5,
-                    regression_length=260,
-                    mask=long_short_screen
-                    ).beta + 0.33*1.0
-    
-
     # Create pipeline
     pipe = Pipeline(columns = {
         'longs':longs,
@@ -129,9 +91,7 @@ def make_pipeline():
         'combined_rank':combined_rank,
         'quality':quality,
         'value':value,
-        'momentum':momentum,
-        'sector':sector,
-        'market_beta':beta
+        'sector':sector
     },
     screen = long_short_screen)
     return pipe
@@ -147,6 +107,10 @@ def initialize(context):
     context.spy = sid(8554)
 
     attach_pipeline(make_pipeline(), 'long_short_equity_template')
+
+    # attach the pipeline for the risk model factors that we 
+    # want to neutralize in the optimization step
+    attach_pipeline(risk_loading_pipeline(), 'risk_factors')
 
     # Schedule my rebalance function
     schedule_function(func=rebalance,
@@ -167,6 +131,8 @@ def before_trading_start(context, data):
     # added to the pipeline object above
     context.pipeline_data = pipeline_output('long_short_equity_template')
 
+    # This dataframe will contain all of our risk loadings
+    context.risk_loadings = pipeline_output('risk_factors')
 
 def recording_statements(context, data):
     # Plot the number of positions over time.
@@ -179,18 +145,8 @@ def rebalance(context, data):
     ### Optimize API
     pipeline_data = context.pipeline_data
     
-    ### Extract from pipeline any specific risk factors you want 
-    # to neutralize that you have already calculated 
-    risk_factor_exposures = pd.DataFrame({
-            'market_beta':pipeline_data.market_beta.fillna(1.0)
-        })
-    # We fill in any missing factor values with a market beta of 1.0.
-    # We do this rather than simply dropping the values because we have
-    # want to err on the side of caution. We don't want to exclude
-    # a security just because it's missing a calculated market beta,
-    # so we assume any missing values have full exposure to the market.
-    
-    
+    risk_loadings = context.risk_loadings
+
     ### Here we define our objective for the Optimize API. We have
     # selected MaximizeAlpha because we believe our combined factor
     # ranking to be proportional to expected returns. This routine
@@ -201,24 +157,15 @@ def rebalance(context, data):
     ### Define the list of constraints
     constraints = []
     # Constrain our maximum gross leverage
-    constraints.append(opt.MaxGrossLeverage(MAX_GROSS_LEVERAGE))
+    constraints.append(opt.MaxGrossExposure(MAX_GROSS_LEVERAGE))
+
     # Require our algorithm to remain dollar neutral
     constraints.append(opt.DollarNeutral())
-    # Add a sector neutrality constraint using the sector
-    # classifier that we included in pipeline
-    constraints.append(
-        opt.NetPartitionExposure.with_equal_bounds(
-            labels=pipeline_data.sector,
-            min=-MAX_SECTOR_EXPOSURE,
-            max=MAX_SECTOR_EXPOSURE,
-        ))
-    # Take the risk factors that you extracted above and
-    # list your desired max/min exposures to them -
-    # Here we selection +/- 0.01 to remain near 0.
-    neutralize_risk_factors = opt.WeightedExposure(
-        loadings=risk_factor_exposures,
-        min_exposures={'market_beta':-MAX_BETA_EXPOSURE},
-        max_exposures={'market_beta':MAX_BETA_EXPOSURE}
+
+    # Add the RiskModelExposure constraint to make use of the
+    # default risk model constraints
+    neutralize_risk_factors = opt.experimental.RiskModelExposure(
+        risk_model_loadings=risk_loadings
         )
     constraints.append(neutralize_risk_factors)
     
@@ -243,4 +190,3 @@ def rebalance(context, data):
         constraints=constraints
     )
     
-
