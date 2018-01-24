@@ -27,7 +27,7 @@ import numpy as np
 import pandas as pd
 
 import quantopian.optimize as opt
-from quantopian.pipeline.experimental import QTradableStocksUS, risk_loading_pipeline
+from quantopian.pipeline import QTradableStocksUS, risk_loading_pipeline
 
 # Constraint Parameters
 MAX_GROSS_LEVERAGE = 1.0
