@@ -21,13 +21,16 @@ from quantopian.pipeline.factors import CustomFactor, SimpleMovingAverage, Avera
 from quantopian.pipeline.data.builtin import USEquityPricing
 from quantopian.pipeline.data import Fundamentals
 from quantopian.pipeline.filters.morningstar import IsPrimaryShare
-from quantopian.pipeline.classifiers.fundamentals import Sector  
+
+from quantopian.pipeline.data.zacks import broker_ratings
+from quantopian.pipeline.data.psychsignal import stocktwits
 
 import numpy as np
 import pandas as pd
 
 import quantopian.optimize as opt
-from quantopian.pipeline import QTradableStocksUS, risk_loading_pipeline
+from quantopian.pipeline.filters import QTradableStocksUS
+from quantopian.pipeline.experimental import risk_loading_pipeline
 
 # Constraint Parameters
 MAX_GROSS_LEVERAGE = 1.0
@@ -39,8 +42,8 @@ NUM_SHORT_POSITIONS = 300
 # sizes should be, feel free to change them. Keep in mind that the
 # optimizer needs some leeway in order to operate. Namely, if your
 # maximum is too small, the optimizer may be overly-constrained.
-MAX_SHORT_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
-MAX_LONG_POSITION_SIZE = 2*1.0/(NUM_LONG_POSITIONS + NUM_SHORT_POSITIONS)
+MAX_SHORT_POSITION_SIZE = 2.0*1.0/(NUM_LONG_POSITIONS+NUM_SHORT_POSITIONS)
+MAX_LONG_POSITION_SIZE = 2.0*1.0/(NUM_LONG_POSITIONS+NUM_SHORT_POSITIONS)
 
 def make_pipeline():
     """
@@ -52,30 +55,33 @@ def make_pipeline():
     In particular, this function can be copy/pasted into research and run by itself.
     """
     
-    # By appending .latest to the imported morningstar data, we get builtin Factors
-    # so there's no need to define a CustomFactor
-    value = Fundamentals.ebit.latest / Fundamentals.enterprise_value.latest
-    quality = Fundamentals.roe.latest
+    # The factors we create here are based on broker recommendations data and a moving
+    # average of sentiment data
+    diff = (
+        broker_ratings.rating_cnt_strong_buys.latest+broker_ratings.rating_cnt_mod_buys.latest -
+        (broker_ratings.rating_cnt_strong_sells.latest+broker_ratings.rating_cnt_mod_sells.latest)
+    )
+    # Here we temper the diff between recommended buys and sells with a ratio of what
+    # percentage of brokers actually rated a given security
+    rat = broker_ratings.rating_cnt_with.latest/ \
+        (broker_ratings.rating_cnt_with.latest+broker_ratings.rating_cnt_without.latest)
+    alpha_signal = diff*rat
     
-    # Classify all securities by sector so that we can enforce sector neutrality later
-    sector = Sector()
-    
-    # Screen out non-desirable securities by defining our universe. 
-    # Removes ADRs, OTCs, non-primary shares, LP, etc.
-    # Also sets a minimum $500MM market cap filter and $5 price filter
-    mkt_cap_filter = Fundamentals.market_cap.latest >= 500000000    
-    price_filter = USEquityPricing.close.latest >= 5
-    universe = QTradableStocksUS() & price_filter & mkt_cap_filter
+    sentiment_score = SimpleMovingAverage(
+        inputs=[stocktwits.bull_minus_bear],
+        window_length=3,
+    )
+
+    universe = QTradableStocksUS()
 
     # Construct a Factor representing the rank of each asset by our value
     # quality metrics. We aggregate them together here using simple addition
     # after zscore-ing them
     combined_rank = (
-        value.zscore() +
-        quality.zscore()
+        alpha_signal.zscore() + sentiment_score.zscore()
     )
 
-    # Build Filters representing the top and bottom 150 stocks by our combined ranking system.
+    # Build Filters representing the top and bottom NUM_POSITIONS stocks by our combined ranking system.
     # We'll use these as our tradeable universe each day.
     longs = combined_rank.top(NUM_LONG_POSITIONS, mask=universe)
     shorts = combined_rank.bottom(NUM_SHORT_POSITIONS, mask=universe)
@@ -88,10 +94,7 @@ def make_pipeline():
     pipe = Pipeline(columns = {
         'longs':longs,
         'shorts':shorts,
-        'combined_rank':combined_rank,
-        'quality':quality,
-        'value':value,
-        'sector':sector
+        'combined_rank':combined_rank
     },
     screen = long_short_screen)
     return pipe
@@ -114,7 +117,7 @@ def initialize(context):
 
     # Schedule my rebalance function
     schedule_function(func=rebalance,
-                      date_rule=date_rules.month_start(),
+                      date_rule=date_rules.every_day(),
                       time_rule=time_rules.market_open(hours=0,minutes=30),
                       half_days=True)
     # record my portfolio variables at the end of day
@@ -166,7 +169,7 @@ def rebalance(context, data):
     # default risk model constraints
     neutralize_risk_factors = opt.experimental.RiskModelExposure(
         risk_model_loadings=risk_loadings
-        )
+    )
     constraints.append(neutralize_risk_factors)
     
     # With this constraint we enforce that no position can make up
@@ -189,4 +192,3 @@ def rebalance(context, data):
         objective=objective,
         constraints=constraints
     )
-    
