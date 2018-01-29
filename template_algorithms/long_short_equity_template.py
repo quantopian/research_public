@@ -15,22 +15,19 @@ Quantopian's Lecture Series. Please direct any
 questions, feedback, or corrections to max@quantopian.com
 """
 
-from quantopian.algorithm import attach_pipeline, pipeline_output, order_optimal_portfolio
-from quantopian.pipeline import Pipeline
-from quantopian.pipeline.factors import CustomFactor, SimpleMovingAverage, AverageDollarVolume, RollingLinearRegressionOfReturns
-from quantopian.pipeline.data.builtin import USEquityPricing
-from quantopian.pipeline.data import Fundamentals
-from quantopian.pipeline.filters.morningstar import IsPrimaryShare
-
-from quantopian.pipeline.data.zacks import broker_ratings
-from quantopian.pipeline.data.psychsignal import stocktwits
-
 import numpy as np
 import pandas as pd
-
+import quantopian.algorithm as algo
 import quantopian.optimize as opt
+from quantopian.pipeline import Pipeline
+from quantopian.pipeline.factors import CustomFactor, SimpleMovingAverage 
+
 from quantopian.pipeline.filters import QTradableStocksUS
 from quantopian.pipeline.experimental import risk_loading_pipeline
+
+from quantopian.pipeline.data.builtin import USEquityPricing
+from quantopian.pipeline.data.zacks import broker_ratings
+from quantopian.pipeline.data.psychsignal import stocktwits
 
 # Constraint Parameters
 MAX_GROSS_LEVERAGE = 1.0
@@ -77,26 +74,28 @@ def make_pipeline():
     # Construct a Factor representing the rank of each asset by our value
     # quality metrics. We aggregate them together here using simple addition
     # after zscore-ing them
-    combined_rank = (
+    combined_factor = (
         alpha_signal.zscore() + sentiment_score.zscore()
     )
 
     # Build Filters representing the top and bottom NUM_POSITIONS stocks by our combined ranking system.
     # We'll use these as our tradeable universe each day.
-    longs = combined_rank.top(NUM_LONG_POSITIONS, mask=universe)
-    shorts = combined_rank.bottom(NUM_SHORT_POSITIONS, mask=universe)
+    longs = combined_factor.top(NUM_LONG_POSITIONS, mask=universe)
+    shorts = combined_factor.bottom(NUM_SHORT_POSITIONS, mask=universe)
 
     # The final output of our pipeline should only include
     # the top/bottom 300 stocks by our criteria
     long_short_screen = (longs | shorts)
     
     # Create pipeline
-    pipe = Pipeline(columns = {
-        'longs':longs,
-        'shorts':shorts,
-        'combined_rank':combined_rank
-    },
-    screen = long_short_screen)
+    pipe = Pipeline(
+        columns = {
+            'longs':longs,
+            'shorts':shorts,
+            'combined_factor':combined_factor
+        },
+        screen = long_short_screen
+    )
     return pipe
 
 
@@ -109,11 +108,11 @@ def initialize(context):
     set_slippage(slippage.VolumeShareSlippage(volume_limit=1, price_impact=0))
     context.spy = sid(8554)
 
-    attach_pipeline(make_pipeline(), 'long_short_equity_template')
+    algo.attach_pipeline(make_pipeline(), 'long_short_equity_template')
 
     # attach the pipeline for the risk model factors that we 
     # want to neutralize in the optimization step
-    attach_pipeline(risk_loading_pipeline(), 'risk_factors')
+    algo.attach_pipeline(risk_loading_pipeline(), 'risk_factors')
 
     # Schedule my rebalance function
     schedule_function(func=rebalance,
@@ -128,14 +127,14 @@ def initialize(context):
 
 
 def before_trading_start(context, data):
-    # Call pipeline_output to get the output
+    # Call algo.pipeline_output to get the output
     # Note: this is a dataframe where the index is the SIDs for all
     # securities to pass my screen and the columns are the factors
     # added to the pipeline object above
-    context.pipeline_data = pipeline_output('long_short_equity_template')
+    context.pipeline_data = algo.pipeline_output('long_short_equity_template')
 
     # This dataframe will contain all of our risk loadings
-    context.risk_loadings = pipeline_output('risk_factors')
+    context.risk_loadings = algo.pipeline_output('risk_factors')
 
 def recording_statements(context, data):
     # Plot the number of positions over time.
@@ -155,7 +154,7 @@ def rebalance(context, data):
     # ranking to be proportional to expected returns. This routine
     # will optimize the expected return of our algorithm, going
     # long on the highest expected return and short on the lowest.
-    objective = opt.MaximizeAlpha(pipeline_data.combined_rank)
+    objective = opt.MaximizeAlpha(pipeline_data.combined_factor)
     
     ### Define the list of constraints
     constraints = []
@@ -184,11 +183,11 @@ def rebalance(context, data):
         ))
 
     ### Put together all the pieces we defined above by passing
-    # them into the order_optimal_portfolio function. This handles
+    # them into the algo.order_optimal_portfolio function. This handles
     # all of our ordering logic, assigning appropriate weights
     # to the securities in our universe to maximize our alpha with
     # respect to the given constraints.
-    order_optimal_portfolio(
+    algo.order_optimal_portfolio(
         objective=objective,
         constraints=constraints
     )
