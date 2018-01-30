@@ -11813,7 +11813,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The most basic way that we could make use of NumPy in finance is calculation the mean return of a portfolio. Say that we have a list containing the historical return of several stocks.</p>
+<p>The most basic way that we could make use of NumPy in finance is calculating the mean return of a portfolio. Say that we have a list containing the historical return of several stocks.</p>
 
 </div>
 </div>
@@ -11876,7 +11876,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You'll notice that the type of our array is 'ndarray', not just 'array'. This is because NumPy arrays can be created with multiple dimensions. If we pass np.array() a list of lists, it will create a 2-dimensional array. If pass a list of lists of lists, it will create a 3-dimensional array, and so on and so forth.</p>
+<p>You'll notice that the type of our array is 'ndarray', not just 'array'. This is because NumPy arrays can be created with multiple dimensions. If we pass np.array() a list of lists, it will create a 2-dimensional array. If we pass a list of lists of lists, it will create a 3-dimensional array, and so on and so forth.</p>
 
 </div>
 </div>
@@ -13252,7 +13252,7 @@ $$ (m \times n) \cdot (p \times q) = (m \times q) $$<p>So the resultant product 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Portfolio-Variance">Portfolio Variance<a class="anchor-link" href="#Portfolio-Variance">&#194;&#182;</a></h3><p>Let's return to our portfolio example from before. We calculated the expected return of the portfolio, but how do we calculate the variance We start by trying to evaluate the portfolio as a sum of each individual asset, scaled by it's weight.</p>
+<h3 id="Portfolio-Variance">Portfolio Variance<a class="anchor-link" href="#Portfolio-Variance">&#194;&#182;</a></h3><p>Let's return to our portfolio example from before. We calculated the expected return of the portfolio, but how do we calculate the variance? We start by trying to evaluate the portfolio as a sum of each individual asset, scaled by it's weight.</p>
 $$ VAR[P] = VAR[\omega_1 S_1 + \omega_2 S_2 + \cdots + \omega_N S_N] $$<p>Where $S_0, \cdots, S_N$ are the assets contained within our universe. If all of our assets were independent of each other, we could simply evaluate this as</p>
 $$ VAR[P] = VAR[\omega_1 S_1] + VAR[\omega_2 S_2] + \cdots + VAR[\omega_N S_N] = \omega_1^2\sigma_1^2 + \omega_2^2\sigma_2^2 + \cdots + \omega_N^2\sigma_N^2 $$<p>However, all of our assets depend on each other by their construction. They are all in some way related to our base asset and therefore each other. We thus have to calculate the variance of the portfolio by including the individual pairwise covariances of each asset. Our formula for the variance of the portfolio:</p>
 $$ VAR[P] = \sigma_P^2 = \sum_i \omega_i^2\sigma_i^2 + \sum_i\sum_{i\neq j} \omega_i\omega_j\sigma_i\sigma_j\rho_{i, j}, \ i, j \in \lbrace 1, 2, \cdots, N \rbrace $$<p>Where $\rho_{i,j}$ is the correlation between $S_i$ and $S_j$, $\rho_{i, j} = \frac{COV[S_i, S_j]}{\sigma_i\sigma_j}$. This seems exceedingly complicated, but we can easily handle all of this using NumPy arrays. First, we calculate the covariance matrix that relates all the individual stocks in our universe.</p>
