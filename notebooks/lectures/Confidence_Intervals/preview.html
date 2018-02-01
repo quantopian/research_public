@@ -11935,7 +11935,7 @@ $$SE = \frac{\sigma}{\sqrt{n}}$$<p>Where $\sigma$ is the sample standard deviati
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There is a function in scipy's stats library for calculating the standard error. Note that this function be default contains a degrees-of-freedom correction that is often not necessary (for large enough samples, it's effectively irrelevant). You can omit the correction by setting the parameter ddof to 0.</p>
+<p>There is a function in scipy's stats library for calculating the standard error. Note that this function by default contains a degrees-of-freedom correction that is often not necessary (for large enough samples, it is effectively irrelevant). You can omit the correction by setting the parameter ddof to 0.</p>
 
 </div>
 </div>
@@ -12868,7 +12868,7 @@ confidence interval: (61.609386834663141, 66.988696246744738)
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-does-this-mean?">What does this mean?<a class="anchor-link" href="#What-does-this-mean?">&#194;&#182;</a></h2><p>Confidence intervals allow us to set our desired confidence, and then report a range that will likely contain the population mean. The higher our desired confidence, the larger range we report. In general once can never report a single point value, because the probability that any given point is the true population mean is incredibly small. Let's see how our intervals tighten as we change sample size.</p>
+<h2 id="What-does-this-mean?">What does this mean?<a class="anchor-link" href="#What-does-this-mean?">&#194;&#182;</a></h2><p>Confidence intervals allow us to set our desired confidence, and then report a range that will likely contain the population mean. The higher our desired confidence, the larger range we report. In general, one can never report a single point value, because the probability that any given point is the true population mean is incredibly small. Let's see how our intervals tighten as we change sample size.</p>
 
 </div>
 </div>
@@ -13149,7 +13149,7 @@ AABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Eample:-Autocorrelated-Data">Eample: Autocorrelated Data<a class="anchor-link" href="#Eample:-Autocorrelated-Data">&#194;&#182;</a></h3><p>If your data generating process is autocorrelated, then estimates of standard deviation will be wrong. This is because autocorrelated processes tend to produce more extreme values than normally distributed processes. This is due to new values being dependent on previous values, series that are already far from the mean are likely to stay far from the mean. To check this we'll generate some autocorrelated data according to the following process.</p>
+<h3 id="Example:-Autocorrelated-Data">Example: Autocorrelated Data<a class="anchor-link" href="#Example:-Autocorrelated-Data">&#194;&#182;</a></h3><p>If your data generating process is autocorrelated, then estimates of standard deviation will be wrong. This is because autocorrelated processes tend to produce more extreme values than normally distributed processes. This is due to new values being dependent on previous values, series that are already far from the mean are likely to stay far from the mean. To check this we'll generate some autocorrelated data according to the following process.</p>
 $$X_t = \theta X_{t-1} + \epsilon$$$$\epsilon \sim \mathcal{N}(0,1)$$
 </div>
 </div>
@@ -14099,7 +14099,7 @@ RK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It turns out that for larger sample sizes, you should see the sample mean asymptotically converge to zero. This is because the process is still centered around zero, but let's check if that's true. We'll vary the number of samples draw, and look for convergence as we increase sample size.</p>
+<p>It turns out that for larger sample sizes, you should see the sample mean asymptotically converge to zero. This is because the process is still centered around zero, but let's check if that's true. We'll vary the number of samples drawn, and look for convergence as we increase sample size.</p>
 
 </div>
 </div>
