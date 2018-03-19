@@ -1,4 +1,6 @@
-rom collections import OrderedDict
+# https://www.quantopian.com/posts/machine-learning-alpha-with-risk-constraints
+# https://www.quantopian.com/posts/machine-learning-on-quantopian-part-3-building-an-algorithm?utm_campaign=machine-learning-on-quantopian-part-3-building-an-algorithm&utm_medium=email&utm_source=forums
+from collections import OrderedDict
 from time import time
 
 import pandas as pd
