@@ -11767,7 +11767,19 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-are-transaction-costs-and-how-do-they-impact-algorithm-performance"><strong>What are transaction costs and how do they impact algorithm performance</strong><a class="anchor-link" href="#What-are-transaction-costs-and-how-do-they-impact-algorithm-performance">&#182;</a></h2><p>Dr. Michele Goe // January 25 2018</p>
+<h1 id="Market-Impact-Models">Market Impact Models<a class="anchor-link" href="#Market-Impact-Models">&#182;</a></h1><p>By Dr. Michele Goe</p>
+<p>Part of the Quantopian Lecture Series:</p>
+<ul>
+<li><a href="https://www.quantopian.com/lectures">https://www.quantopian.com/lectures</a></li>
+<li><a href="https://github.com/quantopian/research_public">https://github.com/quantopian/research_public</a></li>
+</ul>
+<hr>
+<p>In this lecture we seek to clarify transaction costs and how they impact algorithm performance. By the end of this lecture you should be able to:</p>
+<ol>
+<li>Understand the attributes that influence transaction costs based on published market impact model research and our own experience</li>
+<li>Understand the impact of turnover rate, transaction costs, and leverage on your strategy performance</li>
+<li>Become familiar with how institutional quant trading teams think about and measure transaction cost.</li>
+</ol>
 
 </div>
 </div>
@@ -11792,18 +11804,12 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Learning-Objectives">Learning Objectives<a class="anchor-link" href="#Learning-Objectives">&#182;</a></h2><p>By the end of this webinar you should be able to :</p>
-<ol>
-<li>Understand the attributes that influence transaction costs based on published market impact model research and our own experience</li>
-<li>Understand the impact of turnover rate, transaction costs, and leverage on your strategy performance</li>
-<li>Become familiar with how institutional quant trading teams think about and measure transaction cost.</li>
-</ol>
 <h2 id="Intro-to-Transaction-Costs">Intro to Transaction Costs<a class="anchor-link" href="#Intro-to-Transaction-Costs">&#182;</a></h2><p>Transaction costs fall into two categories</p>
 <ul>
 <li>Direct (commissions and fees): explicit, easily measured, and in institutional trading, relatively "small"</li>
-<li>Indirect (market impact and spread costs): <strong>the purpose of this webinar</strong></li>
+<li>Indirect (market impact and spread costs): <strong>the purpose of this lecture</strong></li>
 </ul>
-<p>Here are the attributes of a trade that our research shows have the most influence on slippage :</p>
+<p>The attributes of a trade that our research shows have the most influence on slippage are:</p>
 <ol>
 <li><strong>Volatility</strong></li>
 <li><strong>Liquidity</strong></li>
@@ -11818,7 +11824,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Transaction-Cost-Impact-on-Portfolio-Performance">Transaction Cost Impact on Portfolio Performance<a class="anchor-link" href="#Transaction-Cost-Impact-on-Portfolio-Performance">&#182;</a></h2><p>Let’s consider a hypothetical mid frequency statistical arbitrage(*) portfolio :</p>
+<h2 id="Transaction-Cost-Impact-on-Portfolio-Performance">Transaction Cost Impact on Portfolio Performance<a class="anchor-link" href="#Transaction-Cost-Impact-on-Portfolio-Performance">&#182;</a></h2><p>Let’s consider a hypothetical mid-frequency statistical arbitrage* portfolio :</p>
 <table>
 <thead><tr>
 <th>Algo Attribute</th>
@@ -11850,15 +11856,15 @@ ul.typeahead-list > li > a {
 </table>
 <p>This means we trade in and out of a new portfolio roughly 50 times a year. At 2 times leverage, on 100 million in AUM,  we trade 20 billion dollars per year.</p>
 <p><strong>Q: For this level of churn what is the impact of 1 bps of execution cost to the fund’s returns?</strong></p>
-<p>This means for every basis point (.01%) of transaction cost we lose 2% off algo performance.</p>
-<p>(*) To clarify a mid-freqency strategy refers roughly to a daily turnover between .05 - .67. This represents a holding period between a day and a week. Statistical arbitrage refers to the use computational algorithms to simulatenously buy and sell stocks according to a statistical model.</p>
+<p>This means for every basis point ($0.01\%$) of transaction cost we lose $2\%$ off algo performance.</p>
+<p>* To clarify, a mid-freqency strategy refers roughly to a daily turnover between $0.05$ - $0.67$. This represents a holding period between a day and a week. Statistical arbitrage refers to the use computational algorithms to simultaneously buy and sell stocks according to a statistical model.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">perf_impact</span><span class="p">(</span><span class="n">leverage</span><span class="p">,</span> <span class="n">turnover</span> <span class="p">,</span> <span class="n">trading_days</span><span class="p">,</span> <span class="n">txn_cost_bps</span><span class="p">):</span>
@@ -11906,12 +11912,12 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-do-institutional-quant-trading-teams-evaluate-transaction-cost-?">How do institutional quant trading teams evaluate transaction cost ?<a class="anchor-link" href="#How-do-institutional-quant-trading-teams-evaluate-transaction-cost-?">&#182;</a></h2><p>Quantitiative institutional trading teams typically utilize execution tactics that aim to complete parent orders fully, while minimizing the cost of execution. To achieve this goal, parent orders are often split into a number of child orders, which are routed to different execution venues, with the goal to capture all the available liquidity and minimize the bid-ask spread. The parent-level execution price can be expressed as the volume weighted average price of all child orders.</p>
+<h2 id="How-do-institutional-quant-trading-teams-evaluate-transaction-cost-?">How do institutional quant trading teams evaluate transaction cost ?<a class="anchor-link" href="#How-do-institutional-quant-trading-teams-evaluate-transaction-cost-?">&#182;</a></h2><p>Quantitiative institutional trading teams typically utilize execution tactics that aim to complete parent orders fully, while minimizing the cost of execution. To achieve this goal, parent orders are often split into a number of child orders, which are routed to different execution venues, with the goal to capture all the available liquidity and minimize the bid-ask spread. The parent-level execution price can be expressed as the volume-weighted average price of all child orders.</p>
 <p><strong>Q: What benchmark(s) should we compare our execution price to ?</strong></p>
-<p><em>Q Trading Team Benchmarks :</em></p>
+<p><em>Quantopian Trading Team Benchmarks :</em></p>
 <ul>
 <li><strong>Arrival Price</strong> - the "decision" price of the algo, defined as the mid-quote at the time the algo placed the parent order (mid is the half-way point between the best bid and ask quotes)</li>
-<li><strong>Interval VWAP</strong> - volume weighted average price during the life of the order</li>
+<li><strong>Interval VWAP</strong> - volume-weighted average price during the life of the order</li>
 <li><strong>T + 10 min</strong> - reversion benchmark, price 10 min after the last fill vs execution price</li>
 <li><strong>T + 30 min</strong> - reversion benchmark, price 30 min after the last fill vs execution price</li>
 <li><strong>Close</strong> - reversion benchmark, price at close vs the execution price</li>
@@ -11922,14 +11928,14 @@ ul.typeahead-list > li > a {
 <p>$$ Metric  = \frac{Side * (Benchmark - Execution\thinspace Price )* 100 * 100}{ Benchmark }$$</p>
 <p><em>Key Ideas</em></p>
 <ul>
-<li><strong>Execution Price</strong> - volume weighted average price of all fills or child orders</li>
+<li><strong>Execution Price</strong> - volume-weighted average price of all fills or child orders</li>
 <li><strong>Cost vs Arrival Price</strong> - difference between the arrival price and the execution price, expressed in basis points. The idea with this benchmark is to compare the execution price against the decision price of the strategy. This cost is sometimes called "slippage" or "implementation shortfall."</li>
 </ul>
 <p>The reversion metrics give us an indication of our temporary impact after the order has been executed. Generally, we'd expect the stock price to revert a bit, upon our order completion, as our contribution to the buy-sell imbalance is reflected in the market. The momentum metrics give us an indication of the direction of price drift prior to execution. Often, trading with significant momentum can affect our ability to minimize the bid-ask spread costs.</p>
-<p>When executing an order, one of the primary tradeoffs to consider is timing risk vs market impact :</p>
+<p>When executing an order, one of the primary tradeoffs to consider is timing risk vs. market impact:</p>
 <ul>
-<li><strong>Timing Risk</strong> -  risk of price drift and information leakage as interval between arrival mid quote and last fill increases. In</li>
-<li><strong>Market Impact</strong> - ( high urgency ) risk of moving the market by shortening the interval between arrival mid quote and last fill</li>
+<li><strong>Timing Risk</strong> -  risk of price drift and information leakage as interval between arrival mid quote and last fill increases.</li>
+<li><strong>Market Impact</strong> - (high urgency) risk of moving the market by shortening the interval between arrival mid quote and last fill.</li>
 </ul>
 <p>Within this framework, neutral urgency of execution occurs at the intersection of market risk and market impact - in this case, each contributes the same to execution costs.</p>
 
@@ -11943,11 +11949,9 @@ ul.typeahead-list > li > a {
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
 <span class="n">risk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-<span class="n">impact</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="p">)</span> 
-
+<span class="n">impact</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
 <span class="c"># Make your plot, set your axes labels</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">risk</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">impact</span><span class="p">)</span>
@@ -12792,7 +12796,11 @@ ERERERHp0FTUiIiIiIhIh6aiRkREREREOrT/D3T9X6FEJtmjAAAAAElFTkSuQmCC
 
 <span class="c"># %%timeit -n1 -r1 magic is not allowed in Q</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="n">tickers</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;volume&#39;</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="s">&#39;minute&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2016-1-1&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2016-7-1&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="n">tickers</span><span class="p">,</span>
+                   <span class="n">fields</span><span class="o">=</span><span class="s">&#39;volume&#39;</span><span class="p">,</span>
+                   <span class="n">frequency</span><span class="o">=</span><span class="s">&#39;minute&#39;</span><span class="p">,</span>
+                   <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2016-1-1&#39;</span><span class="p">,</span>
+                   <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2016-7-1&#39;</span><span class="p">)</span>
 <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="k">print</span> <span class="s">&quot;Time: </span><span class="si">%0.2f</span><span class="s"> seconds.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s">&#39;US/Eastern&#39;</span><span class="p">)</span> <span class="c"># Q data comes in as UTC</span>
@@ -12801,7 +12809,8 @@ ERERERHp0FTUiIiIiIhIh6aiRkREREREOrT/D3T9X6FEJtmjAAAAAElFTkSuQmCC
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">)</span>
 <span class="n">dat</span><span class="p">[</span><span class="s">&#39;2016-04-14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;Intraday Volume Profile&#39;</span><span class="p">)</span> <span class="c"># intraday volume profile plot </span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
-<span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;2016-04-14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s">&#39;10t&#39;</span><span class="p">,</span>  <span class="n">closed</span><span class="o">=</span><span class="s">&#39;right&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;2016-04-14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="c"># percent volume plot</span>
+<span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;2016-04-14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s">&#39;10t&#39;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s">&#39;right&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span>\
+     <span class="n">dat</span><span class="p">[</span><span class="s">&#39;2016-04-14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="c"># percent volume plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Intraday Volume Profile, % Total Day&#39;</span><span class="p">);</span>
 </pre></div>
 
@@ -12819,7 +12828,7 @@ ERERERHp0FTUiIiIiIhIh6aiRkREREREOrT/D3T9X6FEJtmjAAAAAElFTkSuQmCC
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Time: 4.53 seconds.
+<pre>Time: 0.31 seconds.
 </pre>
 </div>
 </div>
@@ -14245,7 +14254,7 @@ e/a+SmrjpqsAAAAASUVORK5CYII=
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x7f60beb72250&gt;</pre>
+<pre>&lt;matplotlib.text.Text at 0x7f9698127210&gt;</pre>
 </div>
 
 </div>
@@ -15524,7 +15533,7 @@ NOBgAAAAAElFTkSuQmCC
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x7f60af460990&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x7f968ca6c550&gt;</pre>
 </div>
 
 </div>
@@ -16995,7 +17004,7 @@ kPAkhBBCCCGEEMMg4UkIIYQQQgghhkHCkxBCCCGEEEIMw/8P8kadpAJhb5wAAAAASUVORK5CYII=
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Time: 2.20 seconds.
+<pre>Time: 0.15 seconds.
 </pre>
 </div>
 </div>
@@ -17640,7 +17649,7 @@ kPAkhBBCCCGEEMMg4UkIIYQQQgghhkHCkxBCCCGEEEIMw/8P8kadpAJhb5wAAAAASUVORK5CYII=
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x7f60aff26a50&gt;</pre>
+<pre>&lt;matplotlib.text.Text at 0x7f96876ac690&gt;</pre>
 </div>
 
 </div>
@@ -19899,7 +19908,7 @@ equivalent to VWAP execution during the time of execution.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">perm_impact</span><span class="p">(</span><span class="n">pct_adv</span><span class="p">,</span> <span class="n">annual_vol_pct</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">inv_turnover</span> <span class="o">=</span> <span class="mi">200</span><span class="p">):</span>
@@ -19989,7 +19998,7 @@ equivalent to VWAP execution during the time of execution.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="s">&#39;Cost to trade Fast (First 40 mins):&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">tc_bps</span><span class="p">(</span><span class="n">pct_adv</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">annual_vol_pct</span><span class="o">=</span><span class="mi">16</span><span class="o">*</span><span class="mf">0.0157</span><span class="p">,</span> <span class="n">inv_turnover</span><span class="o">=</span><span class="mi">263</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mf">0.1</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mf">6.5</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="s">&#39;bps&#39;</span>
@@ -20033,7 +20042,7 @@ Cost to trade Slow by Noon: 18.41 bps
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="nb">round</span><span class="p">(</span><span class="n">tc_bps</span><span class="p">(</span><span class="n">pct_adv</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">annual_vol_pct</span><span class="o">=</span><span class="mi">16</span><span class="o">*</span><span class="mf">0.0157</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
@@ -20073,7 +20082,7 @@ Cost to trade Slow by Noon: 18.41 bps
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">trade_notional</span> <span class="o">=</span> <span class="mi">2000000</span> <span class="c"># 2M notional</span>
@@ -20122,7 +20131,7 @@ Expected tc in $ per share: 0.02
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.03</span><span class="p">)</span>
@@ -20780,7 +20789,7 @@ hJG/2tw2bQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.03</span><span class="p">)</span>
@@ -23510,7 +23519,7 @@ RMSQIAiCIAiCIAi9kv8PgMi8uCFHiQ8AAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.03</span><span class="p">)</span> <span class="c"># % ADV</span>
@@ -24186,7 +24195,7 @@ IsmxXklERERERI7H4ENERERERI7H4ENERERERI7H4ENERERERI7H4ENERERERI7H4ENERERERI7H
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">minutes</span> <span class="o">=</span> <span class="mi">30</span>
@@ -24695,7 +24704,7 @@ EVFG+n8IIkHfcF1d3wAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">kissell</span><span class="p">(</span><span class="n">adv</span><span class="p">,</span> <span class="n">annual_vol</span><span class="p">,</span> <span class="n">interval_vol</span><span class="p">,</span> <span class="n">order_size</span><span class="p">):</span>
@@ -24712,7 +24721,7 @@ EVFG+n8IIkHfcF1d3wAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="n">kissell</span><span class="p">(</span><span class="n">adv</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">annual_vol</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">interval_vol</span> <span class="o">=</span> <span class="n">adv</span> <span class="o">*</span> <span class="mf">0.06</span><span class="p">,</span> <span class="n">order_size</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">adv</span> <span class="p">),</span> <span class="s">&#39;bps&#39;</span>
@@ -24743,7 +24752,7 @@ EVFG+n8IIkHfcF1d3wAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
@@ -25618,7 +25627,7 @@ Where</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
@@ -26802,7 +26811,7 @@ VJIwJIQQQgghhBiVJAwJIYQQQgghRiUJQ0IIIYQQQohR6f8B2VPC+Wkm8cIAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conclusions"><strong>Conclusions</strong><a class="anchor-link" href="#Conclusions">&#182;</a></h2><h3 id="The-following-order-atttributes-leads-to-higher-market-impact:">The following order atttributes leads to higher market impact:<a class="anchor-link" href="#The-following-order-atttributes-leads-to-higher-market-impact:">&#182;</a></h3><ul>
+<h2 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">&#182;</a></h2><h3 id="The-following-order-atttributes-leads-to-higher-market-impact:">The following order atttributes leads to higher market impact:<a class="anchor-link" href="#The-following-order-atttributes-leads-to-higher-market-impact:">&#182;</a></h3><ul>
 <li>Higher relative order size </li>
 <li>Trading illquid names</li>
 <li>Trading names with lower daily turnover (in terms of shares outstanding)</li>
@@ -26822,12 +26831,18 @@ VJIwJIQQQgghhBiVJAwJIYQQQgghRiUJQ0IIIYQQQohR6f8B2VPC+Wkm8cIAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>References:</p>
-<p>Almgren, R., Thum, C., Hauptmann, E., &amp; Li, H. (2005). Direct estimation of equity market impact. Risk, 18(7), 5862.</p>
-<p>Bennett, C. and Gil, M.A. (2012, Februrary)  Measuring Historic Volatility, Santander Equity Derivatives Europe Retreived from: (<a href="http://www.todaysgroep.nl/media/236846/measuring_historic_volatility.pdf">http://www.todaysgroep.nl/media/236846/measuring_historic_volatility.pdf</a>)</p>
-<p>Garman, M. B., &amp; Klass, M. J. (1980). On the estimation of security price volatilities from historical data. Journal of business, 67-78.</p>
-<p>Kissell, R., Glantz, M., &amp; Malamut, R. (2004). A practical framework for estimating transaction costs and developing optimal trading strategies to achieve best execution. Finance Research Letters, 1(1), 35-46.</p>
-<p>Quantopian Slippage Model see : <a href="https://www.quantopian.com/help#ide-slippage">https://www.quantopian.com/help#ide-slippage</a></p>
+<h2 id="References:">References:<a class="anchor-link" href="#References:">&#182;</a></h2><ul>
+<li><p>Almgren, R., Thum, C., Hauptmann, E., &amp; Li, H. (2005). Direct estimation of equity market impact. Risk, 18(7), 5862.</p>
+</li>
+<li><p>Bennett, C. and Gil, M.A. (2012, Februrary)  Measuring Historic Volatility, Santander Equity Derivatives Europe Retreived from: (<a href="http://www.todaysgroep.nl/media/236846/measuring_historic_volatility.pdf">http://www.todaysgroep.nl/media/236846/measuring_historic_volatility.pdf</a>)</p>
+</li>
+<li><p>Garman, M. B., &amp; Klass, M. J. (1980). On the estimation of security price volatilities from historical data. Journal of business, 67-78.</p>
+</li>
+<li><p>Kissell, R., Glantz, M., &amp; Malamut, R. (2004). A practical framework for estimating transaction costs and developing optimal trading strategies to achieve best execution. Finance Research Letters, 1(1), 35-46.</p>
+</li>
+<li><p>Quantopian Slippage Model see : <a href="https://www.quantopian.com/help#ide-slippage">https://www.quantopian.com/help#ide-slippage</a></p>
+</li>
+</ul>
 
 </div>
 </div>
@@ -26836,9 +26851,7 @@ VJIwJIQQQgghhBiVJAwJIYQQQgghRiUJQ0IIIYQQQohR6f8B2VPC+Wkm8cIAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Disclaimer</p>
-<p>The material on this website is provided for informational purposes only and does not constitute an offer to sell, a solicitation to buy, or a recommendation or endorsement for any security or strategy, nor does it constitute an offer to provide investment advisory services by Quantopian.</p>
-<p>In addition, the material offers no opinion with respect to the suitability of any security or specific investment. No information contained herein should be regarded as a suggestion to engage in or refrain from any investment-related course of action as none of Quantopian nor any of its affiliates is undertaking to provide investment advice, act as an adviser to any plan or entity subject to the Employee Retirement Income Security Act of 1974, as amended, individual retirement account or individual retirement annuity, or give advice in a fiduciary capacity with respect to the materials presented herein. If you are an individual retirement or other investor, contact your financial advisor or other fiduciary unrelated to Quantopian about whether any given investment idea, strategy, product or service described herein may be appropriate for your circumstances. All investments involve risk, including loss of principal. Quantopian makes no guarantees as to the accuracy or completeness of the views expressed in the website. The views are subject to change, and may have become unreliable for various reasons, including changes in market conditions or economic circumstances.</p>
+<p><em>The material on this website is provided for informational purposes only and does not constitute an offer to sell, a solicitation to buy, or a recommendation or endorsement for any security or strategy, nor does it constitute an offer to provide investment advisory services by Quantopian. In addition, the material offers no opinion with respect to the suitability of any security or specific investment. No information contained herein should be regarded as a suggestion to engage in or refrain from any investment-related course of action as none of Quantopian nor any of its affiliates is undertaking to provide investment advice, act as an adviser to any plan or entity subject to the Employee Retirement Income Security Act of 1974, as amended, individual retirement account or individual retirement annuity, or give advice in a fiduciary capacity with respect to the materials presented herein. If you are an individual retirement or other investor, contact your financial advisor or other fiduciary unrelated to Quantopian about whether any given investment idea, strategy, product or service described herein may be appropriate for your circumstances. All investments involve risk, including loss of principal. Quantopian makes no guarantees as to the accuracy or completeness of the views expressed in the website. The views are subject to change, and may have become unreliable for various reasons, including changes in market conditions or economic circumstances.</em></p>
 
 </div>
 </div>
