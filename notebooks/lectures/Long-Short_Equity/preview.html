@@ -11773,7 +11773,6 @@ ul.typeahead-list > li > a {
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
 <li><a href="https://github.com/quantopian/research_public">https://github.com/quantopian/research_public</a></li>
 </ul>
-<p>Notebook released under the Creative Commons Attribution 4.0 License. Please do not remove this attribution.</p>
 
 </div>
 </div>
@@ -11817,7 +11816,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Long-and-Short-Baskets">Long and Short Baskets<a class="anchor-link" href="#Long-and-Short-Baskets">&#194;&#182;</a></h3><p>If you are ranking $m$ equities, have $d$ dollars to invest, and your total target number of positions to hold is $2n$, then the long and short baskets are created as follors. For each equity in spots $1, \dots, n$ in the ranking, sell $\frac{1}{2n} * d$ dollars of that equity. For each equity in spots $m - n, \dots, m$ in the ranking, buy $\frac{1}{2n} * d$ dollars of that equity.</p>
+<h3 id="Long-and-Short-Baskets">Long and Short Baskets<a class="anchor-link" href="#Long-and-Short-Baskets">&#194;&#182;</a></h3><p>If you are ranking $m$ equities, have $d$ dollars to invest, and your total target number of positions to hold is $2n$, then the long and short baskets are created as follows. For each equity in spots $1, \dots, n$ in the ranking, sell $\frac{1}{2n} * d$ dollars of that equity. For each equity in spots $m - n, \dots, m$ in the ranking, buy $\frac{1}{2n} * d$ dollars of that equity.</p>
 <h4 id="Friction-Because-of-Prices">Friction Because of Prices<a class="anchor-link" href="#Friction-Because-of-Prices">&#194;&#182;</a></h4><p>Because equity prices will not always divide $\frac{1}{2n} * d$ evenly, and equities must be bought in integer amounts, there will be some imprecision and the algorithm should get as close as it can to this number. Most algorithms will have access to some leverage during execution, so it is fine to buy slightly more than $\frac{1}{2n} * d$ dollars per equity. This does, however, cause some friction at low capital amounts. For a strategy running $d = 100000$, and $n = 500$, we see that 
 $$\frac{1}{2n} * d = \frac{1}{1000} * 100000 = 100$$
 This will cause big problems for expensive equities, and cause the algorithm to be overlevered. This is alleviated by trading fewer equities or increasing the capital, $d$. Luckily, long-short equity strategies tend to be very high capicity, so there is for most purposes no ceiling on the amount of money one can invest. For more information on algorithm capacities, refer to the algorithm capacity lecture when it is released.</p>
