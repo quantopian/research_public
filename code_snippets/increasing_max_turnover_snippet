@@ -1,3 +1,8 @@
+### This piece of code tries increasingly large turnover settings
+### until it finds one that yields a feasible portfolio. It's potentially
+### useful good if you have an algorithm whose turnover may be more variable.
+### Author: Grant Kiehne
+
 # set context.init = False in initialize(context)
 
 turnover = np.linspace(0.05,0.65,num=100)  
