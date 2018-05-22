@@ -1,6 +1,12 @@
 ### This piece of code tries increasingly large turnover settings
 ### until it finds one that yields a feasible portfolio. It's potentially
 ### useful good if you have an algorithm whose turnover may be more variable.
+### Includes error handling for the case of order_optimal_portfolio not 
+### executing due to too low of a turnover constraint.
+
+### Reference: 
+### https://www.quantopian.com/posts/party-algo-feedback-requested-please#5afaa20eab32870043944723
+
 ### Author: Grant Kiehne
 
 # set context.init = False in initialize(context)
