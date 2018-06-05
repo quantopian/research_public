@@ -1,0 +1,28 @@
+### This piece of code tries increasingly large turnover settings
+### until it finds one that yields a feasible portfolio. It's potentially
+### useful good if you have an algorithm whose turnover may be more variable.
+### Includes error handling for the case of order_optimal_portfolio not 
+### executing due to too low of a turnover constraint.
+
+### Reference: 
+### https://www.quantopian.com/posts/party-algo-feedback-requested-please#5afaa20eab32870043944723
+
+### Author: Grant Kiehne
+
+# set context.init = False in initialize(context)
+
+turnover = np.linspace(0.05,0.65,num=100)  
+for max_turnover in turnover:  
+    constraints.append(opt.MaxTurnover(max_turnover))  
+    if context.init:  
+        constraints = constraints[:-1]  
+        context.init = False  
+    try:  
+        order_optimal_portfolio(  
+            objective=objective,  
+            constraints=constraints,  
+            )  
+        record(max_turnover = max_turnover)  
+        return  
+    except:  
+        constraints = constraints[:-1]  
