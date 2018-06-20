@@ -11904,7 +11904,7 @@ ul.typeahead-list > li > a {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>mean of l: 48.2222222222
+<pre>mean of l: 50.5656565657
 </pre>
 </div>
 </div>
@@ -11931,7 +11931,7 @@ ul.typeahead-list > li > a {
 <span class="n">returns</span> <span class="o">=</span> <span class="n">price</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
 <span class="c">## Your code goes here.</span>
-<span class="k">print</span> <span class="s">&#39;median of ITI returns:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&#39;mean of ITI returns:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11948,7 +11948,7 @@ ul.typeahead-list > li > a {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>median of ITI returns: -8.33695292019e-05
+<pre>mean of ITI returns: -8.33695292019e-05
 </pre>
 </div>
 </div>
@@ -11998,7 +11998,7 @@ ul.typeahead-list > li > a {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>median of l: 47.0
+<pre>median of l: 50.0
 </pre>
 </div>
 </div>
@@ -12092,7 +12092,7 @@ ul.typeahead-list > li > a {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>mode of l: [41, 87]
+<pre>mode of l: [33, 36, 6, 97, 49, 20, 61]
 </pre>
 </div>
 </div>
@@ -12105,7 +12105,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="b.-Mode-of-the-returns.">b. Mode of the returns.<a class="anchor-link" href="#b.-Mode-of-the-returns.">&#182;</a></h2><p>Find the mode assocaited witht the returns of Goldman Sachs Corp. (GS). <em>Recall with returns, there may not be any values that appear more than once.</em></p>
+<h2 id="b.-Mode-of-the-returns.">b. Mode of the returns.<a class="anchor-link" href="#b.-Mode-of-the-returns.">&#182;</a></h2><p>Find the mode associated witht the returns of Goldman Sachs Corp. (GS). <em>Recall with returns, there may not be any values that appear more than once.</em></p>
 
 </div>
 </div>
@@ -12189,7 +12189,7 @@ ul.typeahead-list > li > a {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Geometric mean of l: 36.1131469263
+<pre>Geometric mean of l: 38.6117060197
 </pre>
 </div>
 </div>
@@ -12280,7 +12280,7 @@ ul.typeahead-list > li > a {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Harmonic mean of l: 17.1637838838
+<pre>Harmonic mean of l: 22.2574570043
 </pre>
 </div>
 </div>
@@ -12373,9 +12373,9 @@ In asset pricing, skewness is an important information, naimly in risk assessmen
 
 <span class="c"># Setting parameters and print skewness outcome. </span>
 <span class="k">if</span> <span class="n">mode</span> <span class="o">&lt;</span> <span class="n">median</span> <span class="o">&lt;</span> <span class="n">mean</span><span class="p">:</span>
-    <span class="k">print</span>  <span class="s">&#39;The returns are Positivly Skewed.&#39;</span>
+    <span class="k">print</span>  <span class="s">&#39;The returns are positivly skewed.&#39;</span>
 <span class="k">if</span> <span class="n">mean</span><span class="o">&lt;</span><span class="n">median</span><span class="o">&lt;</span><span class="n">mode</span><span class="p">:</span> 
-    <span class="k">print</span> <span class="s">&#39;The returns are Negativly Skewed.&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;The returns are negativly skewed.&#39;</span>
 <span class="k">if</span> <span class="n">mean</span> <span class="o">==</span> <span class="n">median</span> <span class="o">==</span> <span class="n">mode</span><span class="p">:</span>
     <span class="k">print</span> <span class="s">&#39;There is no Skewness: the returns are symetricaly distributed&#39;</span>
 </pre></div>
@@ -12398,7 +12398,7 @@ In asset pricing, skewness is an important information, naimly in risk assessmen
 median: -0.0460440753442
 mode: -0.588427240485
 251
-The returns are Positivly Skewed.
+The returns are positivly skewed.
 </pre>
 </div>
 </div>
