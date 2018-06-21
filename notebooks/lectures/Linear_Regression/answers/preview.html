@@ -1,8 +1,10 @@
-<head>
-  <meta charset="utf-8" />
-  <title>answers</title>
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>notebook</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-  <style type="text/css">
+<style type="text/css">
     /*!
 *
 * Twitter Bootstrap
@@ -11601,16 +11603,18 @@ ul.typeahead-list > li > a {
   margin-top: 20px;
 }
 /*# sourceMappingURL=style.min.css.map */
-  </style>
-  <style type="text/css">
+    </style>
+<style type="text/css">
     .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
 .highlight .err { border: 1px solid #FF0000 } /* Error */
 .highlight .k { color: #008000; font-weight: bold } /* Keyword */
 .highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
 .highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
 .highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
 .highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
 .highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
@@ -11650,8 +11654,10 @@ ul.typeahead-list > li > a {
 .highlight .mh { color: #666666 } /* Literal.Number.Hex */
 .highlight .mi { color: #666666 } /* Literal.Number.Integer */
 .highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
 .highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
 .highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .highlight .s2 { color: #BA2121 } /* Literal.String.Double */
 .highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -11662,12 +11668,14 @@ ul.typeahead-list > li > a {
 .highlight .s1 { color: #BA2121 } /* Literal.String.Single */
 .highlight .ss { color: #19177C } /* Literal.String.Symbol */
 .highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
 .highlight .vc { color: #19177C } /* Name.Variable.Class */
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
-  </style>
-  <style type="text/css">
+    </style>
+<style type="text/css">
     
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
 .ansi-black-fg { color: #3E424D; }
@@ -11705,39 +11713,40 @@ ul.typeahead-list > li > a {
 
 .ansi-bold { font-weight: bold; }
 
-  </style>
-  
+    </style>
 
-  <style type="text/css">
-    /* Overrides of notebook CSS for static HTML export */
-    body {
-    overflow: visible;
-    padding: 8px;
-    }
 
-    div#notebook {
-    overflow: visible;
-    border-top: none;
-    }
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+body {
+  overflow: visible;
+  padding: 8px;
+}
 
-    @media print {
-    div.cell {
+div#notebook {
+  overflow: visible;
+  border-top: none;
+}@media print {
+  div.cell {
     display: block;
     page-break-inside: avoid;
-    }
-    div.output_wrapper {
+  } 
+  div.output_wrapper { 
     display: block;
-    page-break-inside: avoid;
-    }
-    div.output {
+    page-break-inside: avoid; 
+  }
+  div.output { 
     display: block;
-    page-break-inside: avoid;
-    }
-    }
-  </style>
+    page-break-inside: avoid; 
+  }
+}
+</style>
 
-  <!-- Loading mathjax macro -->
-  <!-- Load mathjax -->
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css">
+
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
@@ -11757,8 +11766,7 @@ ul.typeahead-list > li > a {
         }
     });
     </script>
-    <!-- End of mathjax configuration -->
-</head>
+    <!-- End of mathjax configuration --></head>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -11794,22 +11802,22 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Useful Functions</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Useful Functions</span>
 <span class="k">def</span> <span class="nf">linreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
-    <span class="c"># Running the linear regression</span>
+    <span class="c1"># Running the linear regression</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
 
-    <span class="c"># Return summary of the regression and plot results</span>
+    <span class="c1"># Return summary of the regression and plot results</span>
     <span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
     <span class="n">Y_hat</span> <span class="o">=</span> <span class="n">X2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="n">a</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="c"># Plot the raw data</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y_hat</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">);</span>  <span class="c"># Add the regression line, colored in red</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;X Value&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Y Value&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="c1"># Plot the raw data</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y_hat</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">);</span>  <span class="c1"># Add the regression line, colored in red</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X Value&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y Value&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 
@@ -11823,18 +11831,18 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Useful Libraries</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Useful Libraries</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">statsmodels</span> <span class="kn">import</span> <span class="n">regression</span>
-<span class="kn">from</span> <span class="nn">statsmodels.stats</span> <span class="kn">import</span> <span class="n">diagnostic</span>
-<span class="kn">import</span> <span class="nn">statsmodels.regression</span> <span class="kn">as</span> <span class="nn">smr</span>
-<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
-<span class="kn">from</span> <span class="nn">statsmodels.stats.diagnostic</span> <span class="kn">import</span> <span class="n">het_breushpagan</span>
+<span class="kn">from</span> <span class="nn">statsmodels</span> <span class="k">import</span> <span class="n">regression</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats</span> <span class="k">import</span> <span class="n">diagnostic</span>
+<span class="kn">import</span> <span class="nn">statsmodels.regression</span> <span class="k">as</span> <span class="nn">smr</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.diagnostic</span> <span class="k">import</span> <span class="n">het_breushpagan</span>
 
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span>
 <span class="kn">import</span> <span class="nn">seaborn</span>
 </pre></div>
@@ -11867,12 +11875,12 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">fahrenheit</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">868</span><span class="p">,</span> <span class="o">-</span><span class="mi">778</span><span class="p">,</span> <span class="o">-</span><span class="mi">688</span><span class="p">,</span> <span class="o">-</span><span class="mi">598</span><span class="p">,</span> <span class="o">-</span><span class="mi">508</span><span class="p">,</span> <span class="o">-</span><span class="mi">418</span><span class="p">,</span> <span class="o">-</span><span class="mi">328</span><span class="p">,</span> <span class="o">-</span><span class="mi">238</span><span class="p">,</span> <span class="o">-</span><span class="mi">144</span><span class="p">,</span> <span class="o">-</span><span class="mi">58</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">212</span><span class="p">,</span> <span class="mi">302</span><span class="p">,</span> <span class="mi">392</span><span class="p">,</span> <span class="mi">482</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fahrenheit</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">868</span><span class="p">,</span> <span class="o">-</span><span class="mi">778</span><span class="p">,</span> <span class="o">-</span><span class="mi">688</span><span class="p">,</span> <span class="o">-</span><span class="mi">598</span><span class="p">,</span> <span class="o">-</span><span class="mi">508</span><span class="p">,</span> <span class="o">-</span><span class="mi">418</span><span class="p">,</span> <span class="o">-</span><span class="mi">328</span><span class="p">,</span> <span class="o">-</span><span class="mi">238</span><span class="p">,</span> <span class="o">-</span><span class="mi">144</span><span class="p">,</span> <span class="o">-</span><span class="mi">58</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">212</span><span class="p">,</span> <span class="mi">302</span><span class="p">,</span> <span class="mi">392</span><span class="p">,</span> <span class="mi">482</span><span class="p">,</span> 
               <span class="mi">572</span><span class="p">,</span> <span class="mi">662</span><span class="p">,</span> <span class="mi">752</span><span class="p">,</span> <span class="mi">842</span><span class="p">,</span> <span class="mi">932</span><span class="p">]</span>
 <span class="n">celsius</span>    <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="o">-</span><span class="mi">450</span><span class="p">,</span> <span class="o">-</span><span class="mi">400</span><span class="p">,</span> <span class="o">-</span><span class="mi">350</span><span class="p">,</span> <span class="o">-</span><span class="mi">300</span><span class="p">,</span> <span class="o">-</span><span class="mi">250</span><span class="p">,</span> <span class="o">-</span><span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> 
               <span class="mi">300</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
 
-<span class="c">## Your code goes here</span>
+<span class="c1">## Your code goes here</span>
 <span class="n">linreg</span><span class="p">(</span><span class="n">celsius</span><span class="p">,</span> <span class="n">fahrenheit</span><span class="p">)</span>
 </pre></div>
 
@@ -12330,15 +12338,15 @@ rkJggg==
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">start</span> <span class="o">=</span> <span class="s">&#39;2014-01-01&#39;</span>
-<span class="n">end</span> <span class="o">=</span> <span class="s">&#39;2015-01-01&#39;</span>
-<span class="n">asset</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;KO&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
-<span class="n">benchmark</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;PEP&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;2014-01-01&#39;</span>
+<span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;2015-01-01&#39;</span>
+<span class="n">asset</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;KO&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;PEP&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
 
 <span class="n">returns1</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">returns2</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c">## Your code goes here</span>
+<span class="c1">## Your code goes here</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">returns1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">returns2</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mi">95</span><span class="p">);</span>
 </pre></div>
 
@@ -12943,39 +12951,39 @@ UVVjUERERERERFWNQREREREREVU1BkVERERERFTV/n+tVC9/PBAiVgAAAABJRU5ErkJggg==
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">start</span> <span class="o">=</span> <span class="s">&#39;2014-01-01&#39;</span>
-<span class="n">end</span> <span class="o">=</span> <span class="s">&#39;2015-01-01&#39;</span>
-<span class="n">asset</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;KO&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
-<span class="n">benchmark</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;PEP&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;2014-01-01&#39;</span>
+<span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;2015-01-01&#39;</span>
+<span class="n">asset</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;KO&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;PEP&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="c"># Convert X to Matrix (adding columns of one)</span>
+<span class="c1"># Convert X to Matrix (adding columns of one)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span> <span class="n">X</span><span class="o">.</span><span class="n">size</span> <span class="p">)</span> <span class="p">))</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span> <span class="n">X</span> <span class="p">)</span>
 
-<span class="c"># Matrix Multiplication and inverse calculation</span>
+<span class="c1"># Matrix Multiplication and inverse calculation</span>
 <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span> <span class="n">X</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="p">)</span>
 <span class="n">C</span> <span class="o">*=</span> <span class="n">result</span><span class="o">.</span><span class="n">mse_resid</span>
-<span class="n">SE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="c"># Calucaltion of Standard Error. </span>
+<span class="n">SE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="c1"># Calucaltion of Standard Error. </span>
 
-<span class="c"># Critical Values of the t-statistic</span>
+<span class="c1"># Critical Values of the t-statistic</span>
 <span class="n">N</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">nobs</span>
 <span class="n">P</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">df_model</span>
 <span class="n">dof</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="n">P</span> <span class="o">-</span> <span class="mi">1</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">dof</span><span class="p">)</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">)</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">## Your code goes here</span>
+<span class="c1">## Your code goes here</span>
 
-<span class="c"># Fetch values of Beta and parameters of SE from the matrix</span>
+<span class="c1"># Fetch values of Beta and parameters of SE from the matrix</span>
 <span class="n">beta</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">SE</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
 
-<span class="k">print</span> <span class="n">beta</span> <span class="o">-</span> <span class="n">z</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">beta</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">c</span>
+<span class="nb">print</span> <span class="n">beta</span> <span class="o">-</span> <span class="n">z</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">beta</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">c</span>
 </pre></div>
 
 </div>
@@ -13026,10 +13034,10 @@ You can start by expressing f as a function of c from the data obtained from Exe
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Creat an empty numpy array (float values). </span>
-<span class="c"># Find the predicted value of f for every c in celsius (given by f = 32 + 1.8c)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Creat an empty numpy array (float values). </span>
+<span class="c1"># Find the predicted value of f for every c in celsius (given by f = 32 + 1.8c)</span>
 <span class="n">fpred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
-<span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span> <span class="o">+</span> <span class="mf">1.8</span><span class="o">*</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">celsius</span><span class="p">]</span> <span class="c">## Your code goes here (fill in the values of Beta, and X1)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span> <span class="o">+</span> <span class="mf">1.8</span><span class="o">*</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">celsius</span><span class="p">]</span> <span class="c1">## Your code goes here (fill in the values of Beta, and X1)</span>
 <span class="n">ypredicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fpred</span><span class="p">)</span>
 </pre></div>
 
@@ -13052,13 +13060,13 @@ You can start by expressing f as a function of c from the data obtained from Exe
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Calucate the difference between the predicted values of y and the actual values of y, </span>
-<span class="c"># Find the square of the difference</span>
-<span class="c"># Sum the Squares</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calucate the difference between the predicted values of y and the actual values of y, </span>
+<span class="c1"># Find the square of the difference</span>
+<span class="c1"># Sum the Squares</span>
 
-<span class="n">ypred_yact</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ypredicted</span><span class="p">,</span> <span class="n">fahrenheit</span><span class="p">)]</span> <span class="c">## your code goes here (a - b)</span>
-<span class="n">diff1squared</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ypred_yact</span><span class="p">]</span> <span class="c">## Your code goes here (a**2)</span>
-<span class="n">sumsquares1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff1squared</span><span class="p">)</span> <span class="c">## Your code goes here </span>
+<span class="n">ypred_yact</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ypredicted</span><span class="p">,</span> <span class="n">fahrenheit</span><span class="p">)]</span> <span class="c1">## your code goes here (a - b)</span>
+<span class="n">diff1squared</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ypred_yact</span><span class="p">]</span> <span class="c1">## Your code goes here (a**2)</span>
+<span class="n">sumsquares1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff1squared</span><span class="p">)</span> <span class="c1">## Your code goes here </span>
 </pre></div>
 
 </div>
@@ -13080,14 +13088,14 @@ You can start by expressing f as a function of c from the data obtained from Exe
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Calucate the difference between the predicted values of y and mean of y. </span>
-<span class="c"># Find the square of the difference</span>
-<span class="c"># Sum the Squares</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calucate the difference between the predicted values of y and mean of y. </span>
+<span class="c1"># Find the square of the difference</span>
+<span class="c1"># Sum the Squares</span>
 
-<span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fahrenheit</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">fahrenheit</span><span class="p">)</span> <span class="c">## Your code goes here</span>
-<span class="n">ypred_mean</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ypredicted</span><span class="p">]</span> <span class="c">## Your code goes here (x-mean)</span>
-<span class="n">ypred_meansquared</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ypred_mean</span><span class="p">]</span> <span class="c">## Your code goes here (a**2)</span>
-<span class="n">sumsquares2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ypred_meansquared</span><span class="p">)</span> <span class="c">## Your code goes here</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fahrenheit</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">fahrenheit</span><span class="p">)</span> <span class="c1">## Your code goes here</span>
+<span class="n">ypred_mean</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ypredicted</span><span class="p">]</span> <span class="c1">## Your code goes here (x-mean)</span>
+<span class="n">ypred_meansquared</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ypred_mean</span><span class="p">]</span> <span class="c1">## Your code goes here (a**2)</span>
+<span class="n">sumsquares2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ypred_meansquared</span><span class="p">)</span> <span class="c1">## Your code goes here</span>
 </pre></div>
 
 </div>
@@ -13109,10 +13117,10 @@ You can start by expressing f as a function of c from the data obtained from Exe
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here</span>
 <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sumsquares1</span><span class="o">/</span><span class="n">sumsquares2</span>
 
-<span class="k">print</span> <span class="s">&#39;R-squared = &#39;</span><span class="p">,</span> <span class="n">r</span>
+<span class="nb">print</span> <span class="s1">&#39;R-squared = &#39;</span><span class="p">,</span> <span class="n">r</span>
 </pre></div>
 
 </div>
@@ -13168,13 +13176,13 @@ You can start by expressing f as a function of c from the data obtained from Exe
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">asset1</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2010-01-01&#39;</span><span class="p">)</span>
-<span class="n">asset2</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;GS&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2010-01-01&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">asset1</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">)</span>
+<span class="n">asset2</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;GS&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">)</span>
 
 <span class="n">returns1</span> <span class="o">=</span> <span class="n">asset1</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">returns2</span> <span class="o">=</span> <span class="n">asset2</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c">## Your code goes here</span>
+<span class="c1">## Your code goes here</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">smr</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">returns1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">returns2</span><span class="o">.</span><span class="n">values</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 </pre></div>
 
@@ -13197,12 +13205,12 @@ You can start by expressing f as a function of c from the data obtained from Exe
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">lm</span><span class="p">,</span> <span class="n">p_lm</span><span class="p">,</span> <span class="n">fv</span><span class="p">,</span> <span class="n">p_fv</span> <span class="o">=</span> <span class="n">het_breushpagan</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;p-value for f-statistic of the breush-pagan test:&#39;</span><span class="p">,</span> <span class="n">p_fv</span>
-<span class="k">print</span> <span class="s">&#39;====&#39;</span>  
-<span class="k">print</span> <span class="s">&quot;Since the p-value obtained is greater than alpha (0.05), </span><span class="se">\</span>
-<span class="s">we can&#39;t reject the null hypothesis of the breush-pagan test, and state that there is </span><span class="se">\</span>
-<span class="s">no presence of heteroskedasticity&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lm</span><span class="p">,</span> <span class="n">p_lm</span><span class="p">,</span> <span class="n">fv</span><span class="p">,</span> <span class="n">p_fv</span> <span class="o">=</span> <span class="n">het_breushpagan</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;p-value for f-statistic of the breush-pagan test:&#39;</span><span class="p">,</span> <span class="n">p_fv</span>
+<span class="nb">print</span> <span class="s1">&#39;====&#39;</span>  
+<span class="nb">print</span> <span class="s2">&quot;Since the p-value obtained is greater than alpha (0.05), </span><span class="se">\</span>
+<span class="s2">we can&#39;t reject the null hypothesis of the breush-pagan test, and state that there is </span><span class="se">\</span>
+<span class="s2">no presence of heteroskedasticity&quot;</span>
 </pre></div>
 
 </div>
@@ -13235,13 +13243,13 @@ Since the p-value obtained is greater than alpha (0.05), we can&#39;t reject the
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Predicted values of asset1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Predicted values of asset1</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">results</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">returns1</span><span class="o">.</span><span class="n">values</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Scatter plot of Residuals to predicted model&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Predicted Model&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Residuals&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Scatter plot of Residuals to predicted model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Residuals&#39;</span><span class="p">);</span>
 </pre></div>
 
 </div>
@@ -13784,14 +13792,14 @@ QFgCAAAAAAuEJQAAAACwQFgCAAAAAAuEJQAAAACw8P8BjTI0Wb2OspUAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">p1</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">start_date</span> <span class="o">=</span> <span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> 
-                 <span class="n">end_date</span> <span class="o">=</span> <span class="s">&#39;2010-01-01&#39;</span><span class="p">,</span> 
-                 <span class="n">fields</span> <span class="o">=</span> <span class="s">&#39;price&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;XLF&#39;</span><span class="p">,</span> <span class="n">start_date</span> <span class="o">=</span> <span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> 
-                 <span class="n">end_date</span> <span class="o">=</span> <span class="s">&#39;2010-01-01&#39;</span><span class="p">,</span> 
-                 <span class="n">fields</span> <span class="o">=</span> <span class="s">&#39;price&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">start_date</span> <span class="o">=</span> <span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> 
+                 <span class="n">end_date</span> <span class="o">=</span> <span class="s1">&#39;2010-01-01&#39;</span><span class="p">,</span> 
+                 <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;price&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;XLF&#39;</span><span class="p">,</span> <span class="n">start_date</span> <span class="o">=</span> <span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> 
+                 <span class="n">end_date</span> <span class="o">=</span> <span class="s1">&#39;2010-01-01&#39;</span><span class="p">,</span> 
+                 <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;price&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c">## Your code goes here</span>
+<span class="c1">## Your code goes here</span>
 <span class="n">results2</span> <span class="o">=</span> <span class="n">smr</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="n">y</span> <span class="o">=</span> <span class="n">results2</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">results2</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">p1</span>
@@ -13807,19 +13815,19 @@ QFgCAAAAAAuEJQAAAACwQFgCAAAAAAuEJQAAAACw8P8BjTI0Wb2OspUAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">res</span> <span class="o">=</span> <span class="n">results2</span><span class="o">.</span><span class="n">resid</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">results2</span><span class="o">.</span><span class="n">resid</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Scatter plot of Residuals to predicted model&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Predicted Model&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Scatter plot of Residuals to predicted model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
 
 <span class="n">lm</span><span class="p">,</span> <span class="n">p_lm</span><span class="p">,</span> <span class="n">fv</span><span class="p">,</span> <span class="n">p_fv</span> <span class="o">=</span> <span class="n">het_breushpagan</span><span class="p">(</span><span class="n">results2</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">results2</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;p-value for f-statistic of the breush-pagan test:&#39;</span><span class="p">,</span> <span class="n">p_fv</span>
-<span class="k">print</span> <span class="s">&#39;====&#39;</span>  
-<span class="k">print</span> <span class="s">&quot;Since the p-value obtained is less than alpha (0.05), </span><span class="se">\</span>
-<span class="s">we reject the null hypothesis of the breush-pagan test, and state that there is </span><span class="se">\</span>
-<span class="s">presence of heteroskedasticity&quot;</span>
+<span class="nb">print</span> <span class="s1">&#39;p-value for f-statistic of the breush-pagan test:&#39;</span><span class="p">,</span> <span class="n">p_fv</span>
+<span class="nb">print</span> <span class="s1">&#39;====&#39;</span>  
+<span class="nb">print</span> <span class="s2">&quot;Since the p-value obtained is less than alpha (0.05), </span><span class="se">\</span>
+<span class="s2">we reject the null hypothesis of the breush-pagan test, and state that there is </span><span class="se">\</span>
+<span class="s2">presence of heteroskedasticity&quot;</span>
 </pre></div>
 
 </div>
@@ -14439,6 +14447,15 @@ Read more about heteroscedasticity here <a href="https://en.wikipedia.org/wiki/H
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Congratulations on completing the Linear Regression exercise!</p>
 <p>As you learn more about writing trading algorithms and the Quantopian platform, be sure to check out the <a href="https://www.quantopian.com/contest">Quantopian Daily Contest</a>, in which you can compete for a cash prize every day.</p>
 <p>Start by going through the <a href="https://www.quantopian.com/tutorials/contest">Writing a Contest Algorithm</a> Tutorial.</p>
@@ -14458,3 +14475,8 @@ Read more about heteroscedasticity here <a href="https://en.wikipedia.org/wiki/H
     </div>
   </div>
 </body>
+
+ 
+
+
+</html>
