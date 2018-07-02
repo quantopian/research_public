@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>answers</title>
+  <title>questions</title>
 
   <style type="text/css">
     /*!
@@ -11767,16 +11767,15 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercises:-Confidence-Intervals---Answer-Key">Exercises: Confidence Intervals - Answer Key<a class="anchor-link" href="#Exercises:-Confidence-Intervals---Answer-Key">&#182;</a></h1><p>By Christopher Fenaroli and Delaney Mackenzie</p>
-<h2 id="Lecture-Link:">Lecture Link:<a class="anchor-link" href="#Lecture-Link:">&#182;</a></h2><p><a href="https://www.quantopian.com/lectures/confidence-intervals">https://www.quantopian.com/lectures/confidence-intervals</a></p>
-<h3 id="IMPORTANT-NOTE:">IMPORTANT NOTE:<a class="anchor-link" href="#IMPORTANT-NOTE:">&#182;</a></h3><p>This lecture corresponds to the Confidence Intervals lecture, which is part of the Quantopian lecture series. This homework expects you to rely heavily on the code presented in the corresponding lecture. Please copy and paste regularly from that lecture when starting to work on the problems, as trying to do them from scratch will likely be too difficult.</p>
-<p>When you feel comfortable with the topics presented here, see if you can create an algorithm that qualifies for the Quantopian Contest. Participants are evaluated on their ability to produce risk-constrained alpha and the top 10 contest participants are awarded cash prizes on a daily basis.</p>
-<p><a href="https://www.quantopian.com/contest">https://www.quantopian.com/contest</a></p>
+<h1 id="Exercises:-Maximum-Likelihood-Estimation">Exercises: Maximum Likelihood Estimation<a class="anchor-link" href="#Exercises:-Maximum-Likelihood-Estimation">&#182;</a></h1><p>By Christopher van Hoecke, Max Margenot, and Delaney Mackenzie</p>
+<h2 id="Lecture-Link-:">Lecture Link :<a class="anchor-link" href="#Lecture-Link-:">&#182;</a></h2><p><a href="https://www.quantopian.com/lectures/maximum-likelihood-estimation">https://www.quantopian.com/lectures/maximum-likelihood-estimation</a></p>
+<h3 id="IMPORTANT-NOTE:">IMPORTANT NOTE:<a class="anchor-link" href="#IMPORTANT-NOTE:">&#182;</a></h3><p>This lecture corresponds to the Maximum Likelihood Estimation lecture, which is part of the Quantopian lecture series. This homework expects you to rely heavily on the code presented in the corresponding lecture. Please copy and paste regularly from that lecture when starting to work on the problems, as trying to do them from scratch will likely be too difficult.</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
 <li><a href="https://github.com/quantopian/research_public">github.com/quantopian/research_public</a></li>
 </ul>
+<p>Notebook released under the Creative Commons Attribution 4.0 License.</p>
 <hr>
 
 </div>
@@ -11786,260 +11785,31 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Key-Concepts">Key Concepts<a class="anchor-link" href="#Key-Concepts">&#182;</a></h2>
+<h2 id="Key-concepts">Key concepts<a class="anchor-link" href="#Key-concepts">&#182;</a></h2><p>Normal Distribution MLE Estimators: 
+$$
+\hat\mu = \frac{1}{T}\sum_{t=1}^{T} x_t \\\qquad \hat\sigma = \sqrt{\frac{1}{T}\sum_{t=1}^{T}{(x_t - \hat\mu)^2}}
+$$</p>
+<p>Exponential Distribution MLE Estimators: 
+$$\hat\lambda = \frac{\sum_{t=1}^{T} x_t}{T}$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">generate_autocorrelated_data</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">X</span>
-
-<span class="k">def</span> <span class="nf">newey_west_SE</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="n">ind</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="n">ind</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s">&#39;HAC&#39;</span><span class="p">,</span><span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;maxlags&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
-    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">newey_west_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="n">ind</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="n">ind</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">regression</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">sw</span><span class="o">.</span><span class="n">cov_hac</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># Useful Libraries</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">statsmodels.stats.stattools</span> <span class="kn">import</span> <span class="n">jarque_bera</span>
-<span class="kn">import</span> <span class="nn">statsmodels.stats.sandwich_covariance</span> <span class="kn">as</span> <span class="nn">sw</span>
-<span class="kn">from</span> <span class="nn">statsmodels</span> <span class="kn">import</span> <span class="n">regression</span>
-<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="kn">as</span> <span class="nn">stats</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Data">Data<a class="anchor-link" href="#Data">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
-<span class="n">POPULATION_MU</span> <span class="o">=</span> <span class="mi">105</span>
-<span class="n">POPULATION_SIGMA</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">50</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-1:-Determining-Confidence-Intervals">Exercise 1: Determining Confidence Intervals<a class="anchor-link" href="#Exercise-1:-Determining-Confidence-Intervals">&#182;</a></h1><h2 id="a.-Mean">a. Mean<a class="anchor-link" href="#a.-Mean">&#182;</a></h2><p>Determine the mean of the following artificial data in <code>sample</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">POPULATION_MU</span><span class="p">,</span> <span class="n">POPULATION_SIGMA</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="n">Mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="s">&quot;Mean:&quot;</span><span class="p">,</span> <span class="n">Mean</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Mean: 103.223647005
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="b.-Standard-Deviation">b. Standard Deviation<a class="anchor-link" href="#b.-Standard-Deviation">&#182;</a></h2><p>Determine standard deviation of the sample.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#Your code goes here</span>
-
-<span class="n">SD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="s">&quot;Standard Deviation:&quot;</span><span class="p">,</span> <span class="n">SD</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Standard Deviation: 18.0645730239
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="c.-Standard-Error">c. Standard Error<a class="anchor-link" href="#c.-Standard-Error">&#182;</a></h2><p>Using the standard deviation and <code>sample_size</code>, determine the standard error for the sample.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#Your code goes here</span>
-
-<span class="n">SE</span> <span class="o">=</span> <span class="n">SD</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="s">&quot;Standard Error:&quot;</span><span class="p">,</span> <span class="n">SE</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Standard Error: 2.55471641688
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="d.-Confidence-Intervals">d. Confidence Intervals<a class="anchor-link" href="#d.-Confidence-Intervals">&#182;</a></h2><p>Using the standard error and mean, determine 95% <code>(Z = 1.96)</code>, 90% <code>(Z = 1.64)</code>, and 80% <code>(Z = 1.28)</code> confidence intervals for the sample.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#Your code goes here</span>
-
-<span class="k">print</span> <span class="s">&quot;95% Confidence Interval:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">SE</span> <span class="o">+</span> <span class="n">Mean</span><span class="p">,</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">SE</span> <span class="o">+</span> <span class="n">Mean</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;90% Confidence Interval:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.64</span> <span class="o">*</span> <span class="n">SE</span> <span class="o">+</span> <span class="n">Mean</span><span class="p">,</span> <span class="mf">1.64</span> <span class="o">*</span> <span class="n">SE</span> <span class="o">+</span> <span class="n">Mean</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;80% Confidence Interval:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.28</span> <span class="o">*</span> <span class="n">SE</span> <span class="o">+</span> <span class="n">Mean</span><span class="p">,</span> <span class="mf">1.28</span> <span class="o">*</span> <span class="n">SE</span> <span class="o">+</span> <span class="n">Mean</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>95% Confidence Interval: (98.216402827473189, 108.23089118165043)
-90% Confidence Interval: (99.03391208087541, 107.41338192824821)
-80% Confidence Interval: (99.953609990952913, 106.49368401817071)
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -12057,52 +11827,100 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-2:-Interpreting-Confidence-Intervals">Exercise 2: Interpreting Confidence Intervals<a class="anchor-link" href="#Exercise-2:-Interpreting-Confidence-Intervals">&#182;</a></h1><p>Assuming our interval was correctly calculated and that the underlying data was independent, if we take many samples and make many 95% confidence intervals, the intervals will contain the true mean 95% of the time. Run 1000 samples and measure how many of their confidence intervals actually contain the true mean.</p>
+<h1 id="Exercise-1:-Normal-Distribution">Exercise 1: Normal Distribution<a class="anchor-link" href="#Exercise-1:-Normal-Distribution">&#182;</a></h1><ul>
+<li>Given the equations above, write down functions to calculate the MLE estimators $\hat{\mu}$ and $\hat{\sigma}$ of the normal distribution. </li>
+<li>Given the sample normally distributed set, find the maximum likelihood $\hat{\mu}$ and $\hat{\sigma}$.</li>
+<li>Fit the data to a normal distribution using SciPy. Compare SciPy's calculated parameters with your calculated values of $\hat{\mu}$ and $\hat{\sigma}$.</li>
+<li>Plot a normal distribution PDF with your estimated parameters</li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">POPULATION_MU</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">POPULATION_SIGMA</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sample_size</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># Normal mean and standard deviation MLE estimators</span>
+<span class="k">def</span> <span class="nf">normal_mu</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="c"># Get the number of observations</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="c"># Sum the observations</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="k">return</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">T</span> <span class="o">*</span> <span class="n">s</span>
 
-<span class="c">#Your code goes here</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-
-<span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="mi">1000</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result&quot;</span><span class="p">,</span> <span class="n">correct</span>
+<span class="k">def</span> <span class="nf">normal_sigma</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="c"># Get the mu MLE</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="c"># Sum the square of the differences</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="c"># Compute sigma^2</span>
+    <span class="n">sigma_squared</span> <span class="o">=</span> 
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma_squared</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Normal Distribution Sample Data</span>
+<span class="n">TRUE_MEAN</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">TRUE_STD</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">TRUE_MEAN</span><span class="p">,</span> <span class="n">TRUE_STD</span><span class="p">,</span> <span class="mi">10000000</span><span class="p">)</span>
 
+<span class="c"># Use your functions to compute the MLE mu and sigma</span>
+<span class="n">mu</span>  <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+<span class="n">std</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
 
-<div class="output_area">
+<span class="k">print</span> <span class="s">&#39;Maximum likelihood value of mu:&#39;</span><span class="p">,</span> <span class="n">mu</span>
+<span class="k">print</span> <span class="s">&#39;Maximum likelihood value for sigma:&#39;</span><span class="p">,</span> <span class="n">std</span>
+</pre></div>
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Expected Result: 950.0
-Actual Result 932
-</pre>
 </div>
 </div>
+</div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Fit the distribution using SciPy and compare those parameters with yours </span>
+<span class="n">scipy_mu</span><span class="p">,</span> <span class="n">scipy_std</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+<span class="k">print</span> <span class="s">&#39;Scipy Maximum likelihood value of mu:&#39;</span><span class="p">,</span> <span class="n">scipy_mu</span>
+<span class="k">print</span> <span class="s">&#39;Scipy Maximum likelihood value for sigma:&#39;</span><span class="p">,</span> <span class="n">scipy_std</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Get the PDF, fill it with your calculated parameters, and plot it along x</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="s">&#39;true&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Observed Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s">&#39;Fitted Distribution PDF&#39;</span><span class="p">,</span> <span class="s">&#39;Observed Data&#39;</span><span class="p">,</span> <span class="p">]);</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
@@ -12120,851 +11938,82 @@ Actual Result 932
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-3:-Central-Limit-Theorem">Exercise 3: Central Limit Theorem<a class="anchor-link" href="#Exercise-3:-Central-Limit-Theorem">&#182;</a></h1><h2 id="a.-Plotting-Sample-Means---Normal">a. Plotting Sample Means - Normal<a class="anchor-link" href="#a.-Plotting-Sample-Means---Normal">&#182;</a></h2><p>Assuming our samples are independent, the distribution of the sample means should be normally distributed, regardless of the underlying distribution.</p>
-<p>Draw 500 samples of size <code>sample_size</code> from the same normal distribution from question 1, plot the means of each of the samples, and check to see if the distribution of the sample means is normal using the <code>jarque_bera</code> function (see <a href="https://www.quantopian.com/lectures/statistical-moments">here</a> more information on the Jarque-Bera test)</p>
+<h1 id="Exercise-2:-Exponential-Distribution">Exercise 2: Exponential Distribution<a class="anchor-link" href="#Exercise-2:-Exponential-Distribution">&#182;</a></h1><ul>
+<li>Given the equations above, write down functions to calculate the MLE estimator $\hat{\lambda}$ of the exponential distribution</li>
+<li>Given the sample exponentially distributed set, find the maximum likelihood</li>
+<li>Fit the data to an exponential distribution using SciPy. Compare SciPy's calculated parameter with your calculated values of  $\hat{\lambda}$</li>
+<li>Plot an exponential distribution PDF with your estimated parameter</li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">normal_samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">POPULATION_MU</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">POPULATION_SIGMA</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sample_size</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">normal_samples</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-
-<span class="n">_</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jarque_bera</span><span class="p">(</span><span class="n">normal_samples</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">pvalue</span>
-<span class="k">if</span> <span class="n">pvalue</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample means is likely normal.&#39;</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample means is likely not normal.&#39;</span>
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">exp_lambda</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">/</span><span class="n">T</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>0.639560006167
-The distribution of sample means is likely normal.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-hQvqTGvhTB/GfvDgQccFijfS9ZCc27Fh1C5j+53f+Z3s3LkzK1asyLXXXptZs2bltttuyzXXXJPr
-rrsujz/+eP7+7/8+X/jCF0ZrJBhTPuivFP6yzaXmvT/z9913X2677bYkyR//8R/nt37rtzJ79ux6
-jQZjguMCl7pzOTaM6rux/cVf/EWeffbZfPGLX8yRI0fy6U9/Otddd12S5JZbbsnevXtHcxyou5aW
-lpw4cSJJMjAwkBkzZqStre20v9gNDAy871pVKM2vroVf/swvW7Ysl19+eS6//PJ0dHQ4TnDJaGho
-GP7acYFL3XvXQ3Jux4ZRi53//u//zgMPPJAk+Y//+I/Mnj07d999d3784x8nSV5++eW0t7eP1jgw
-JnR0dKS7uztJ0t3dnQULFmTu3LnZvXt3jh07lrfffjs7d+7M/Pnz6zwpXFhnWgt9fX1ZvXp1kuR/
-//d/s2PHjlxzzTX1HBNGzXvP3txwww2OC1zS3rsezvXY0FAZpXOhlUolDzzwQP7nf/4nl112WR59
-9NH86Ec/yle/+tVcfvnlaWlpyd/8zd+cdk0qlGTPnj1Zu3Zt9u3bl6ampsyYMSOPPvpo7rvvvpw4
-cSIzZ87Mww8/nHHjxuWFF17Ihg0b0tjYmK6urvzBH/xBvceHmjmXtfC3f/u3+e53v5tx48bllltu
-yWc+85l6jw81c6a1cNNNN+U73/lO/uu//ivXX399fvM3fzP33HOP4wLFO5f18Oijj+Z73/veiI4N
-oxY7AAAAo2lUX7MDAAAwWsQOAABQJLEDAAAUSewAAABFEjsAAECRxA4AAFAksQMAABTp/wHWahBO
-lyDL3wAAAABJRU5ErkJggg==
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="b.-Plotting-Sample-Means---Exponential">b. Plotting Sample Means - Exponential<a class="anchor-link" href="#b.-Plotting-Sample-Means---Exponential">&#182;</a></h2><p>Draw 500 samples of size <code>sample_size</code> from a new exponential distribution, plot the means of each of the samples, and check to see if the distribution of the sample means is normal.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">expo_samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">POPULATION_MU</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># Exponential distribution sample data</span>
+<span class="n">TRUE_LAMBDA</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">TRUE_LAMBDA</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 
-<span class="c">#Your code goes here</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">expo_samples</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-
-<span class="n">_</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jarque_bera</span><span class="p">(</span><span class="n">expo_samples</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">pvalue</span>
-<span class="k">if</span> <span class="n">pvalue</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample means is likely normal, despite the underlying distribution being non-normal (exponential).&#39;</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample means is likely not normal.&#39;</span>
+<span class="c"># Use your functions to compute the MLE lambda</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+<span class="k">print</span> <span class="s">&quot;Lambda estimate: &quot;</span><span class="p">,</span> <span class="n">lam</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>0.306129798551
-The distribution of sample means is likely normal, despite the underlying distribution being non-normal (exponential).
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-nVm5cmWWLl2awcHB9PT0ZMaMGdYbY2b69On5nd/5nSTJtddem/7+/jNec3WLnQULFuTHP/5xKpVK
-Pvjggxw9ejRdXV155ZVXkiS9vb0j35zCaH3+85/PT37ykyS/vATa1taWyy+/PH19fUmSLVu2WG+M
-ia6urvT29ib5r/Pa3Llzs3379nz44Yc5cuRI3nrrrcyfP7/Bk1KCzZs3p7W1NXfdddfItquuusp6
-o+ZmzJiRLVu2ZOPGjXn++edz8cUXZ8OGDc5vjKnf+73fy7/8y78kSXbs2JHLLrvsjNdcU6WO1xtf
-eOGFfP/7309TU1PuuOOOzJkzJ/fee2+OHTuWmTNnZs2aNRk3bly9xqFgR48ezapVq3LgwIEcP348
-f/mXf5np06dn9erVqVQqueqqq/K1r32t0WNyjtuxY0cefvjh7NmzJy0tLZkxY0a++c1v5r777vvU
-eW3Lli1Zt25dmpub09PTkz/6oz9q9PicY0623t5///20tramra0tTU1NueKKK7J69WrrjVE72Xr7
-9re/nQsvvDBJcv311+fVV19NEuuNmjjZmvv7v//7PPTQQxkcHExbW1seeeSRtLe3n9Gaq2vsAAAA
-1Etdf6koAABAvYgdAACgSGIHAAAoktgBAACKJHYAAIAiiR0AAKBIYgcAACjS/weJR1GeCr2j6QAA
-AABJRU5ErkJggg==
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="c.i-Plotting-Sample-Means---Autocorrelated">c.i Plotting Sample Means - Autocorrelated<a class="anchor-link" href="#c.i-Plotting-Sample-Means---Autocorrelated">&#182;</a></h2><p>Draw 500 samples of size <code>sample_size</code> from a new autocorrelated (dependent) distribution, plot the means of each of the samples, and check to see if the distribution of the sample means is normal.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">autocorrelated_samples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">generate_autocorrelated_data</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">POPULATION_MU</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-<span class="n">autocorrelated_means</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">autocorrelated_samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">autocorrelated_means</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-
-<span class="n">_</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jarque_bera</span><span class="p">(</span><span class="n">autocorrelated_means</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">pvalue</span>
-<span class="k">if</span> <span class="n">pvalue</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample means is likely normal, despite an autocorrelated underlying distribution.&#39;</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample means is likely not normal.&#39;</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># Fit the distribution using SciPy and compare that parameter with yours </span>
+<span class="n">_</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+<span class="k">print</span> <span class="s">&#39;Scipy lambds estimate: &#39;</span><span class="p">,</span> <span class="n">l</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>0.440090741806
-The distribution of sample means is likely normal, despite an autocorrelated underlying distribution.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-hROvvZKdG+9Me3t7vUcBxikBBAATXMustkyffWW9xwCYELwGCAAAKIYAAgAAiiGAAACAYgggAACg
-GAIIAAAohgACAACKIYAAAIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKEZztTvu
-27cvW7duTXNzc+6///5ce+21Wbt2bSqVSq644oo8+uijmTJlSi1nBQAAGJOqngE6fvx4/vEf/zG7
-d+/OP/3TP+UHP/hBNm/enK6uruzatStXXXVV9u7dW+tZAQAAxqSqANq/f39uvPHGXH755Zk3b14e
-eeSRPP/881m2bFmSZNmyZdm/f39NBwUAABirqi6BO3z4cEZGRvKpT30qw8PDWb16dd56663RS97m
-zp2boaGhmg4KAAAwVlUFUKVSGb0M7vDhw7n77rtTqVTO+P756unpqWYEmHSshWRgYKDeIwCTQG9v
-b4aHh+s9Rk04N0DtVRVA8+bNy5IlS9LY2JgPfehDaW1tTXNzc06ePJmpU6dmcHAwbW1t53Wsjo6O
-akaASaWnp8daSDJjxozk6aP1HgOY4BYvXpz29vZ6jzFmzg3wrlo/EFDVa4BuvPHGPPfcc6lUKvnV
-r36VEydOpLOzM9/97neTJN3d3Vm6dGlNBwUAABirqp4Bmj9/fm677basXLkyDQ0NWb9+fRYvXpwH
-H3ww3/rWt7JgwYKsWLGi1rMCAACMSdWfA7Ry5cqsXLnyjG3btm0b80AAAAAXS1WXwAEAAExEAggA
-ACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKIYAAgAAiiGAAACAYgggAACgGAIIAAAohgACAACKIYAA
-AIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKIYAAgAAiiGAAACAYgggAACgGAII
-AAAohgACAACKIYAAAIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKIYAAgAAiiGA
-AACAYgggAACgGAIIAAAohgACAACKIYAAAIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAAoBgC
-CAAAKIYAAgAAiiGAAACAYgggAACgGAIIAAAohgACAACKIYAAAIBiCCAAAKAYAggAACiGAAIAAIoh
-gAAAgGIIIAAAoBgCCAAAKIYAAgAAijGmAHr77bdz66235tvf/naOHj2arq6u3HXXXXnggQfyzjvv
-1GpGAACAmhhTAD322GP5wAc+kCTZvHlzurq6smvXrlx11VXZu3dvTQYEAAColaoD6Oc//3l+/vOf
-56abbkqlUskLL7yQZcuWJUmWLVuW/fv312xIAACAWmiudscvfelLWb9+fZ566qkkycjISKZMmZIk
-mTt3boaGhmozIUxip06dSl9fXwYGBjJjxox6j1N3/f399R4BAJjkqgqgb3/721myZEmuvPLKs36/
-Uqmc97F6enqqGQEmhYGBgXzpyR+nZVZb8vTReo9Td6++/JPM/eDv1nsMYILr7e3N8PBwvceoCX8n
-Qe1VFUDPPPNMXn755fzwhz/M4OBgpkyZkpaWlpw8eTJTp07N4OBg2trazutYHR0d1YwAk8KMGTPS
-Mutops8++4MJpTnx2mC9RwAmgcWLF6e9vb3eY4xZT0+Pv5MgtX8goKoA+trXvjb6769//ev54Ac/
-mAMHDuS73/1u/uiP/ijd3d1ZunRpzYYEADgfldOnJ83ltLW8PHrhwoVpamqqybFgoqv6NUC/6f77
-78+DDz6Yb33rW1mwYEFWrFhRq0MDAJyXkeGhrH/iWFpm9dV7lNqoweXRJ157JTs33jkpnhWDWhhz
-AN17772j/962bdtYDwcAMCYts9pcWgy8rzF9DhAAAMBEIoAAAIBiCCAAAKAYAggAACiGAAIAAIoh
-gAAAgGIIIAAAoBgCCAAAKIYAAgAAiiGAAACAYgggAACgGAIIAAAohgACAACKIYAAAIBiCCAAAKAY
-AggAACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKIYAAgAAiiGAAACAYgggAACgGAIIAAAohgACAACK
-IYAAAIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKIYAAgAAiiGAAACAYgggAACg
-GAIIAAAohgACAACKIYAAAIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAAoBgCCAAAKIYAAgAA
-iiGAAACAYgggAACgGAIIAAAohgACAACKIYAAAIBiCCAAAKAYAggAACiGAAIAAIohgAAAgGIIIAAA
-oBjN1e746KOP5sCBAzl16lQ++clP5qMf/WjWrl2bSqWSK664Io8++mimTJlSy1kBAADGpKoAeu65
-59LX15fdu3fn+PHjWbFiRW644Ybcddddue222/K1r30te/fuzR133FHreQEAAKpW1SVwv/d7v5fN
-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
-QmCC
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="c.ii-Plotting-Sample-Standard-Deviations---Autocorrelated">c.ii Plotting Sample Standard Deviations - Autocorrelated<a class="anchor-link" href="#c.ii-Plotting-Sample-Standard-Deviations---Autocorrelated">&#182;</a></h2><p>Draw 500 samples of size <code>sample_size</code> from the same autocorrelated distribution, plot the standard deviations of each of the samples, and check to see if the distribution of the sample standard deviations is normal.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">autocorrelated_samples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">generate_autocorrelated_data</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">POPULATION_MU</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-<span class="n">autocorrelated_stds</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">autocorrelated_samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># Get the PDF, fill it with your calculated parameter, and plot it along x</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
 
-<span class="c">#Your code goes here</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">autocorrelated_stds</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-
-<span class="n">_</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jarque_bera</span><span class="p">(</span><span class="n">autocorrelated_stds</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">pvalue</span>
-<span class="k">if</span> <span class="n">pvalue</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample standard deviations is likely normal.&#39;</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;The distribution of sample standard deviations is likely not normal, due to the autocorrelated underlying distribution and the different assumptions for the CLT for means and for standard deviations.&#39;</span>
-    
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="s">&#39;true&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">l</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Observed Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s">&#39;Fitted Distribution PDF&#39;</span><span class="p">,</span> <span class="s">&#39;Observed Data&#39;</span><span class="p">,</span> <span class="p">]);</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>0.00411075021602
-The distribution of sample standard deviations is likely not normal, due to the autocorrelated underlying distribution and the different assumptions for the CLT for means and for standard deviations.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-xo0bV+SpB4fOzs648847o7a29n2v//a3vx0bN26MTCYTS5Ysiblz58akSZP6ecrBKddu165dGx/7
-2Mfi17/+dT9PNvjl2u1tt90WDQ0Nkclk4sYbb4yf//zncdlll/XzlINTd7t9880349///d/jX/7l
-X6K0tDT++q//Ol544YX41Kc+VYRJB5dcj9mIiObm5njuuediyJAh/TjZ4JdrtyUlJbFhw4YYNmxY
-P082+OXa7Zo1a+K6666LK664Iv7hH/4hDh06FL/3e7/3gcfrl2d0nnzyyZgzZ05EREyaNCmOHz8e
-J06ceM/tHn744airq4sPfehD/THWoNfdXisqKqKioiI6OjrinXfeiTfffDOqqqqKOe6g0t1u33jj
-jTjvvPPi/PPPj5KSkrj00kvjySefLOa4g8rQoUNjw4YNkclk3nPdf//3f8f5558f48aNi5KSkrj8
-8svjqaeeKsKUg1N3u42IuOmmm7oe15ybXLt9+OGHu66rrq6Oo0eP9ud4g1p3ux02bFj88Ic/jNLS
-0ujs7IyOjo4YM2ZMEaYcfHI9ZiPe/aXxpptu6sep0pBrt9lsNrypcX662202m42mpqauJ0S+9a1v
-dRs5Ef0UOkeOHInq6uqur0eNGhVHjhx5z+22bt0a8+fP74+RktDdXisqKmLp0qUxZ86cuOKKK2Lq
-1KnxkY98pFijDjrd7ba6ujpOnDgRL7/8crz99tvx9NNPv+/jmfdXWloaFRUV73vdb++9urraU/7n
-oLvdRoQPcO6FXLsdMWJEREQcPnw4du3aFZdffnl/jTbo5dptRMR9990XdXV18Sd/8icxceLEfpps
-cMu110ceeSQ++9nPxvjx4/txqjT05DF72223xeLFi+N73/teP02Vhu52+/rrr8fw4cPj29/+do93
-W5Q3I3i/yn3hhRfiwgsv7PrLgnP3v/fa0dERP/jBD+Kxxx6LnTt3xp49e+LFF18s4nSD228/Zu+6
-66645ZZbYtmyZXHBBRf4l5sCsVcGk9deey2+8pWvxO233+4Z9D725S9/OXbu3Bk///nP4/nnny/2
-OIPesWPH4uGHH45rrrnGsw8FcOONN8aKFSti06ZNsX///njssceKPVISstlsHD58OL70pS/Fpk2b
-4pe//GX87Gc/6/Z7+iV0MpnMWf/iffjw4Rg7duxZt3n88cfjD//wD/tjnGR0t9eXXnopLrjggqiq
-qory8vL49Kc/Hfv27SvWqINOrsfspz/96di8eXPce++9MXLkyJgwYUIxxkxOJpOJtra2rq9bW1u7
-Pe0CBoocdcK+AAACxklEQVSOjo64/vrr46abbur2NRGcm2PHjsVzzz0XEe+eqXDZZZfF7t27izzV
-4PfUU0/FG2+8EVdddVUsW7YsfvWrX8WaNWuKPVYy/uIv/iKqq6ujtLQ0Lrvssti/f3+xR0rCqFGj
-YsKECTFx4sQoLS2N2tranK857ZfQmTFjRjQ2NkZExL59+2LcuHHvOYVi7969cfHFF/fHOMnobq8T
-JkyIl156KU6dOhUR7+7XqWs9l+sxe/3118frr78eJ0+eFOl9aMKECXHixIk4ePBgvPPOO/Gf//mf
-8bnPfa7YYyXFv94Wxpo1a+Kaa66JGTNmFHuUpLzzzjuxYsWK6OzsjIiIX/ziF/HRj360yFMNfnPn
-zo0dO3bEli1b4p577omPf/zjsWLFimKPlYSOjo647rrr4u23346Id9/c6A/+4A+KPFUaysrKYuLE
-ifHyyy9HxLu/n+X6eVCS7ae/8b73ve/FM888E2VlZbFq1ar45S9/GZWVlV0vjP3CF74Q//zP/3zW
-+fnk1t1eH3roodi2bVuUl5fHtGnT4m//9m+LPe6g0t1u/+M//iO+//3vR2lpaVx33XXxZ3/2Z8Ue
-d9DYt29frFmzJg4ePBjl5eUxbty4mD17dkycODHmzJkTzz33XHz3u9+NiIg//uM/ji996UvFHXgQ
-ybXbG2+8MQ4dOhS//vWvY/LkybFw4UKP3R7qbref+9zn4jOf+Ux86lOfimw2GyUlJfHnf/7n8cUv
-frHYYw8KuR63jz76aGzatCnKy8vj4osv7tFbypJ7r7/x6quvxi233BIPPvhgEacdXHLttqGhIR55
-5JEYNmxYfPzjH49bb7212CMPGrl2+/LLL8eKFSsim81GTU1N/P3f/323x+u30AEAAOgvRXkzAgAA
-gEISOgAAQHKEDgAAkByhAwAAJEfoAAAAyRE6AABAcoQOAACQnP8HOWe95+MTXAkAAAAASUVORK5C
-YII=
-"
->
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -12982,55 +12031,47 @@ YII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-4:-Small-Sample-Sizes">Exercise 4: Small Sample Sizes<a class="anchor-link" href="#Exercise-4:-Small-Sample-Sizes">&#182;</a></h1><h2 id="a.-Error-Due-to-Small-Sample-Size">a. Error Due to Small Sample Size<a class="anchor-link" href="#a.-Error-Due-to-Small-Sample-Size">&#182;</a></h2><p>Run 100 samples of size <code>small_size</code> and measure how many of their 95% confidence intervals actually contain the true mean.</p>
+<h1 id="Exercise-3-:-Fitting-Data-Using-MLE">Exercise 3 : Fitting Data Using MLE<a class="anchor-link" href="#Exercise-3-:-Fitting-Data-Using-MLE">&#182;</a></h1><ul>
+<li>Using the MLE estimators laid out in the lecture, fit the returns for SPY from 2014 to 2015 to a normal distribution.   </li>
+<li>Check for normality using the Jarque-Bera test</li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">small_size</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">POPULATION_MU</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">POPULATION_SIGMA</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">small_size</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-    
-<span class="c">#Your code goes here</span>
-    
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
-<span class="k">print</span> <span class="s">&quot;Due to the small sample size, the actual number of confidence intervals containing the population mean is much lower than what we would expect given a correctly calibrated interval.&quot;</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">prices</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;SPY&#39;</span><span class="p">,</span> 
+                     <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> 
+                     <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2016-01-04&#39;</span><span class="p">,</span> 
+                     <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2016-01-05&#39;</span><span class="p">,</span> 
+                     <span class="n">frequency</span> <span class="o">=</span> <span class="s">&#39;minute&#39;</span><span class="p">)</span>
+<span class="n">returns</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Expected Result: 95.0
-Actual Result 74
-Due to the small sample size, the actual number of confidence intervals containing the population mean is much lower than what we would expect given a correctly calibrated interval.
-</pre>
 </div>
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">mu</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+<span class="n">std</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
 
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="c">#______# Your code goes here)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="c">#______# Your code goes here)</span>
+<span class="n">l</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="c">#______# Your code goes here)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
@@ -13039,56 +12080,27 @@ Due to the small sample size, the actual number of confidence intervals containi
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="b.-T-distribution-Correction">b. T-distribution Correction<a class="anchor-link" href="#b.-T-distribution-Correction">&#182;</a></h2><p>Run 100 samples of size <code>small_size</code>, this time accouting for the small sample size using a t-distribution, and measure how many of their 95% confidence intervals actually contain the true mean.</p>
+<p>Recall that this fit <strong>only</strong> makes sense <strong>if</strong> we have normally distributed data.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">small_size</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">POPULATION_MU</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">POPULATION_SIGMA</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">small_size</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">stat</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="c">#______# Your code goes here</span>
+<span class="k">print</span> <span class="n">pval</span>
 
-<span class="c">#Your code goes here</span>
-    
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">sample_SE</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">((</span><span class="mi">1</span><span class="o">+</span><span class="mf">0.95</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="n">sample_mean</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="n">sample_mean</span> <span class="o">+</span> <span class="n">h</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
-<span class="k">print</span> <span class="s">&quot;After using the t-distribution to correct for the smaller sample size, the actual number of confidence intervals containing the population mean is about what we expected.&quot;</span>
+<span class="k">if</span> <span class="n">pval</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span> 
+    <span class="k">print</span> <span class="s">&#39;Accept our null hypothesis&#39;</span>
+<span class="k">if</span> <span class="n">pval</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">:</span> 
+    <span class="k">print</span> <span class="s">&#39;Reject our null hypothesis&#39;</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Expected Result: 95.0
-Actual Result 95
-After using the t-distribution to correct for the smaller sample size, the actual number of confidence intervals containing the population mean is about what we expected.
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13098,237 +12110,7 @@ After using the t-distribution to correct for the smaller sample size, the actua
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-5:-Dependence">Exercise 5: Dependence<a class="anchor-link" href="#Exercise-5:-Dependence">&#182;</a></h1><h2 id="a.-Error-due-to-Dependence">a. Error due to Dependence<a class="anchor-link" href="#a.-Error-due-to-Dependence">&#182;</a></h2><p>Run 100 samples of the following autocorrelated distribution and measure how many of their 95% confidence intervals actually contain the true mean. (Use the helper function <code>generate_autocorrelated_data(theta, noise_mu, noise_sigma, sample_size)</code> to generate the samples)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">theta</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">noise_mu</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">noise_sigma</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">generate_autocorrelated_data</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">noise_mu</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">POPULATION_MU</span>
-    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-
-<span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
-<span class="k">print</span> <span class="s">&quot;Because the underlying data was autocorrelated, the actual number of confidence intervals containing the population mean is much lower than what we expected.&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Expected Result: 95.0
-Actual Result 71
-Because the underlying data was autocorrelated, the actual number of confidence intervals containing the population mean is much lower than what we expected.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="b.-T-distribution-Correction">b. T-distribution Correction<a class="anchor-link" href="#b.-T-distribution-Correction">&#182;</a></h2><p>Run 100 samples from the autocorrelated distribution, this time attempting to account for the autocorrelation using a t-distribution, and measure how many of their 95% confidence intervals actually contain the true mean to see if the correction works.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">generate_autocorrelated_data</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">noise_mu</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">POPULATION_MU</span>
-    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">sample_SE</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">((</span><span class="mi">1</span><span class="o">+</span><span class="mf">0.95</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="n">sample_mean</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="n">sample_mean</span> <span class="o">+</span> <span class="n">h</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-
-<span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
-<span class="k">print</span> <span class="s">&quot;We did not see a significant improvement in the actual number of confidence intervals containing the population mean. This is because a t-distribution only corrects for small sample sizes, not autocorrelation.&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Expected Result: 95.0
-Actual Result 73
-We did not see a significant improvement in the actual number of confidence intervals containing the population mean. This is because a t-distribution only corrects for small sample sizes, not autocorrelation.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="c.-Newey-West-Matrix">c. Newey-West Matrix<a class="anchor-link" href="#c.-Newey-West-Matrix">&#182;</a></h2><p>Use the <code>newey_west_matrix</code> helper function to compute an adjusted (robust) covariance matrix for a single sample of the autocorrelated data.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">X</span> <span class="o">=</span> <span class="n">generate_autocorrelated_data</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">noise_mu</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">POPULATION_MU</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="k">print</span> <span class="n">newey_west_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[[ 0.33326676 -0.00994368]
- [-0.00994368  0.00036869]]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="d.-Newey-West-Correction">d. Newey-West Correction<a class="anchor-link" href="#d.-Newey-West-Correction">&#182;</a></h2><p>Run 100 samples of the following autocorrelated distribution, this time accounting for the autocorrelation by using a Newey-West correction on the standard error, and measure how many of their 95% confidence intervals actually contain the true mean to see if the correction works. (Use the helper function <code>newey_west_SE</code> to find the corrected standard error)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="c">#Your code goes here</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">generate_autocorrelated_data</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">noise_mu</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">POPULATION_MU</span>
-    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">newey_west_SE</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="k">print</span> <span class="s">&quot;New Standard Error:&quot;</span><span class="p">,</span> <span class="n">sample_SE</span>
-<span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
-<span class="k">print</span> <span class="s">&quot;After accounting for autocorrelation by finding a Newey-West standard error, the actual number of confidence intervals containing the population mean is about what we expected.&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>New Standard Error: 0.426986022024
-Expected Result: 95.0
-Actual Result 97
-After accounting for autocorrelation by finding a Newey-West standard error, the actual number of confidence intervals containing the population mean is about what we expected.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<p>Congratulations on completing the Confidence Intervals exercises!</p>
+<p>Congratulations on completing the Maximum Likelihood Estimation exercises!</p>
 <p>As you learn more about writing trading models and the Quantopian platform, enter the daily <a href="https://www.quantopian.com/contest">Quantopian Contest</a>. Your strategy will be evaluated for a cash prize every day.</p>
 <p>Start by going through the <a href="https://www.quantopian.com/tutorials/contest">Writing a Contest Algorithm</a> tutorial.</p>
 
@@ -13339,8 +12121,7 @@ After accounting for autocorrelation by finding a Newey-West standard error, the
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>This presentation is for informational purposes only and does not constitute an offer to sell, a solic
-itation to buy, or a recommendation for any security; nor does it constitute an offer to provide investment advisory or other services by Quantopian, Inc. ("Quantopian"). Nothing contained herein constitutes investment advice or offers any opinion with respect to the suitability of any security, and any views expressed herein should not be taken as advice to buy, sell, or hold any security or as an endorsement of any security or company.  In preparing the information contained herein, Quantopian, Inc. has not taken into account the investment needs, objectives, and financial circumstances of any particular investor. Any views expressed and data illustrated herein were prepared based upon information, believed to be reliable, available to Quantopian, Inc. at the time of publication. Quantopian makes no guarantees as to their accuracy or completeness. All information is subject to change and may quickly become unreliable for various reasons, including changes in market conditions or economic circumstances.</em></p>
+<p><em>This presentation is for informational purposes only and does not constitute an offer to sell, a solicitation to buy, or a recommendation for any security; nor does it constitute an offer to provide investment advisory or other services by Quantopian, Inc. ("Quantopian"). Nothing contained herein constitutes investment advice or offers any opinion with respect to the suitability of any security, and any views expressed herein should not be taken as advice to buy, sell, or hold any security or as an endorsement of any security or company.  In preparing the information contained herein, Quantopian, Inc. has not taken into account the investment needs, objectives, and financial circumstances of any particular investor. Any views expressed and data illustrated herein were prepared based upon information, believed to be reliable, available to Quantopian, Inc. at the time of publication. Quantopian makes no guarantees as to their accuracy or completeness. All information is subject to change and may quickly become unreliable for various reasons, including changes in market conditions or economic circumstances.</em></p>
 
 </div>
 </div>
