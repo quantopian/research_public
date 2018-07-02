@@ -13003,10 +13003,10 @@ YII=
     <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">sample_SE</span> <span class="o">+</span> <span class="n">sample_mean</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
 
 <span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result&quot;</span><span class="p">,</span> <span class="n">correct</span>
+<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
 <span class="k">print</span> <span class="s">&quot;Due to the small sample size, the actual number of confidence intervals containing the population mean is much lower than what we would expect given a correctly calibrated interval.&quot;</span>
 </pre></div>
 
@@ -13061,10 +13061,10 @@ Due to the small sample size, the actual number of confidence intervals containi
     <span class="n">sample_SE</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">sample_SE</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">((</span><span class="mi">1</span><span class="o">+</span><span class="mf">0.95</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">((</span><span class="n">POPULATION_MU</span> <span class="o">&gt;=</span> <span class="n">sample_mean</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">POPULATION_MU</span> <span class="o">&lt;=</span> <span class="n">sample_mean</span> <span class="o">+</span> <span class="n">h</span><span class="p">)):</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
 
 <span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result&quot;</span><span class="p">,</span> <span class="n">correct</span>
+<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
 <span class="k">print</span> <span class="s">&quot;After using the t-distribution to correct for the smaller sample size, the actual number of confidence intervals containing the population mean is about what we expected.&quot;</span>
 </pre></div>
 
@@ -13133,7 +13133,7 @@ After using the t-distribution to correct for the smaller sample size, the actua
     
 
 <span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result&quot;</span><span class="p">,</span> <span class="n">correct</span>
+<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
 <span class="k">print</span> <span class="s">&quot;Because the underlying data was autocorrelated, the actual number of confidence intervals containing the population mean is much lower than what we expected.&quot;</span>
 </pre></div>
 
@@ -13191,7 +13191,7 @@ Because the underlying data was autocorrelated, the actual number of confidence 
     
 
 <span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result&quot;</span><span class="p">,</span> <span class="n">correct</span>
+<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
 <span class="k">print</span> <span class="s">&quot;We did not see a significant improvement in the actual number of confidence intervals containing the population mean. This is because a t-distribution only corrects for small sample sizes, not autocorrelation.&quot;</span>
 </pre></div>
 
@@ -13293,7 +13293,7 @@ We did not see a significant improvement in the actual number of confidence inte
 
 <span class="k">print</span> <span class="s">&quot;New Standard Error:&quot;</span><span class="p">,</span> <span class="n">sample_SE</span>
 <span class="k">print</span> <span class="s">&quot;Expected Result:&quot;</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">n</span>
-<span class="k">print</span> <span class="s">&quot;Actual Result&quot;</span><span class="p">,</span> <span class="n">correct</span>
+<span class="k">print</span> <span class="s">&quot;Actual Result:&quot;</span><span class="p">,</span> <span class="n">correct</span>
 <span class="k">print</span> <span class="s">&quot;After accounting for autocorrelation by finding a Newey-West standard error, the actual number of confidence intervals containing the population mean is about what we expected.&quot;</span>
 </pre></div>
 
@@ -13322,6 +13322,18 @@ After accounting for autocorrelation by finding a Newey-West standard error, the
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p>Congratulations on completing the Confidence Intervals exercises!</p>
+<p>As you learn more about writing trading models and the Quantopian platform, enter the daily <a href="https://www.quantopian.com/contest">Quantopian Contest</a>. Your strategy will be evaluated for a cash prize every day.</p>
+<p>Start by going through the <a href="https://www.quantopian.com/tutorials/contest">Writing a Contest Algorithm</a> tutorial.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
