@@ -14592,7 +14592,7 @@ IiIiIiIiRU1Ji4iIiIiIFLX/D3hFGlI8qkdtAAAAAElFTkSuQmCC
 <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">_</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">skewness</span><span class="p">,</span> <span class="n">kurtosis</span> <span class="o">=</span> <span class="n">stattools</span><span class="o">.</span><span class="n">jarque_bera</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 <span class="k">print</span> <span class="s">&quot;The JB test p-value is: &quot;</span><span class="p">,</span> <span class="n">p_value</span>
-<span class="k">print</span> <span class="s">&quot;We accept the hypothesis that the data are normally distributed &quot;</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">&lt;</span> <span class="n">cutoff</span>
+<span class="k">print</span> <span class="s">&quot;We reject the hypothesis that the data are normally distributed &quot;</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">&lt;</span> <span class="n">cutoff</span>
 <span class="k">print</span> <span class="s">&quot;The skewness of the returns is: &quot;</span><span class="p">,</span> <span class="n">skewness</span>
 <span class="k">print</span> <span class="s">&quot;The kurtosis of the returns is: &quot;</span><span class="p">,</span> <span class="n">kurtosis</span>
 </pre></div>
@@ -14612,7 +14612,7 @@ IiIiIiIiRU1Ji4iIiIiIFLX/D3hFGlI8qkdtAAAAAElFTkSuQmCC
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>The JB test p-value is:  0.923015693884
-We accept the hypothesis that the data are normally distributed  False
+We reject the hypothesis that the data are normally distributed  False
 The skewness of the returns is:  -0.102081900914
 The kurtosis of the returns is:  3.07608657316
 </pre>
