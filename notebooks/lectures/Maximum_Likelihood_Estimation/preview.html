@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Maximum Likelihood Estimation" 2</title>
+  <title>Cloned from "Maximum Likelihood Estimation"</title>
 
   <style type="text/css">
     /*!
@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Maximum-Likelihood-Estimates-(MLEs)">Maximum Likelihood Estimates (MLEs)<a class="anchor-link" href="#Maximum-Likelihood-Estimates-(MLEs)">&#194;&#182;</a></h1><p>By Delaney Granizo-Mackenzie and Andrei Kirilenko developed as part of the Masters of Finance curriculum at MIT Sloan.</p>
+<h1 id="Maximum-Likelihood-Estimates-(MLEs)">Maximum Likelihood Estimates (MLEs)<a class="anchor-link" href="#Maximum-Likelihood-Estimates-(MLEs)">&#182;</a></h1><p>By Delaney Granizo-Mackenzie and Andrei Kirilenko developed as part of the Masters of Finance curriculum at MIT Sloan.</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -11783,7 +11783,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this tutorial notebook we'll do the following things:</p>
+<p>In this tutorial notebook, we'll do the following things:</p>
 <ol>
 <li>Compute the MLE for a normal distribution.</li>
 <li>Compute the MLE for an exponential distribution.</li>
@@ -11823,7 +11823,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Normal-Distribution">Normal Distribution<a class="anchor-link" href="#Normal-Distribution">&#194;&#182;</a></h2><p>We'll start by sampling some data from a normal distribution.</p>
+<h2 id="Normal-Distribution">Normal Distribution<a class="anchor-link" href="#Normal-Distribution">&#182;</a></h2><p>We'll start by sampling some data from a normal distribution.</p>
 
 </div>
 </div>
@@ -11847,9 +11847,11 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we'll define functions that given our data, will compute the MLE for the $\mu$ and $\sigma$ parameters of the normal distribution.</p>
+<p>Now we'll define functions that, given our data, will compute the MLE for the $\mu$ and $\sigma$ parameters of the normal distribution.</p>
 <p>Recall that</p>
-$$\hat\mu = \frac{1}{T}\sum_{t=1}^{T} x_t$$$$\hat\sigma = \sqrt{\frac{1}{T}\sum_{t=1}^{T}{(x_t - \hat\mu)^2}}$$
+<p>$$\hat\mu = \frac{1}{T}\sum_{t=1}^{T} x_t$$</p>
+<p>$$\hat\sigma = \sqrt{\frac{1}{T}\sum_{t=1}^{T}{(x_t - \hat\mu)^2}}$$</p>
+
 </div>
 </div>
 </div>
@@ -12557,7 +12559,7 @@ RDQEFkxERERERERDYMFEREREREQ0hP8H+2FgkO86YjkAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exponential-Distribution">Exponential Distribution<a class="anchor-link" href="#Exponential-Distribution">&#194;&#182;</a></h2><p>Let's do the same thing, but for the exponential distribution. We'll start by sampling some data.</p>
+<h2 id="Exponential-Distribution">Exponential Distribution<a class="anchor-link" href="#Exponential-Distribution">&#182;</a></h2><p>Let's do the same thing, but for the exponential distribution. We'll start by sampling some data.</p>
 
 </div>
 </div>
@@ -12583,8 +12585,10 @@ RDQEFkxERERERERDYMFEREREREQ0hP8H+2FgkO86YjkAAAAASUVORK5CYII=
 <p><code>numpy</code> defines the exponential distribution as
 $$\frac{1}{\lambda}e^{-\frac{x}{\lambda}}$$</p>
 <p>So we need to invert the MLE from the lecture notes. There it is</p>
-$$\hat\lambda = \frac{T}{\sum_{t=1}^{T} x_t}$$<p>Here it's just the reciprocal, so</p>
-$$\hat\lambda = \frac{\sum_{t=1}^{T} x_t}{T}$$
+<p>$$\hat\lambda = \frac{T}{\sum_{t=1}^{T} x_t}$$</p>
+<p>Here it's just the reciprocal, so</p>
+<p>$$\hat\lambda = \frac{\sum_{t=1}^{T} x_t}{T}$$</p>
+
 </div>
 </div>
 </div>
@@ -13073,7 +13077,7 @@ RERERER68V9+bU9QhTXs8gAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="MLE-for-Asset-Returns">MLE for Asset Returns<a class="anchor-link" href="#MLE-for-Asset-Returns">&#194;&#182;</a></h2><p>Now we'll fetch some real returns and try to fit a normal distribution to them using MLE.</p>
+<h2 id="MLE-for-Asset-Returns">MLE for Asset Returns<a class="anchor-link" href="#MLE-for-Asset-Returns">&#182;</a></h2><p>Now we'll fetch some real returns and try to fit a normal distribution to them using MLE.</p>
 
 </div>
 </div>
@@ -13383,7 +13387,7 @@ LIEGAABoWQINAADQsgQaAACgZf3/38yDBNmpjeoAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Of course, this fit is meaningless unless we've tested that they obey a normal distribution first. We can test this using the Jarque-Bera normality test. The Jarque-Bera test will reject the hypothesis of a normal distribution if the p-value is under a c</p>
+<p>Of course, this fit is meaningless unless we've tested that they obey a normal distribution first. We can test this using the Jarque-Bera normality test. The Jarque-Bera test will reject the hypothesis of a normal distribution if the p-value is under a c.</p>
 
 </div>
 </div>
@@ -13457,19 +13461,6 @@ LIEGAABoWQINAADQsgQaAACgZf3/38yDBNmpjeoAAAAASUVORK5CYII=
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre> 
-</pre></div>
-
-</div>
 </div>
 </div>
 
