@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Cloned from "Quantopian Lecture Series: Linear Regression"</title>
+  <title>Cloned from "Linear Regression" 1</title>
 
   <style type="text/css">
     /*!
@@ -11767,7 +11767,7 @@ ul.typeahead-list > li > a {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Linear-Regression">Linear Regression<a class="anchor-link" href="#Linear-Regression">&#194;&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya and Delaney Granizo-Mackenzie with example algorithms by David Edwards</p>
+<h1 id="Linear-Regression">Linear Regression<a class="anchor-link" href="#Linear-Regression">&#182;</a></h1><p>By Evgenia "Jenny" Nitishinskaya and Delaney Granizo-Mackenzie with example algorithms by David Edwards</p>
 <p>Part of the Quantopian Lecture Series:</p>
 <ul>
 <li><a href="https://www.quantopian.com/lectures">www.quantopian.com/lectures</a></li>
@@ -12379,7 +12379,7 @@ QmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Linear-Regression-vs.-Correlation">Linear Regression vs. Correlation<a class="anchor-link" href="#Linear-Regression-vs.-Correlation">&#194;&#182;</a></h2><ul>
+<h2 id="Linear-Regression-vs.-Correlation">Linear Regression vs. Correlation<a class="anchor-link" href="#Linear-Regression-vs.-Correlation">&#182;</a></h2><ul>
 <li>Linear regression gives us a specific linear model, but is limited to cases of linear dependence.</li>
 <li>Correlation is general to linear and non-linear dependencies, but doesn't give us an actual model.</li>
 <li>Both are measures of covariance.</li>
@@ -12393,7 +12393,7 @@ QmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Knowing-Parameters-vs.-Estimates">Knowing Parameters vs. Estimates<a class="anchor-link" href="#Knowing-Parameters-vs.-Estimates">&#194;&#182;</a></h2><p>It is very important to keep in mind that all $\alpha$ and $\beta$ parameters estimated by linear regression are just that - estimates. You can never know the underlying true parameters unless you know the physical process producing the data. The paremeters you estimate today may not be the same as the same analysis done including tomorrow's data, and the underlying true parameters may be moving. As such it is very important when doing actual analysis to pay attention to the standard error of the parameter estimates. More material on the standard error will be presented in a later lecture. One way to get a sense of how stable your paremeter estimates are is to estimates them using a rolling window of data and see how much variance there is in the estimates.</p>
+<h2 id="Knowing-Parameters-vs.-Estimates">Knowing Parameters vs. Estimates<a class="anchor-link" href="#Knowing-Parameters-vs.-Estimates">&#182;</a></h2><p>It is very important to keep in mind that all $\alpha$ and $\beta$ parameters estimated by linear regression are just that - estimates. You can never know the underlying true parameters unless you know the physical process producing the data. The parameters you estimate today may not be the same analysis done including tomorrow's data, and the underlying true parameters may be moving. As such it is very important when doing actual analysis to pay attention to the standard error of the parameter estimates. More material on the standard error will be presented in a later lecture. One way to get a sense of how stable your parameter estimates are is to estimate them using a rolling window of data and see how much variance there is in the estimates.</p>
 
 </div>
 </div>
@@ -12402,7 +12402,7 @@ QmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example-case">Example case<a class="anchor-link" href="#Example-case">&#194;&#182;</a></h2><p>Now let's see what happens if we regress two purely random variables.</p>
+<h2 id="Example-case">Example case<a class="anchor-link" href="#Example-case">&#182;</a></h2><p>Now let's see what happens if we regress two purely random variables.</p>
 
 </div>
 </div>
@@ -13255,7 +13255,7 @@ eQIAAAAAA5QnAAAAADDwH3WrsS++OsOSAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Evaluating-and-reporting-results">Evaluating and reporting results<a class="anchor-link" href="#Evaluating-and-reporting-results">&#194;&#182;</a></h1><p>The regression model relies on several assumptions:</p>
+<h1 id="Evaluating-and-reporting-results">Evaluating and reporting results<a class="anchor-link" href="#Evaluating-and-reporting-results">&#182;</a></h1><p>The regression model relies on several assumptions:</p>
 <ul>
 <li>The independent variable is not random.</li>
 <li>The variance of the error term is constant across observations. This is important for evaluating the goodness of the fit.</li>
@@ -13793,7 +13793,7 @@ AAAAuPx/kybMm5RxHdsAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Mathematical-Background">Mathematical Background<a class="anchor-link" href="#Mathematical-Background">&#194;&#182;</a></h2><p>This is a very brief overview of linear regression. For more, please see:
+<h2 id="Mathematical-Background">Mathematical Background<a class="anchor-link" href="#Mathematical-Background">&#182;</a></h2><p>This is a very brief overview of linear regression. For more, please see:
 <a href="https://en.wikipedia.org/wiki/Linear_regression">https://en.wikipedia.org/wiki/Linear_regression</a></p>
 
 </div>
@@ -13803,10 +13803,12 @@ AAAAuPx/kybMm5RxHdsAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Ordinary-Least-Squares">Ordinary Least Squares<a class="anchor-link" href="#Ordinary-Least-Squares">&#194;&#182;</a></h2><p>Regression works by optimizing the placement of the line of best fit (or plane in higher dimensions). It does so by defining how bad the fit is using an objective function. In ordinary least squares regression (OLS), what we use here, the objective function is:</p>
-$$\sum_{i=1}^n (Y_i - a - bX_i)^2$$<p>We use $a$ and $b$ to represent the potential candidates for $\alpha$ and $\beta$. What this objective function means is that for each point on the line of best fit we compare it with the real point and take the square of the difference. This function will decrease as we get better parameter estimates. Regression is a simple case of numerical optimization that has a closed form solution and does not need any optimizer. We just find the results that minimize the objective function.</p>
+<h2 id="Ordinary-Least-Squares">Ordinary Least Squares<a class="anchor-link" href="#Ordinary-Least-Squares">&#182;</a></h2><p>Regression works by optimizing the placement of the line of best fit (or plane in higher dimensions). It does so by defining how bad the fit is using an objective function. In ordinary least squares regression (OLS), what we use here, the objective function is:</p>
+<p>$$\sum_{i=1}^n (Y_i - a - bX_i)^2$$</p>
+<p>We use $a$ and $b$ to represent the potential candidates for $\alpha$ and $\beta$. What this objective function means is that for each point on the line of best fit we compare it with the real point and take the square of the difference. This function will decrease as we get better parameter estimates. Regression is a simple case of numerical optimization that has a closed form solution and does not need any optimizer. We just find the results that minimize the objective function.</p>
 <p>We will denote the eventual model that results from minimizing our objective function as:</p>
-$$ \hat{Y} = \hat{\alpha} + \hat{\beta}X $$<p>With $\hat{\alpha}$ and $\hat{\beta}$ being the chosen estimates for the parameters that we use for prediction and $\hat{Y}$ being the predicted values of $Y$ given the estimates.</p>
+<p>$$ \hat{Y} = \hat{\alpha} + \hat{\beta}X $$</p>
+<p>With $\hat{\alpha}$ and $\hat{\beta}$ being the chosen estimates for the parameters that we use for prediction and $\hat{Y}$ being the predicted values of $Y$ given the estimates.</p>
 
 </div>
 </div>
@@ -13815,10 +13817,11 @@ $$ \hat{Y} = \hat{\alpha} + \hat{\beta}X $$<p>With $\hat{\alpha}$ and $\hat{\bet
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Standard-Error">Standard Error<a class="anchor-link" href="#Standard-Error">&#194;&#182;</a></h2><p>We can also find the standard error of estimate, which measures the standard deviation of the error term $\epsilon$, by getting the <code>scale</code> parameter of the model returned by the regression and taking its square root. The formula for standard error of estimate is
+<h2 id="Standard-Error">Standard Error<a class="anchor-link" href="#Standard-Error">&#182;</a></h2><p>We can also find the standard error of estimate, which measures the standard deviation of the error term $\epsilon$, by getting the <code>scale</code> parameter of the model returned by the regression and taking its square root. The formula for standard error of estimate is
 $$ s = \left( \frac{\sum_{i=1}^n \epsilon_i^2}{n-2} \right)^{1/2} $$</p>
-<p>If $\hat{\alpha}$ and $\hat{\beta}$ were the true parameters ($\hat{\alpha} = \alpha$ and $\hat{\beta} = \beta$), we could represent the error for a particular predicted value of $Y$ as $s^2$ for all values of $X_i$. We could simply square the difference $(Y - \hat{Y})$ to get the variance because $\hat{Y}$ incorporates no error in the paremeter estimates themselves. Because $\hat{\alpha}$ and $\hat{\beta}$ are merely estimates in our construction of the model of $Y$, any predicted values , $\hat{Y}$, will have their own standard error based on the distribution of the $X$ terms that we plug into the model. This forecast error is represented by the following:</p>
-$$ s_f^2 = s^2 \left( 1 + \frac{1}{n} + \frac{(X - \mu_X)^2}{(n-1)\sigma_X^2} \right) $$<p>where $\mu_X$ is the mean of our observations of $X$ and $\sigma_X$ is the standard deviation of $X$. This adjustment to $s^2$ incorporates the uncertainty in our parameter estimates. Then the 95% confidence interval for the prediction is $\hat{Y} \pm t_cs_f$, where $t_c$ is the critical value of the t-statistic for $n$ samples and a desired 95% confidence.</p>
+<p>If $\hat{\alpha}$ and $\hat{\beta}$ were the true parameters ($\hat{\alpha} = \alpha$ and $\hat{\beta} = \beta$), we could represent the error for a particular predicted value of $Y$ as $s^2$ for all values of $X_i$. We could simply square the difference $(Y - \hat{Y})$ to get the variance because $\hat{Y}$ incorporates no error in the parameter estimates themselves. Because $\hat{\alpha}$ and $\hat{\beta}$ are merely estimates in our construction of the model of $Y$, any predicted values , $\hat{Y}$, will have their own standard error based on the distribution of the $X$ terms that we plug into the model. This forecast error is represented by the following:</p>
+<p>$$ s_f^2 = s^2 \left( 1 + \frac{1}{n} + \frac{(X - \mu_X)^2}{(n-1)\sigma_X^2} \right) $$</p>
+<p>where $\mu_X$ is the mean of our observations of $X$ and $\sigma_X$ is the standard deviation of $X$. This adjustment to $s^2$ incorporates the uncertainty in our parameter estimates. Then the 95% confidence interval for the prediction is $\hat{Y} \pm t_cs_f$, where $t_c$ is the critical value of the t-statistic for $n$ samples and a desired 95% confidence.</p>
 
 </div>
 </div>

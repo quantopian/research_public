@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>notebook</title>
+  <title>Cloned from "The Dangers of Overfitting"</title>
 
   <style type="text/css">
     /*!
@@ -11783,7 +11783,7 @@ ul.typeahead-list > li > a {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="What-is-overfitting?">What is overfitting?<a class="anchor-link" href="#What-is-overfitting?">&#182;</a></h1><p>When constructing a model, we tune both the parameters and the model by fitting to sample data. We then use the model and parameters to predict data we have not yet observed. We say a model is overfit when it is overly sensitive to noise and idiosyncracies in the sample data, and therefore does not reflect the underlying data-generating process.</p>
-<p>To understand why this happens, one has to consider the amount of noise present in any dataset. One can consider a set of data as $D_{T}$, the true underlying data that came from whatever process we are trying to model, and $\epsilon$, some random noise. Because what we see is $D = D_{T} + \epsilon$, we might fit out model to very perfectly predict for the given $\epsilon$, but not for $D_{T}$.</p>
+<p>To understand why this happens, one has to consider the amount of noise present in any dataset. One can consider a set of data as $D_{T}$, the true underlying data that came from whatever process we are trying to model, and $\epsilon$, some random noise. Because what we see is $D = D_{T} + \epsilon$, we might fit our model to very perfectly predict for the given $\epsilon$, but not for $D_{T}$.</p>
 <p>This is problematic because we only care about fitting to the sample insofar as that gives an accurate fit to future data. The two broad causes of overfitting are:</p>
 <ul>
 <li>small sample size, so that noise and trend are not distinguishable</li>
@@ -12511,7 +12511,7 @@ CQAAAAB8KEgAAAAA4ENBAgAAAACf3wEv90rdCTHTJQAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Note:-Model/Parameter-Parsimony">Note: Model/Parameter Parsimony<a class="anchor-link" href="#Note:-Model/Parameter-Parsimony">&#182;</a></h2><p>Just as the most elegant physics models describe a tremendous amount of our world through a few equations, a good trading model should explain most of the data through a few rules. Any time you start to have a number of rules even close to the number of points in your data set, you can be sure you are overfitting. Since parameters can be thought of as rules as they equivalently constrain a model, the same is true of parameters. Fewer parameters is better, and it is better to explain 60% of the data with 2-3 paremeters than 90% with 10.</p>
+<h2 id="Note:-Model/Parameter-Parsimony">Note: Model/Parameter Parsimony<a class="anchor-link" href="#Note:-Model/Parameter-Parsimony">&#182;</a></h2><p>Just as the most elegant physics models describe a tremendous amount of our world through a few equations, a good trading model should explain most of the data through a few rules. Any time you start to have a number of rules even close to the number of points in your data set, you can be sure you are overfitting. Since parameters can be thought of as rules as they equivalently constrain a model, the same is true of parameters. Fewer parameters is better, and it is better to explain 60% of the data with 2-3 parameters than 90% with 10.</p>
 
 </div>
 </div>
