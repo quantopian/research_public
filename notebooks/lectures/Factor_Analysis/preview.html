@@ -12480,7 +12480,7 @@ max_loss is 35.0%, not exceeded: OK!
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As explained above, the forward returns are the returns that we would have received for holding each security for the specified number of days, ending on the given date. These, too, are broken out by sector.</p>
 <p>This function also separates our factor into quantiles for each date, replacing the factor value with its appropriate quantile on a given day. Since we will be holding baskets of the top and bottom quantiles, we only care about the factor insofar as it relates to movement into and out of these baskets.</p>
-<p>This information is analyzed several different ways, in terms of:</p>
+<p>Alphalens provides three categories of analysis on alpha factors:</p>
 <ul>
 <li>Returns</li>
 <li>Information</li>
@@ -12495,7 +12495,7 @@ max_loss is 35.0%, not exceeded: OK!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Returns-Tear-Sheet">Returns Tear Sheet<a class="anchor-link" href="#Returns-Tear-Sheet">&#182;</a></h3><p>If we are solely interested in returns, we can create a tear sheet that only contains the returns analysis. The following code block generates all of our returns plots once we have stored the forward returns data!</p>
+<h3 id="Returns-Tear-Sheet">Returns Tear Sheet<a class="anchor-link" href="#Returns-Tear-Sheet">&#182;</a></h3><p>If we are solely interested in returns, we can create a tear sheet that only contains the returns analysis. The following code block generates all of our returns plots once we have stored the forward returns data:</p>
 
 </div>
 </div>
@@ -25774,7 +25774,7 @@ bpTox3+xYz++YzcyCAEAAACwHf4aBwAAAMB2GIQAAAAA2A6DEAAAAADbYRACAAAAYDsMQgAAAABs
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="$\alpha$-and-$\beta$-Point-Estimates">$\alpha$ and $\beta$ Point Estimates<a class="anchor-link" href="#$\alpha$-and-$\beta$-Point-Estimates">&#182;</a></h4><p>Now we calculate the $\alpha$ and $\beta$ of our factor with respect to the market. These are calculated by creating a regression of the market returns for each period against a long-short factor portfolio and extracting the parameters. These signify the excess return associated with our factor and the market beta, respectively.</p>
+<h4 id="$\alpha$-and-$\beta$-Point-Estimates-Chart">$\alpha$ and $\beta$ Point Estimates Chart<a class="anchor-link" href="#$\alpha$-and-$\beta$-Point-Estimates-Chart">&#182;</a></h4><p>Now we calculate the $\alpha$ and $\beta$ of our factor with respect to the market. These are calculated by creating a regression of the market returns for each period against a long-short factor portfolio and extracting the parameters. These signify the excess return associated with our factor and the market beta, respectively.</p>
 
 </div>
 </div>
@@ -25783,7 +25783,7 @@ bpTox3+xYz++YzcyCAEAAACwHf4aBwAAAMB2GIQAAAAA2A6DEAAAAADbYRACAAAAYDsMQgAAAABs
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Returns-Point-Estimates">Returns Point Estimates<a class="anchor-link" href="#Returns-Point-Estimates">&#182;</a></h4><p>These point estimates were also calculated agnostic of the sector groupings so they give us an overall view of what our spread would look like if we traded this factor with a long-short equity algorithm and didn't examine which sectors those returns were coming from.</p>
+<h4 id="Returns-Point-Estimates-Chart">Returns Point Estimates Chart<a class="anchor-link" href="#Returns-Point-Estimates-Chart">&#182;</a></h4><p>These point estimates were also calculated agnostic of the sector groupings so they give us an overall view of what our spread would look like if we traded this factor with a long-short equity algorithm and didn't examine which sectors those returns were coming from.</p>
 
 </div>
 </div>
@@ -25838,7 +25838,7 @@ bpTox3+xYz++YzcyCAEAAACwHf4aBwAAAMB2GIQAAAAA2A6DEAAAAADbYRACAAAAYDsMQgAAAABs
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Sector-Breakdown-of-Returns">Sector Breakdown of Returns<a class="anchor-link" href="#Sector-Breakdown-of-Returns">&#182;</a></h4><p><code>Alphalens</code> provides a breakdown returns by industry group, provided that you feed it a set of classifiers, using the <code>by_group</code> flag. While it is good to consider breakdowns by quantile, it is also important to see how your factor is exposed to the different facets of the market. This is a good way to assess if your factor is behaving as it should in your universe. For example, if you intend your universe to only touch a certain sector, it is worthwhile to confirm that your factor and universe indeed only touch that sector.</p>
+<h4 id="Sector-Breakdown-of-Returns">Sector Breakdown of Returns<a class="anchor-link" href="#Sector-Breakdown-of-Returns">&#182;</a></h4><p><code>Alphalens</code> provides a breakdown of returns by group, provided that you feed it a set of categorical values (such as industry labels), using the <code>by_group</code> flag. While it is good to consider breakdowns by quantile, it is also important to see how your factor is exposed to the different facets of the market. This is a good way to assess if your factor is behaving as it should in your universe. For example, if you intend your universe to only touch a certain sector, it is worthwhile to confirm that your factor and universe indeed only touch that sector.</p>
 
 </div>
 </div>
