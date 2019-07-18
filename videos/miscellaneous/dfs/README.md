@@ -1,0 +1,3 @@
+This notebook illustrates some of the similarities between quantitative finance and daily fantasy sports (DFS). The notebook was written for [this 3-part video series](https://youtu.be/7LWxQOTad6c).
+
+To run the notebook, you will need to create an account on [Quantopian](https://www.quantopian.com), upload `dfs_quant_finance.ipynb` to the [Research environment](https://www.quantopian.com/research), and upload `nba_data.csv` to the 'data' directory in the Quantopian Research environment. Once the two files are uploaded in the correct places, you should be able to run the notebook. As instructed in the notebook, you will need to run the cells with supporting functions at the bottom before running any other cells.
