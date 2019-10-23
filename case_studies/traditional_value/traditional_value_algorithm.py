@@ -8,7 +8,7 @@ them using a synthetic S&P500. It then uses a 130/30 strategy to trade.
 
     https://www.math.nyu.edu/faculty/avellane/Lo13030.pdf
     
-Please direct any questions, feedback, or corrections to delaney@quantopian.com
+Please direct any questions, feedback, or corrections to help@quantopian.com
 
 The material on this website is provided for informational purposes only
 and does not constitute an offer to sell, a solicitation to buy, or a 
