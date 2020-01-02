@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8" />
-  <title>Means_answers</title>
+  <title>Means</title>
 
   <style type="text/css">
     /*!
@@ -197,7 +197,6 @@ th {
   *:before,
   *:after {
     background: transparent !important;
-    color: #000 !important;
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -6742,15 +6741,15 @@ button.close {
 *
 */
 /*!
- *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 /* FONT PATH
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('../components/font-awesome/fonts/fontawesome-webfont.eot?v=4.2.0');
-  src: url('../components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('../components/font-awesome/fonts/fontawesome-webfont.woff?v=4.2.0') format('woff'), url('../components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('../components/font-awesome/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  src: url('../components/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0');
+  src: url('../components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('../components/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../components/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../components/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -6807,6 +6806,19 @@ button.close {
   border: solid 0.08em #eee;
   border-radius: .1em;
 }
+.fa-pull-left {
+  float: left;
+}
+.fa-pull-right {
+  float: right;
+}
+.fa.fa-pull-left {
+  margin-right: .3em;
+}
+.fa.fa-pull-right {
+  margin-left: .3em;
+}
+/* Deprecated as of 4.4.0 */
 .pull-right {
   float: right;
 }
@@ -6822,6 +6834,10 @@ button.close {
 .fa-spin {
   -webkit-animation: fa-spin 2s infinite linear;
   animation: fa-spin 2s infinite linear;
+}
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+  animation: fa-spin 1s infinite steps(8);
 }
 @-webkit-keyframes fa-spin {
   0% {
@@ -6844,31 +6860,31 @@ button.close {
   }
 }
 .fa-rotate-90 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 .fa-rotate-180 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 .fa-rotate-270 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
   -webkit-transform: rotate(270deg);
   -ms-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 .fa-flip-horizontal {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
   -webkit-transform: scale(-1, 1);
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 .fa-flip-vertical {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
   -webkit-transform: scale(1, -1);
   -ms-transform: scale(1, -1);
   transform: scale(1, -1);
@@ -7353,6 +7369,7 @@ button.close {
 .fa-twitter:before {
   content: "\f099";
 }
+.fa-facebook-f:before,
 .fa-facebook:before {
   content: "\f09a";
 }
@@ -7365,6 +7382,7 @@ button.close {
 .fa-credit-card:before {
   content: "\f09d";
 }
+.fa-feed:before,
 .fa-rss:before {
   content: "\f09e";
 }
@@ -8002,7 +8020,8 @@ button.close {
 .fa-male:before {
   content: "\f183";
 }
-.fa-gittip:before {
+.fa-gittip:before,
+.fa-gratipay:before {
   content: "\f184";
 }
 .fa-sun-o:before {
@@ -8106,7 +8125,7 @@ button.close {
 .fa-digg:before {
   content: "\f1a6";
 }
-.fa-pied-piper:before {
+.fa-pied-piper-pp:before {
   content: "\f1a7";
 }
 .fa-pied-piper-alt:before {
@@ -8232,6 +8251,7 @@ button.close {
   content: "\f1ce";
 }
 .fa-ra:before,
+.fa-resistance:before,
 .fa-rebel:before {
   content: "\f1d0";
 }
@@ -8245,6 +8265,8 @@ button.close {
 .fa-git:before {
   content: "\f1d3";
 }
+.fa-y-combinator-square:before,
+.fa-yc-square:before,
 .fa-hacker-news:before {
   content: "\f1d4";
 }
@@ -8412,6 +8434,657 @@ button.close {
 }
 .fa-meanpath:before {
   content: "\f20c";
+}
+.fa-buysellads:before {
+  content: "\f20d";
+}
+.fa-connectdevelop:before {
+  content: "\f20e";
+}
+.fa-dashcube:before {
+  content: "\f210";
+}
+.fa-forumbee:before {
+  content: "\f211";
+}
+.fa-leanpub:before {
+  content: "\f212";
+}
+.fa-sellsy:before {
+  content: "\f213";
+}
+.fa-shirtsinbulk:before {
+  content: "\f214";
+}
+.fa-simplybuilt:before {
+  content: "\f215";
+}
+.fa-skyatlas:before {
+  content: "\f216";
+}
+.fa-cart-plus:before {
+  content: "\f217";
+}
+.fa-cart-arrow-down:before {
+  content: "\f218";
+}
+.fa-diamond:before {
+  content: "\f219";
+}
+.fa-ship:before {
+  content: "\f21a";
+}
+.fa-user-secret:before {
+  content: "\f21b";
+}
+.fa-motorcycle:before {
+  content: "\f21c";
+}
+.fa-street-view:before {
+  content: "\f21d";
+}
+.fa-heartbeat:before {
+  content: "\f21e";
+}
+.fa-venus:before {
+  content: "\f221";
+}
+.fa-mars:before {
+  content: "\f222";
+}
+.fa-mercury:before {
+  content: "\f223";
+}
+.fa-intersex:before,
+.fa-transgender:before {
+  content: "\f224";
+}
+.fa-transgender-alt:before {
+  content: "\f225";
+}
+.fa-venus-double:before {
+  content: "\f226";
+}
+.fa-mars-double:before {
+  content: "\f227";
+}
+.fa-venus-mars:before {
+  content: "\f228";
+}
+.fa-mars-stroke:before {
+  content: "\f229";
+}
+.fa-mars-stroke-v:before {
+  content: "\f22a";
+}
+.fa-mars-stroke-h:before {
+  content: "\f22b";
+}
+.fa-neuter:before {
+  content: "\f22c";
+}
+.fa-genderless:before {
+  content: "\f22d";
+}
+.fa-facebook-official:before {
+  content: "\f230";
+}
+.fa-pinterest-p:before {
+  content: "\f231";
+}
+.fa-whatsapp:before {
+  content: "\f232";
+}
+.fa-server:before {
+  content: "\f233";
+}
+.fa-user-plus:before {
+  content: "\f234";
+}
+.fa-user-times:before {
+  content: "\f235";
+}
+.fa-hotel:before,
+.fa-bed:before {
+  content: "\f236";
+}
+.fa-viacoin:before {
+  content: "\f237";
+}
+.fa-train:before {
+  content: "\f238";
+}
+.fa-subway:before {
+  content: "\f239";
+}
+.fa-medium:before {
+  content: "\f23a";
+}
+.fa-yc:before,
+.fa-y-combinator:before {
+  content: "\f23b";
+}
+.fa-optin-monster:before {
+  content: "\f23c";
+}
+.fa-opencart:before {
+  content: "\f23d";
+}
+.fa-expeditedssl:before {
+  content: "\f23e";
+}
+.fa-battery-4:before,
+.fa-battery:before,
+.fa-battery-full:before {
+  content: "\f240";
+}
+.fa-battery-3:before,
+.fa-battery-three-quarters:before {
+  content: "\f241";
+}
+.fa-battery-2:before,
+.fa-battery-half:before {
+  content: "\f242";
+}
+.fa-battery-1:before,
+.fa-battery-quarter:before {
+  content: "\f243";
+}
+.fa-battery-0:before,
+.fa-battery-empty:before {
+  content: "\f244";
+}
+.fa-mouse-pointer:before {
+  content: "\f245";
+}
+.fa-i-cursor:before {
+  content: "\f246";
+}
+.fa-object-group:before {
+  content: "\f247";
+}
+.fa-object-ungroup:before {
+  content: "\f248";
+}
+.fa-sticky-note:before {
+  content: "\f249";
+}
+.fa-sticky-note-o:before {
+  content: "\f24a";
+}
+.fa-cc-jcb:before {
+  content: "\f24b";
+}
+.fa-cc-diners-club:before {
+  content: "\f24c";
+}
+.fa-clone:before {
+  content: "\f24d";
+}
+.fa-balance-scale:before {
+  content: "\f24e";
+}
+.fa-hourglass-o:before {
+  content: "\f250";
+}
+.fa-hourglass-1:before,
+.fa-hourglass-start:before {
+  content: "\f251";
+}
+.fa-hourglass-2:before,
+.fa-hourglass-half:before {
+  content: "\f252";
+}
+.fa-hourglass-3:before,
+.fa-hourglass-end:before {
+  content: "\f253";
+}
+.fa-hourglass:before {
+  content: "\f254";
+}
+.fa-hand-grab-o:before,
+.fa-hand-rock-o:before {
+  content: "\f255";
+}
+.fa-hand-stop-o:before,
+.fa-hand-paper-o:before {
+  content: "\f256";
+}
+.fa-hand-scissors-o:before {
+  content: "\f257";
+}
+.fa-hand-lizard-o:before {
+  content: "\f258";
+}
+.fa-hand-spock-o:before {
+  content: "\f259";
+}
+.fa-hand-pointer-o:before {
+  content: "\f25a";
+}
+.fa-hand-peace-o:before {
+  content: "\f25b";
+}
+.fa-trademark:before {
+  content: "\f25c";
+}
+.fa-registered:before {
+  content: "\f25d";
+}
+.fa-creative-commons:before {
+  content: "\f25e";
+}
+.fa-gg:before {
+  content: "\f260";
+}
+.fa-gg-circle:before {
+  content: "\f261";
+}
+.fa-tripadvisor:before {
+  content: "\f262";
+}
+.fa-odnoklassniki:before {
+  content: "\f263";
+}
+.fa-odnoklassniki-square:before {
+  content: "\f264";
+}
+.fa-get-pocket:before {
+  content: "\f265";
+}
+.fa-wikipedia-w:before {
+  content: "\f266";
+}
+.fa-safari:before {
+  content: "\f267";
+}
+.fa-chrome:before {
+  content: "\f268";
+}
+.fa-firefox:before {
+  content: "\f269";
+}
+.fa-opera:before {
+  content: "\f26a";
+}
+.fa-internet-explorer:before {
+  content: "\f26b";
+}
+.fa-tv:before,
+.fa-television:before {
+  content: "\f26c";
+}
+.fa-contao:before {
+  content: "\f26d";
+}
+.fa-500px:before {
+  content: "\f26e";
+}
+.fa-amazon:before {
+  content: "\f270";
+}
+.fa-calendar-plus-o:before {
+  content: "\f271";
+}
+.fa-calendar-minus-o:before {
+  content: "\f272";
+}
+.fa-calendar-times-o:before {
+  content: "\f273";
+}
+.fa-calendar-check-o:before {
+  content: "\f274";
+}
+.fa-industry:before {
+  content: "\f275";
+}
+.fa-map-pin:before {
+  content: "\f276";
+}
+.fa-map-signs:before {
+  content: "\f277";
+}
+.fa-map-o:before {
+  content: "\f278";
+}
+.fa-map:before {
+  content: "\f279";
+}
+.fa-commenting:before {
+  content: "\f27a";
+}
+.fa-commenting-o:before {
+  content: "\f27b";
+}
+.fa-houzz:before {
+  content: "\f27c";
+}
+.fa-vimeo:before {
+  content: "\f27d";
+}
+.fa-black-tie:before {
+  content: "\f27e";
+}
+.fa-fonticons:before {
+  content: "\f280";
+}
+.fa-reddit-alien:before {
+  content: "\f281";
+}
+.fa-edge:before {
+  content: "\f282";
+}
+.fa-credit-card-alt:before {
+  content: "\f283";
+}
+.fa-codiepie:before {
+  content: "\f284";
+}
+.fa-modx:before {
+  content: "\f285";
+}
+.fa-fort-awesome:before {
+  content: "\f286";
+}
+.fa-usb:before {
+  content: "\f287";
+}
+.fa-product-hunt:before {
+  content: "\f288";
+}
+.fa-mixcloud:before {
+  content: "\f289";
+}
+.fa-scribd:before {
+  content: "\f28a";
+}
+.fa-pause-circle:before {
+  content: "\f28b";
+}
+.fa-pause-circle-o:before {
+  content: "\f28c";
+}
+.fa-stop-circle:before {
+  content: "\f28d";
+}
+.fa-stop-circle-o:before {
+  content: "\f28e";
+}
+.fa-shopping-bag:before {
+  content: "\f290";
+}
+.fa-shopping-basket:before {
+  content: "\f291";
+}
+.fa-hashtag:before {
+  content: "\f292";
+}
+.fa-bluetooth:before {
+  content: "\f293";
+}
+.fa-bluetooth-b:before {
+  content: "\f294";
+}
+.fa-percent:before {
+  content: "\f295";
+}
+.fa-gitlab:before {
+  content: "\f296";
+}
+.fa-wpbeginner:before {
+  content: "\f297";
+}
+.fa-wpforms:before {
+  content: "\f298";
+}
+.fa-envira:before {
+  content: "\f299";
+}
+.fa-universal-access:before {
+  content: "\f29a";
+}
+.fa-wheelchair-alt:before {
+  content: "\f29b";
+}
+.fa-question-circle-o:before {
+  content: "\f29c";
+}
+.fa-blind:before {
+  content: "\f29d";
+}
+.fa-audio-description:before {
+  content: "\f29e";
+}
+.fa-volume-control-phone:before {
+  content: "\f2a0";
+}
+.fa-braille:before {
+  content: "\f2a1";
+}
+.fa-assistive-listening-systems:before {
+  content: "\f2a2";
+}
+.fa-asl-interpreting:before,
+.fa-american-sign-language-interpreting:before {
+  content: "\f2a3";
+}
+.fa-deafness:before,
+.fa-hard-of-hearing:before,
+.fa-deaf:before {
+  content: "\f2a4";
+}
+.fa-glide:before {
+  content: "\f2a5";
+}
+.fa-glide-g:before {
+  content: "\f2a6";
+}
+.fa-signing:before,
+.fa-sign-language:before {
+  content: "\f2a7";
+}
+.fa-low-vision:before {
+  content: "\f2a8";
+}
+.fa-viadeo:before {
+  content: "\f2a9";
+}
+.fa-viadeo-square:before {
+  content: "\f2aa";
+}
+.fa-snapchat:before {
+  content: "\f2ab";
+}
+.fa-snapchat-ghost:before {
+  content: "\f2ac";
+}
+.fa-snapchat-square:before {
+  content: "\f2ad";
+}
+.fa-pied-piper:before {
+  content: "\f2ae";
+}
+.fa-first-order:before {
+  content: "\f2b0";
+}
+.fa-yoast:before {
+  content: "\f2b1";
+}
+.fa-themeisle:before {
+  content: "\f2b2";
+}
+.fa-google-plus-circle:before,
+.fa-google-plus-official:before {
+  content: "\f2b3";
+}
+.fa-fa:before,
+.fa-font-awesome:before {
+  content: "\f2b4";
+}
+.fa-handshake-o:before {
+  content: "\f2b5";
+}
+.fa-envelope-open:before {
+  content: "\f2b6";
+}
+.fa-envelope-open-o:before {
+  content: "\f2b7";
+}
+.fa-linode:before {
+  content: "\f2b8";
+}
+.fa-address-book:before {
+  content: "\f2b9";
+}
+.fa-address-book-o:before {
+  content: "\f2ba";
+}
+.fa-vcard:before,
+.fa-address-card:before {
+  content: "\f2bb";
+}
+.fa-vcard-o:before,
+.fa-address-card-o:before {
+  content: "\f2bc";
+}
+.fa-user-circle:before {
+  content: "\f2bd";
+}
+.fa-user-circle-o:before {
+  content: "\f2be";
+}
+.fa-user-o:before {
+  content: "\f2c0";
+}
+.fa-id-badge:before {
+  content: "\f2c1";
+}
+.fa-drivers-license:before,
+.fa-id-card:before {
+  content: "\f2c2";
+}
+.fa-drivers-license-o:before,
+.fa-id-card-o:before {
+  content: "\f2c3";
+}
+.fa-quora:before {
+  content: "\f2c4";
+}
+.fa-free-code-camp:before {
+  content: "\f2c5";
+}
+.fa-telegram:before {
+  content: "\f2c6";
+}
+.fa-thermometer-4:before,
+.fa-thermometer:before,
+.fa-thermometer-full:before {
+  content: "\f2c7";
+}
+.fa-thermometer-3:before,
+.fa-thermometer-three-quarters:before {
+  content: "\f2c8";
+}
+.fa-thermometer-2:before,
+.fa-thermometer-half:before {
+  content: "\f2c9";
+}
+.fa-thermometer-1:before,
+.fa-thermometer-quarter:before {
+  content: "\f2ca";
+}
+.fa-thermometer-0:before,
+.fa-thermometer-empty:before {
+  content: "\f2cb";
+}
+.fa-shower:before {
+  content: "\f2cc";
+}
+.fa-bathtub:before,
+.fa-s15:before,
+.fa-bath:before {
+  content: "\f2cd";
+}
+.fa-podcast:before {
+  content: "\f2ce";
+}
+.fa-window-maximize:before {
+  content: "\f2d0";
+}
+.fa-window-minimize:before {
+  content: "\f2d1";
+}
+.fa-window-restore:before {
+  content: "\f2d2";
+}
+.fa-times-rectangle:before,
+.fa-window-close:before {
+  content: "\f2d3";
+}
+.fa-times-rectangle-o:before,
+.fa-window-close-o:before {
+  content: "\f2d4";
+}
+.fa-bandcamp:before {
+  content: "\f2d5";
+}
+.fa-grav:before {
+  content: "\f2d6";
+}
+.fa-etsy:before {
+  content: "\f2d7";
+}
+.fa-imdb:before {
+  content: "\f2d8";
+}
+.fa-ravelry:before {
+  content: "\f2d9";
+}
+.fa-eercast:before {
+  content: "\f2da";
+}
+.fa-microchip:before {
+  content: "\f2db";
+}
+.fa-snowflake-o:before {
+  content: "\f2dc";
+}
+.fa-superpowers:before {
+  content: "\f2dd";
+}
+.fa-wpexplorer:before {
+  content: "\f2de";
+}
+.fa-meetup:before {
+  content: "\f2e0";
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
 }
 /*!
 *
@@ -8692,6 +9365,10 @@ div.traceback-wrapper {
   max-width: 800px;
   margin: auto;
 }
+div.traceback-wrapper pre.traceback {
+  max-height: 600px;
+  overflow: auto;
+}
 /**
  * Primary styles
  *
@@ -8717,6 +9394,10 @@ body > #header {
   z-index: 100;
 }
 body > #header #header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
   padding-bottom: 5px;
   padding-top: 5px;
   box-sizing: border-box;
@@ -8748,13 +9429,16 @@ body > #header .header-bar {
   padding-top: 1px;
   padding-bottom: 1px;
 }
-@media (max-width: 991px) {
-  #ipython_notebook {
-    margin-left: 10px;
-  }
-}
 [dir="rtl"] #ipython_notebook {
+  margin-right: 10px;
+  margin-left: 0;
+}
+[dir="rtl"] #ipython_notebook.pull-left {
   float: right !important;
+  float: right;
+}
+.flex-spacer {
+  flex: 1;
 }
 #noscript {
   width: auto;
@@ -8789,8 +9473,14 @@ body > #header .header-bar {
 input.ui-button {
   padding: 0.3em 0.9em;
 }
+span#kernel_logo_widget {
+  margin: 0 10px;
+}
 span#login_widget {
   float: right;
+}
+[dir="rtl"] span#login_widget {
+  float: left;
 }
 span#login_widget > .button,
 #logout {
@@ -8906,6 +9596,9 @@ span#login_widget > .button .badge,
   overflow: auto;
   flex: 1;
 }
+.modal-header {
+  cursor: move;
+}
 @media (min-width: 768px) {
   .modal .modal-dialog {
     width: 700px;
@@ -8926,6 +9619,19 @@ span#login_widget > .button .badge,
   display: inline-block;
   margin-bottom: -4px;
 }
+[dir="rtl"] .center-nav form.pull-left {
+  float: right !important;
+  float: right;
+}
+[dir="rtl"] .center-nav .navbar-text {
+  float: right;
+}
+[dir="rtl"] .navbar-inner {
+  text-align: right;
+}
+[dir="rtl"] div.text-left {
+  text-align: right;
+}
 /*!
 *
 * IPython tree view
@@ -8942,34 +9648,42 @@ span#login_widget > .button .badge,
   margin: 0;
 }
 .alternate_upload input.fileinput {
-  text-align: center;
-  vertical-align: middle;
-  display: inline;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
   opacity: 0;
   z-index: 2;
-  width: 12ex;
-  margin-right: -12ex;
+}
+.alternate_upload .btn-xs > input.fileinput {
+  margin: -1px -5px;
 }
 .alternate_upload .btn-upload {
+  position: relative;
   height: 22px;
+}
+::-webkit-file-upload-button {
+  cursor: pointer;
 }
 /**
  * Primary styles
  *
  * Author: Jupyter Development Team
  */
-[dir="rtl"] #tabs li {
-  float: right;
-}
 ul#tabs {
   margin-bottom: 4px;
-}
-[dir="rtl"] ul#tabs {
-  margin-right: 0px;
 }
 ul#tabs a {
   padding-top: 6px;
   padding-bottom: 4px;
+}
+[dir="rtl"] ul#tabs.nav-tabs > li {
+  float: right;
+}
+[dir="rtl"] ul#tabs.nav.nav-tabs {
+  padding-right: 0;
 }
 ul.breadcrumb a:focus,
 ul.breadcrumb a:hover {
@@ -8989,15 +9703,13 @@ ul.breadcrumb span {
 .list_toolbar .tree-buttons {
   padding-top: 1px;
 }
-[dir="rtl"] .list_toolbar .tree-buttons {
+[dir="rtl"] .list_toolbar .tree-buttons .pull-right {
   float: left !important;
+  float: left;
 }
-[dir="rtl"] .list_toolbar .pull-right {
-  padding-top: 1px;
-  float: left !important;
-}
-[dir="rtl"] .list_toolbar .pull-left {
-  float: right !important;
+[dir="rtl"] .list_toolbar .col-sm-4,
+[dir="rtl"] .list_toolbar .col-sm-8 {
+  float: right;
 }
 .dynamic-buttons {
   padding-top: 3px;
@@ -9053,7 +9765,7 @@ ul.breadcrumb span {
 .list_item > div input {
   margin-right: 7px;
   margin-left: 14px;
-  vertical-align: baseline;
+  vertical-align: text-bottom;
   line-height: 22px;
   position: relative;
   top: -1px;
@@ -9063,6 +9775,9 @@ ul.breadcrumb span {
   margin-left: -1px;
   vertical-align: baseline;
   line-height: 22px;
+}
+[dir="rtl"] .list_item > div input {
+  margin-right: 0;
 }
 .new-file input[type=checkbox] {
   visibility: hidden;
@@ -9078,6 +9793,14 @@ ul.breadcrumb span {
   margin-left: 7px;
   line-height: 22px;
   vertical-align: baseline;
+}
+.item_modified {
+  margin-right: 7px;
+  margin-left: 7px;
+}
+[dir="rtl"] .item_modified.pull-right {
+  float: left !important;
+  float: left;
 }
 .item_buttons {
   line-height: 1em;
@@ -9106,6 +9829,14 @@ ul.breadcrumb span {
   margin-right: 7px;
   float: left;
 }
+[dir="rtl"] .item_buttons.pull-right {
+  float: left !important;
+  float: left;
+}
+[dir="rtl"] .item_buttons .kernel-name {
+  margin-left: 7px;
+  float: right;
+}
 .toolbar_info {
   height: 24px;
   line-height: 24px;
@@ -9131,18 +9862,32 @@ ul.breadcrumb span {
   background-color: transparent;
   font-weight: bold;
 }
+.sort_button {
+  display: inline-block;
+  padding-left: 7px;
+}
+[dir="rtl"] .sort_button.pull-right {
+  float: left !important;
+  float: left;
+}
 #tree-selector {
   padding-right: 0px;
-}
-[dir="rtl"] #tree-selector a {
-  float: right;
 }
 #button-select-all {
   min-width: 50px;
 }
+[dir="rtl"] #button-select-all.btn {
+  float: right ;
+}
 #select-all {
   margin-left: 7px;
   margin-right: 2px;
+  margin-top: 2px;
+  height: 16px;
+}
+[dir="rtl"] #select-all.pull-left {
+  float: right !important;
+  float: right;
 }
 .menu_icon {
   margin-right: 2px;
@@ -9160,6 +9905,12 @@ ul.breadcrumb span {
   -moz-osx-font-smoothing: grayscale;
   content: "\f114";
 }
+.folder_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.folder_icon:before.fa-pull-right {
+  margin-left: .3em;
+}
 .folder_icon:before.pull-left {
   margin-right: .3em;
 }
@@ -9176,6 +9927,12 @@ ul.breadcrumb span {
   content: "\f02d";
   position: relative;
   top: -1px;
+}
+.notebook_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.notebook_icon:before.fa-pull-right {
+  margin-left: .3em;
 }
 .notebook_icon:before.pull-left {
   margin-right: .3em;
@@ -9195,6 +9952,12 @@ ul.breadcrumb span {
   top: -1px;
   color: #5cb85c;
 }
+.running_notebook_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.running_notebook_icon:before.fa-pull-right {
+  margin-left: .3em;
+}
 .running_notebook_icon:before.pull-left {
   margin-right: .3em;
 }
@@ -9212,6 +9975,12 @@ ul.breadcrumb span {
   position: relative;
   top: -2px;
 }
+.file_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.file_icon:before.fa-pull-right {
+  margin-left: .3em;
+}
 .file_icon:before.pull-left {
   margin-right: .3em;
 }
@@ -9226,8 +9995,11 @@ ul#new-menu {
   left: auto;
   right: 0;
 }
-[dir="rtl"] #new-menu {
-  text-align: right;
+#new-menu .dropdown-header {
+  font-size: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 0 3px;
+  margin: -3px 20px 0;
 }
 .kernel-menu-icon {
   padding-right: 12px;
@@ -9274,9 +10046,6 @@ ul#new-menu {
 #running .panel-group .panel .panel-body .list_container .list_item:last-child {
   border-bottom: 0px;
 }
-[dir="rtl"] #running .col-sm-8 {
-  float: right !important;
-}
 .delete-button {
   display: none;
 }
@@ -9284,6 +10053,12 @@ ul#new-menu {
   display: none;
 }
 .rename-button {
+  display: none;
+}
+.move-button {
+  display: none;
+}
+.download-button {
   display: none;
 }
 .shutdown-button {
@@ -9326,6 +10101,12 @@ ul#new-menu {
   -moz-osx-font-smoothing: grayscale;
   width: 20px;
 }
+.dirty-indicator.fa-pull-left {
+  margin-right: .3em;
+}
+.dirty-indicator.fa-pull-right {
+  margin-left: .3em;
+}
 .dirty-indicator.pull-left {
   margin-right: .3em;
 }
@@ -9340,6 +10121,12 @@ ul#new-menu {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 20px;
+}
+.dirty-indicator-dirty.fa-pull-left {
+  margin-right: .3em;
+}
+.dirty-indicator-dirty.fa-pull-right {
+  margin-left: .3em;
 }
 .dirty-indicator-dirty.pull-left {
   margin-right: .3em;
@@ -9356,6 +10143,12 @@ ul#new-menu {
   -moz-osx-font-smoothing: grayscale;
   width: 20px;
 }
+.dirty-indicator-clean.fa-pull-left {
+  margin-right: .3em;
+}
+.dirty-indicator-clean.fa-pull-right {
+  margin-left: .3em;
+}
 .dirty-indicator-clean.pull-left {
   margin-right: .3em;
 }
@@ -9370,6 +10163,12 @@ ul#new-menu {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: "\f00c";
+}
+.dirty-indicator-clean:before.fa-pull-left {
+  margin-right: .3em;
+}
+.dirty-indicator-clean:before.fa-pull-right {
+  margin-left: .3em;
 }
 .dirty-indicator-clean:before.pull-left {
   margin-right: .3em;
@@ -9415,14 +10214,132 @@ ul#new-menu {
     box-shadow: 0px 0px 12px 1px rgba(87, 87, 87, 0.2);
   }
 }
+.CodeMirror-dialog {
+  background-color: #fff;
+}
 /*!
 *
 * IPython notebook
 *
 */
-/* CSS font colors for translated ANSI colors. */
+/* CSS font colors for translated ANSI escape sequences */
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+.ansi-black-fg {
+  color: #3E424D;
+}
+.ansi-black-bg {
+  background-color: #3E424D;
+}
+.ansi-black-intense-fg {
+  color: #282C36;
+}
+.ansi-black-intense-bg {
+  background-color: #282C36;
+}
+.ansi-red-fg {
+  color: #E75C58;
+}
+.ansi-red-bg {
+  background-color: #E75C58;
+}
+.ansi-red-intense-fg {
+  color: #B22B31;
+}
+.ansi-red-intense-bg {
+  background-color: #B22B31;
+}
+.ansi-green-fg {
+  color: #00A250;
+}
+.ansi-green-bg {
+  background-color: #00A250;
+}
+.ansi-green-intense-fg {
+  color: #007427;
+}
+.ansi-green-intense-bg {
+  background-color: #007427;
+}
+.ansi-yellow-fg {
+  color: #DDB62B;
+}
+.ansi-yellow-bg {
+  background-color: #DDB62B;
+}
+.ansi-yellow-intense-fg {
+  color: #B27D12;
+}
+.ansi-yellow-intense-bg {
+  background-color: #B27D12;
+}
+.ansi-blue-fg {
+  color: #208FFB;
+}
+.ansi-blue-bg {
+  background-color: #208FFB;
+}
+.ansi-blue-intense-fg {
+  color: #0065CA;
+}
+.ansi-blue-intense-bg {
+  background-color: #0065CA;
+}
+.ansi-magenta-fg {
+  color: #D160C4;
+}
+.ansi-magenta-bg {
+  background-color: #D160C4;
+}
+.ansi-magenta-intense-fg {
+  color: #A03196;
+}
+.ansi-magenta-intense-bg {
+  background-color: #A03196;
+}
+.ansi-cyan-fg {
+  color: #60C6C8;
+}
+.ansi-cyan-bg {
+  background-color: #60C6C8;
+}
+.ansi-cyan-intense-fg {
+  color: #258F8F;
+}
+.ansi-cyan-intense-bg {
+  background-color: #258F8F;
+}
+.ansi-white-fg {
+  color: #C5C1B4;
+}
+.ansi-white-bg {
+  background-color: #C5C1B4;
+}
+.ansi-white-intense-fg {
+  color: #A1A6B2;
+}
+.ansi-white-intense-bg {
+  background-color: #A1A6B2;
+}
+.ansi-default-inverse-fg {
+  color: #FFFFFF;
+}
+.ansi-default-inverse-bg {
+  background-color: #000000;
+}
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-underline {
+  text-decoration: underline;
+}
+/* The following styles are deprecated an will be removed in a future version */
 .ansibold {
   font-weight: bold;
+}
+.ansi-inverse {
+  outline: 0.5px dotted;
 }
 /* use dark versions for foreground, to improve visibility */
 .ansiblack {
@@ -9501,12 +10418,20 @@ div.cell {
   /* This acts as a spacer between cells, that is outside the border */
   margin: 0px;
   outline: none;
-  border-left-width: 1px;
-  padding-left: 5px;
-  background: linear-gradient(to right, transparent -40px, transparent 1px, transparent 1px, transparent 100%);
+  position: relative;
+  overflow: visible;
+}
+div.cell:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: transparent;
 }
 div.cell.jupyter-soft-selected {
-  border-left-color: #90CAF9;
   border-left-color: #E3F2FD;
   border-left-width: 1px;
   padding-left: 5px;
@@ -9519,27 +10444,39 @@ div.cell.jupyter-soft-selected {
     border-color: transparent;
   }
 }
-div.cell.selected {
+div.cell.selected,
+div.cell.selected.jupyter-soft-selected {
   border-color: #ababab;
-  border-left-width: 0px;
-  padding-left: 6px;
-  background: linear-gradient(to right, #42A5F5 -40px, #42A5F5 5px, transparent 5px, transparent 100%);
+}
+div.cell.selected:before,
+div.cell.selected.jupyter-soft-selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #42A5F5;
 }
 @media print {
-  div.cell.selected {
+  div.cell.selected,
+  div.cell.selected.jupyter-soft-selected {
     border-color: transparent;
   }
 }
-div.cell.selected.jupyter-soft-selected {
-  border-left-width: 0;
-  padding-left: 6px;
-  background: linear-gradient(to right, #42A5F5 -40px, #42A5F5 7px, #E3F2FD 7px, #E3F2FD 100%);
-}
 .edit_mode div.cell.selected {
   border-color: #66BB6A;
-  border-left-width: 0px;
-  padding-left: 6px;
-  background: linear-gradient(to right, #66BB6A -40px, #66BB6A 5px, transparent 5px, transparent 100%);
+}
+.edit_mode div.cell.selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #66BB6A;
 }
 @media print {
   .edit_mode div.cell.selected {
@@ -9735,7 +10672,9 @@ div.input_area > div.highlight > pre {
 .CodeMirror-lines {
   /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
   /* we have set a different line-height and want this to scale with that. */
-  padding: 0.4em;
+  /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+  padding: 0.4em 0;
 }
 .CodeMirror-linenumber {
   padding: 0 8px 0 4px;
@@ -9745,11 +10684,24 @@ div.input_area > div.highlight > pre {
   border-top-left-radius: 2px;
 }
 .CodeMirror pre {
-  /* In CM3 this went to 4px from 0 in CM2. We need the 0 value because of how we size */
-  /* .CodeMirror-lines */
-  padding: 0;
+  /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+  padding: 0 0.4em;
   border: 0;
   border-radius: 0;
+}
+.CodeMirror-cursor {
+  border-left: 1.4px solid black;
+}
+@media screen and (min-width: 2138px) and (max-width: 4319px) {
+  .CodeMirror-cursor {
+    border-left: 2px solid black;
+  }
+}
+@media screen and (min-width: 4320px) {
+  .CodeMirror-cursor {
+    border-left: 4px solid black;
+  }
 }
 /*
 
@@ -10003,6 +10955,9 @@ div.output_area img.unconfined,
 div.output_area svg.unconfined {
   max-width: none;
 }
+div.output_area .mglyph > img {
+  max-width: none;
+}
 /* This is needed to protect the pre formating from global settings such
    as that of bootstrap */
 .output {
@@ -10041,7 +10996,7 @@ div.output_area svg.unconfined {
 }
 div.output_area pre {
   margin: 0;
-  padding: 0;
+  padding: 1px 0 1px 0;
   border: 0;
   vertical-align: baseline;
   color: black;
@@ -10201,39 +11156,35 @@ div.output_unrecognized a:hover {
 .rendered_html h6:first-child {
   margin-top: 1em;
 }
+.rendered_html ul:not(.list-inline),
+.rendered_html ol:not(.list-inline) {
+  padding-left: 2em;
+}
 .rendered_html ul {
   list-style: disc;
-  margin: 0em 2em;
-  padding-left: 0px;
 }
 .rendered_html ul ul {
   list-style: square;
-  margin: 0em 2em;
+  margin-top: 0;
 }
 .rendered_html ul ul ul {
   list-style: circle;
-  margin: 0em 2em;
 }
 .rendered_html ol {
   list-style: decimal;
-  margin: 0em 2em;
-  padding-left: 0px;
 }
 .rendered_html ol ol {
   list-style: upper-alpha;
-  margin: 0em 2em;
+  margin-top: 0;
 }
 .rendered_html ol ol ol {
   list-style: lower-alpha;
-  margin: 0em 2em;
 }
 .rendered_html ol ol ol ol {
   list-style: lower-roman;
-  margin: 0em 2em;
 }
 .rendered_html ol ol ol ol ol {
   list-style: decimal;
-  margin: 0em 2em;
 }
 .rendered_html * + ul {
   margin-top: 1em;
@@ -10247,14 +11198,23 @@ div.output_unrecognized a:hover {
 }
 .rendered_html pre {
   margin: 1em 2em;
+  padding: 0px;
+  background-color: #fff;
+}
+.rendered_html code {
+  background-color: #eff0f1;
+}
+.rendered_html p code {
+  padding: 1px 5px;
+}
+.rendered_html pre code {
+  background-color: #fff;
 }
 .rendered_html pre,
 .rendered_html code {
   border: 0;
-  background-color: #fff;
   color: #000;
   font-size: 100%;
-  padding: 0px;
 }
 .rendered_html blockquote {
   margin: 1em 2em;
@@ -10262,24 +11222,36 @@ div.output_unrecognized a:hover {
 .rendered_html table {
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid black;
+  border: none;
   border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
 }
 .rendered_html tr,
 .rendered_html th,
 .rendered_html td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  margin: 1em 2em;
-}
-.rendered_html td,
-.rendered_html th {
-  text-align: left;
+  text-align: right;
   vertical-align: middle;
-  padding: 4px;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
 }
 .rendered_html th {
   font-weight: bold;
+}
+.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
 }
 .rendered_html * + table {
   margin-top: 1em;
@@ -10306,6 +11278,15 @@ div.output_unrecognized a:hover {
 .rendered_html img.unconfined,
 .rendered_html svg.unconfined {
   max-width: none;
+}
+.rendered_html .alert {
+  margin-bottom: initial;
+}
+.rendered_html * + .alert {
+  margin-top: 1em;
+}
+[dir="rtl"] .rendered_html p {
+  text-align: right;
 }
 div.text_cell {
   /* Old browsers */
@@ -10360,8 +11341,17 @@ h6:hover .anchor-link {
   overflow-x: auto;
   overflow-y: hidden;
 }
+.text_cell.rendered .rendered_html tr,
+.text_cell.rendered .rendered_html th,
+.text_cell.rendered .rendered_html td {
+  max-width: none;
+}
 .text_cell.unrendered .text_cell_render {
   display: none;
+}
+.text_cell .dropzone .input_area {
+  border: 2px dashed #bababa;
+  margin: -1px;
 }
 .cm-header-1,
 .cm-header-2,
@@ -10498,6 +11488,28 @@ kbd {
   padding-top: 1px;
   padding-bottom: 1px;
 }
+.jupyter-keybindings {
+  padding: 1px;
+  line-height: 24px;
+  border-bottom: 1px solid gray;
+}
+.jupyter-keybindings input {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.jupyter-keybindings i {
+  padding: 6px;
+}
+.well code {
+  background-color: #ffffff;
+  border-color: #ababab;
+  border-width: 1px;
+  border-style: solid;
+  padding: 2px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
 /* CSS for the cell toolbar */
 .celltoolbar {
   border: thin solid #CFCFCF;
@@ -10630,6 +11642,152 @@ select[multiple].celltoolbar select {
   margin-left: 5px;
   margin-right: 5px;
 }
+.tags_button_container {
+  width: 100%;
+  display: flex;
+}
+.tag-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  overflow: hidden;
+  position: relative;
+}
+.tag-container > * {
+  margin: 0 4px;
+}
+.remove-tag-btn {
+  margin-left: 4px;
+}
+.tags-input {
+  display: flex;
+}
+.cell-tag:last-child:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  /* Fade to background color of cell toolbar */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), #EEE);
+}
+.tags-input > * {
+  margin-left: 4px;
+}
+.cell-tag,
+.tags-input input,
+.tags-input button {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 1px;
+  box-shadow: none;
+  width: inherit;
+  font-size: inherit;
+  height: 22px;
+  line-height: 22px;
+  padding: 0px 4px;
+  display: inline-block;
+}
+.cell-tag:focus,
+.tags-input input:focus,
+.tags-input button:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.cell-tag::-moz-placeholder,
+.tags-input input::-moz-placeholder,
+.tags-input button::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+.cell-tag:-ms-input-placeholder,
+.tags-input input:-ms-input-placeholder,
+.tags-input button:-ms-input-placeholder {
+  color: #999;
+}
+.cell-tag::-webkit-input-placeholder,
+.tags-input input::-webkit-input-placeholder,
+.tags-input button::-webkit-input-placeholder {
+  color: #999;
+}
+.cell-tag::-ms-expand,
+.tags-input input::-ms-expand,
+.tags-input button::-ms-expand {
+  border: 0;
+  background-color: transparent;
+}
+.cell-tag[disabled],
+.tags-input input[disabled],
+.tags-input button[disabled],
+.cell-tag[readonly],
+.tags-input input[readonly],
+.tags-input button[readonly],
+fieldset[disabled] .cell-tag,
+fieldset[disabled] .tags-input input,
+fieldset[disabled] .tags-input button {
+  background-color: #eeeeee;
+  opacity: 1;
+}
+.cell-tag[disabled],
+.tags-input input[disabled],
+.tags-input button[disabled],
+fieldset[disabled] .cell-tag,
+fieldset[disabled] .tags-input input,
+fieldset[disabled] .tags-input button {
+  cursor: not-allowed;
+}
+textarea.cell-tag,
+textarea.tags-input input,
+textarea.tags-input button {
+  height: auto;
+}
+select.cell-tag,
+select.tags-input input,
+select.tags-input button {
+  height: 30px;
+  line-height: 30px;
+}
+textarea.cell-tag,
+textarea.tags-input input,
+textarea.tags-input button,
+select[multiple].cell-tag,
+select[multiple].tags-input input,
+select[multiple].tags-input button {
+  height: auto;
+}
+.cell-tag,
+.tags-input button {
+  padding: 0px 4px;
+}
+.cell-tag {
+  background-color: #fff;
+  white-space: nowrap;
+}
+.tags-input input[type=text]:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: #ccc;
+}
 .completions {
   position: absolute;
   z-index: 110;
@@ -10655,16 +11813,28 @@ select[multiple].celltoolbar select {
 .completions select option.context {
   color: #286090;
 }
-#kernel_logo_widget {
-  float: right !important;
-  float: right;
-}
 #kernel_logo_widget .current_kernel_logo {
   display: none;
   margin-top: -1px;
   margin-bottom: -1px;
   width: 32px;
   height: 32px;
+}
+[dir="rtl"] #kernel_logo_widget {
+  float: left !important;
+  float: left;
+}
+.modal .modal-body .move-path {
+  display: flex;
+  flex-direction: row;
+  justify-content: space;
+  align-items: center;
+}
+.modal .modal-body .move-path .server-root {
+  padding-right: 20px;
+}
+.modal .modal-body .move-path .path-input {
+  flex: 1;
 }
 #menubar {
   box-sizing: border-box;
@@ -10686,11 +11856,41 @@ select[multiple].celltoolbar select {
 #menubar .navbar-collapse {
   clear: left;
 }
+[dir="rtl"] #menubar .navbar-toggle {
+  float: right;
+}
+[dir="rtl"] #menubar .navbar-collapse {
+  clear: right;
+}
+[dir="rtl"] #menubar .navbar-nav {
+  float: right;
+}
+[dir="rtl"] #menubar .nav {
+  padding-right: 0px;
+}
+[dir="rtl"] #menubar .navbar-nav > li {
+  float: right;
+}
+[dir="rtl"] #menubar .navbar-right {
+  float: left !important;
+}
+[dir="rtl"] ul.dropdown-menu {
+  text-align: right;
+  left: auto;
+}
+[dir="rtl"] ul#new-menu.dropdown-menu {
+  right: auto;
+  left: 0;
+}
 .nav-wrapper {
   border-bottom: 1px solid #e7e7e7;
 }
 i.menu-icon {
   padding-top: 4px;
+}
+[dir="rtl"] i.menu-icon.pull-right {
+  float: left !important;
+  float: left;
 }
 ul#help_menu li a {
   overflow: hidden;
@@ -10698,6 +11898,17 @@ ul#help_menu li a {
 }
 ul#help_menu li a i {
   margin-right: -1.2em;
+}
+[dir="rtl"] ul#help_menu li a {
+  padding-left: 2.2em;
+}
+[dir="rtl"] ul#help_menu li a i {
+  margin-right: 0;
+  margin-left: -1.2em;
+}
+[dir="rtl"] ul#help_menu li a i.pull-right {
+  float: left !important;
+  float: left;
 }
 .dropdown-submenu {
   position: relative;
@@ -10707,6 +11918,10 @@ ul#help_menu li a i {
   left: 100%;
   margin-top: -6px;
   margin-left: -1px;
+}
+[dir="rtl"] .dropdown-submenu > .dropdown-menu {
+  right: 100%;
+  margin-right: -1px;
 }
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
@@ -10725,11 +11940,23 @@ ul#help_menu li a i {
   margin-top: 2px;
   margin-right: -10px;
 }
+.dropdown-submenu > a:after.fa-pull-left {
+  margin-right: .3em;
+}
+.dropdown-submenu > a:after.fa-pull-right {
+  margin-left: .3em;
+}
 .dropdown-submenu > a:after.pull-left {
   margin-right: .3em;
 }
 .dropdown-submenu > a:after.pull-right {
   margin-left: .3em;
+}
+[dir="rtl"] .dropdown-submenu > a:after {
+  float: left;
+  content: "\f0d9";
+  margin-right: 0;
+  margin-left: -10px;
 }
 .dropdown-submenu:hover > a:after {
   color: #262626;
@@ -10746,6 +11973,10 @@ ul#help_menu li a i {
   float: right;
   z-index: 10;
 }
+[dir="rtl"] #notification_area {
+  float: left !important;
+  float: left;
+}
 .indicator_area {
   float: right !important;
   float: right;
@@ -10756,6 +11987,10 @@ ul#help_menu li a i {
   z-index: 10;
   text-align: center;
   width: auto;
+}
+[dir="rtl"] .indicator_area {
+  float: left !important;
+  float: left;
 }
 #kernel_indicator {
   float: right !important;
@@ -10773,6 +12008,12 @@ ul#help_menu li a i {
   padding-left: 5px;
   padding-right: 5px;
 }
+[dir="rtl"] #kernel_indicator {
+  float: left !important;
+  float: left;
+  border-left: 0;
+  border-right: 1px solid;
+}
 #modal_indicator {
   float: right !important;
   float: right;
@@ -10783,6 +12024,10 @@ ul#help_menu li a i {
   z-index: 10;
   text-align: center;
   width: auto;
+}
+[dir="rtl"] #modal_indicator {
+  float: left !important;
+  float: left;
 }
 #readonly-indicator {
   float: right !important;
@@ -10813,6 +12058,12 @@ ul#help_menu li a i {
   -moz-osx-font-smoothing: grayscale;
   content: "\f040";
 }
+.edit_mode .modal_indicator:before.fa-pull-left {
+  margin-right: .3em;
+}
+.edit_mode .modal_indicator:before.fa-pull-right {
+  margin-left: .3em;
+}
 .edit_mode .modal_indicator:before.pull-left {
   margin-right: .3em;
 }
@@ -10827,6 +12078,12 @@ ul#help_menu li a i {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: ' ';
+}
+.command_mode .modal_indicator:before.fa-pull-left {
+  margin-right: .3em;
+}
+.command_mode .modal_indicator:before.fa-pull-right {
+  margin-left: .3em;
 }
 .command_mode .modal_indicator:before.pull-left {
   margin-right: .3em;
@@ -10843,6 +12100,12 @@ ul#help_menu li a i {
   -moz-osx-font-smoothing: grayscale;
   content: "\f10c";
 }
+.kernel_idle_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.kernel_idle_icon:before.fa-pull-right {
+  margin-left: .3em;
+}
 .kernel_idle_icon:before.pull-left {
   margin-right: .3em;
 }
@@ -10857,6 +12120,12 @@ ul#help_menu li a i {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: "\f111";
+}
+.kernel_busy_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.kernel_busy_icon:before.fa-pull-right {
+  margin-left: .3em;
 }
 .kernel_busy_icon:before.pull-left {
   margin-right: .3em;
@@ -10873,6 +12142,12 @@ ul#help_menu li a i {
   -moz-osx-font-smoothing: grayscale;
   content: "\f1e2";
 }
+.kernel_dead_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.kernel_dead_icon:before.fa-pull-right {
+  margin-left: .3em;
+}
 .kernel_dead_icon:before.pull-left {
   margin-right: .3em;
 }
@@ -10887,6 +12162,12 @@ ul#help_menu li a i {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: "\f127";
+}
+.kernel_disconnected_icon:before.fa-pull-left {
+  margin-right: .3em;
+}
+.kernel_disconnected_icon:before.fa-pull-right {
+  margin-left: .3em;
 }
 .kernel_disconnected_icon:before.pull-left {
   margin-right: .3em;
@@ -11277,27 +12558,46 @@ div#pager .ui-resizable-handle::after {
   flex: 1;
 }
 span.save_widget {
-  margin-top: 6px;
+  height: 30px;
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  width: 50%;
+  flex: 1;
 }
 span.save_widget span.filename {
-  height: 1em;
+  height: 100%;
   line-height: 1em;
-  padding: 3px;
   margin-left: 16px;
   border: none;
   font-size: 146.5%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   border-radius: 2px;
 }
 span.save_widget span.filename:hover {
   background-color: #e6e6e6;
 }
+[dir="rtl"] span.save_widget.pull-left {
+  float: right !important;
+  float: right;
+}
+[dir="rtl"] span.save_widget span.filename {
+  margin-left: 0;
+  margin-right: 16px;
+}
 span.checkpoint_status,
 span.autosave_status {
   font-size: small;
+  white-space: nowrap;
+  padding: 0 5px;
 }
 @media (max-width: 767px) {
   span.save_widget {
     font-size: small;
+    padding: 0 0 0 5px;
   }
   span.checkpoint_status,
   span.autosave_status {
@@ -11341,6 +12641,9 @@ span.autosave_status {
   margin-top: 0px;
   margin-left: 5px;
 }
+.toolbar-btn-label {
+  margin-left: 6px;
+}
 #maintoolbar {
   margin-bottom: -3px;
   margin-top: -8px;
@@ -11360,6 +12663,10 @@ span.autosave_status {
 }
 .select-xs {
   height: 24px;
+}
+[dir="rtl"] .btn-group > .btn,
+.btn-group-vertical > .btn {
+  float: right;
 }
 .pulse,
 .dropdown-menu > li > a.pulse,
@@ -11510,6 +12817,10 @@ ul.typeahead-list i {
   margin-left: -10px;
   width: 18px;
 }
+[dir="rtl"] ul.typeahead-list i {
+  margin-left: 0;
+  margin-right: -10px;
+}
 ul.typeahead-list {
   max-height: 80vh;
   overflow: auto;
@@ -11518,6 +12829,13 @@ ul.typeahead-list > li > a {
   /** Firefox bug **/
   /* see https://github.com/jupyter/notebook/issues/559 */
   white-space: normal;
+}
+ul.typeahead-list  > li > a.pull-right {
+  float: left !important;
+  float: left;
+}
+[dir="rtl"] .typeahead-list {
+  text-align: right;
 }
 .cmd-palette .modal-body {
   padding: 7px;
@@ -11529,10 +12847,19 @@ ul.typeahead-list > li > a {
   outline: none;
 }
 .no-shortcut {
-  display: none;
+  min-width: 20px;
+  color: transparent;
+}
+[dir="rtl"] .no-shortcut.pull-right {
+  float: left !important;
+  float: left;
+}
+[dir="rtl"] .command-shortcut.pull-right {
+  float: left !important;
+  float: left;
 }
 .command-shortcut:before {
-  content: "(command)";
+  content: "(command mode)";
   padding-right: 3px;
   color: #777777;
 }
@@ -11541,6 +12868,10 @@ ul.typeahead-list > li > a {
   padding-right: 3px;
   color: #777777;
 }
+[dir="rtl"] .edit-shortcut.pull-right {
+  float: left !important;
+  float: left;
+}
 #find-and-replace #replace-preview .match,
 #find-and-replace #replace-preview .insert {
   background-color: #BBDEFB;
@@ -11548,6 +12879,12 @@ ul.typeahead-list > li > a {
   border-style: solid;
   border-width: 1px;
   border-radius: 0px;
+}
+[dir="ltr"] #find-and-replace .input-group-btn + .form-control {
+  border-left: none;
+}
+[dir="rtl"] #find-and-replace .input-group-btn + .form-control {
+  border-right: none;
 }
 #find-and-replace #replace-preview .replace .match {
   background-color: #FFCDD2;
@@ -11609,8 +12946,10 @@ ul.typeahead-list > li > a {
 .highlight .err { border: 1px solid #FF0000 } /* Error */
 .highlight .k { color: #008000; font-weight: bold } /* Keyword */
 .highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
 .highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
 .highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
 .highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
 .highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
@@ -11650,8 +12989,10 @@ ul.typeahead-list > li > a {
 .highlight .mh { color: #666666 } /* Literal.Number.Hex */
 .highlight .mi { color: #666666 } /* Literal.Number.Integer */
 .highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
 .highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
 .highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .highlight .s2 { color: #BA2121 } /* Literal.String.Double */
 .highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -11662,49 +13003,12 @@ ul.typeahead-list > li > a {
 .highlight .s1 { color: #BA2121 } /* Literal.String.Single */
 .highlight .ss { color: #19177C } /* Literal.String.Symbol */
 .highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
 .highlight .vc { color: #19177C } /* Name.Variable.Class */
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
-  </style>
-  <style type="text/css">
-    
-/* Temporary definitions which will become obsolete with Notebook release 5.0 */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-bold { font-weight: bold; }
-
   </style>
   
 
@@ -11738,7 +13042,7 @@ ul.typeahead-list > li > a {
 
   <!-- Loading mathjax macro -->
   <!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -11764,8 +13068,7 @@ ul.typeahead-list > li > a {
     <div class="container" id="notebook-container">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercises:-Means---Answer-Key">Exercises: Means - Answer Key<a class="anchor-link" href="#Exercises:-Means---Answer-Key">&#182;</a></h1><p>By Christopher van Hoecke and Max Margenot</p>
 <h2 id="Lecture-Link-:">Lecture Link :<a class="anchor-link" href="#Lecture-Link-:">&#182;</a></h2><p><a href="https://www.quantopian.com/lectures/means">https://www.quantopian.com/lectures/means</a></p>
@@ -11781,8 +13084,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Key-Concepts">Key Concepts<a class="anchor-link" href="#Key-Concepts">&#182;</a></h2>
 </div>
@@ -11793,9 +13095,9 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Useful Functions</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Useful Functions</span>
 <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
-    <span class="c"># Count the number of times each element appears in the list</span>
+    <span class="c1"># Count the number of times each element appears in the list</span>
     <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
@@ -11803,10 +13105,10 @@ ul.typeahead-list > li > a {
         <span class="k">else</span><span class="p">:</span>
             <span class="n">counts</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             
-    <span class="c"># Return the elements that appear the most times</span>
+    <span class="c1"># Return the elements that appear the most times</span>
     <span class="n">maxcount</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">modes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxcount</span><span class="p">:</span>
             <span class="n">maxcount</span> <span class="o">=</span> <span class="n">value</span>
             <span class="n">modes</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">}</span>
@@ -11815,10 +13117,10 @@ ul.typeahead-list > li > a {
             
     <span class="k">if</span> <span class="n">maxcount</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">modes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&#39;No mode&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;No mode&#39;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -11828,19 +13130,18 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># Useful Libraries</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="kn">as</span> <span class="nn">stats</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Useful Libraries</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Data:">Data:<a class="anchor-link" href="#Data:">&#182;</a></h4>
 </div>
@@ -11851,20 +13152,19 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">l</span><span class="o">=</span><span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">l</span><span class="o">=</span><span class="p">[]</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
     <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 
@@ -11872,8 +13172,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercise-1-:-Arithmetic-mean.">Exercise 1 : Arithmetic mean.<a class="anchor-link" href="#Exercise-1-:-Arithmetic-mean.">&#182;</a></h1><h2 id="a.-Mean-of-random-data-set.">a. Mean of random data set.<a class="anchor-link" href="#a.-Mean-of-random-data-set.">&#182;</a></h2><p>Find the mean of the randomly generated data set <code>l</code>.</p>
 
@@ -11885,11 +13184,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here       </span>
-<span class="k">print</span> <span class="s">&#39;mean of l:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here       </span>
+<span class="nb">print</span> <span class="s1">&#39;mean of l:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -11899,11 +13198,11 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>mean of l: 50.5656565657
+<pre>mean of l: 50.8282828283
 </pre>
 </div>
 </div>
@@ -11913,8 +13212,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="b.-Mean-of-returns">b. Mean of returns<a class="anchor-link" href="#b.-Mean-of-returns">&#182;</a></h2><p>Find the mean of the returns of Iteris, Inc. (ITI) for 5 years.</p>
 
@@ -11926,14 +13224,14 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;ITI&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2010-01-01&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;ITI&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">)</span>
 <span class="n">returns</span> <span class="o">=</span> <span class="n">price</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c">## Your code goes here.</span>
-<span class="k">print</span> <span class="s">&#39;mean of ITI returns:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+<span class="c1">## Your code goes here.</span>
+<span class="nb">print</span> <span class="s1">&#39;mean of ITI returns:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -11943,11 +13241,11 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>mean of ITI returns: -8.33695292019e-05
+<pre>mean of ITI returns: -8.336952920193804e-05
 </pre>
 </div>
 </div>
@@ -11957,8 +13255,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 
@@ -11966,8 +13263,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercise-2-:-Median">Exercise 2 : Median<a class="anchor-link" href="#Exercise-2-:-Median">&#182;</a></h1><h2 id="a.-Median-of-random-data-set">a. Median of random data set<a class="anchor-link" href="#a.-Median-of-random-data-set">&#182;</a></h2><p>Find the median of the randomly generated data set <code>l</code>.</p>
 
@@ -11979,11 +13275,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here. </span>
-<span class="k">print</span> <span class="s">&#39;median of l:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>    
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here. </span>
+<span class="nb">print</span> <span class="s1">&#39;median of l:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>    
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -11993,11 +13289,11 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>median of l: 50.0
+<pre>median of l: 55.0
 </pre>
 </div>
 </div>
@@ -12007,8 +13303,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="b.-Median-of-the-returns.">b. Median of the returns.<a class="anchor-link" href="#b.-Median-of-the-returns.">&#182;</a></h2><p>Find the median associated with the returns of Bank of America Corp. (BAC) for the last 5 year.</p>
 
@@ -12020,14 +13315,14 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;BAC&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;open_price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2010-01-01&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;BAC&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;open_price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">)</span>
 <span class="n">returns</span> <span class="o">=</span> <span class="n">price</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c">## Your code goes here</span>
-<span class="k">print</span> <span class="s">&#39;Median of BAC returns:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+<span class="c1">## Your code goes here</span>
+<span class="nb">print</span> <span class="s1">&#39;Median of BAC returns:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12037,7 +13332,7 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -12051,8 +13346,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 
@@ -12060,8 +13354,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercise-3-:-Mode">Exercise 3 : Mode<a class="anchor-link" href="#Exercise-3-:-Mode">&#182;</a></h1><h2 id="a.-Mode-of-a-random-data-set.">a. Mode of a random data set.<a class="anchor-link" href="#a.-Mode-of-a-random-data-set.">&#182;</a></h2><p>Find the mode of the random generated data set <code>l</code>.</p>
 
@@ -12073,11 +13366,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here. </span>
-<span class="k">print</span> <span class="s">&#39;mode of l:&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here. </span>
+<span class="nb">print</span> <span class="s1">&#39;mode of l:&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12087,11 +13380,11 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>mode of l: [33, 36, 6, 97, 49, 20, 61]
+<pre>mode of l: [69]
 </pre>
 </div>
 </div>
@@ -12101,8 +13394,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="b.-Mode-of-the-returns.">b. Mode of the returns.<a class="anchor-link" href="#b.-Mode-of-the-returns.">&#182;</a></h2><p>Find the mode associated witht the returns of Goldman Sachs Corp. (GS). <em>Recall with returns, there may not be any values that appear more than once.</em></p>
 
@@ -12114,17 +13406,17 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">start</span> <span class="o">=</span> <span class="s">&#39;2014-01-01&#39;</span>
-<span class="n">end</span> <span class="o">=</span> <span class="s">&#39;2015-01-01&#39;</span>
-<span class="n">pricing</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;GS&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;2014-01-01&#39;</span>
+<span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;2015-01-01&#39;</span>
+<span class="n">pricing</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;GS&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
 <span class="n">returns</span> <span class="o">=</span> <span class="n">pricing</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 <span class="n">maxfreq</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&#39;Mode of bins:&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">maxfreq</span><span class="p">]</span>
+<span class="nb">print</span> <span class="s1">&#39;Mode of bins:&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">maxfreq</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12134,7 +13426,7 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -12148,8 +13440,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 
@@ -12157,8 +13448,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercise-4-:-Geometric-mean">Exercise 4 : Geometric mean<a class="anchor-link" href="#Exercise-4-:-Geometric-mean">&#182;</a></h1><h2 id="a.-Geometric-Mean-of-random-data-set.">a. Geometric Mean of random data set.<a class="anchor-link" href="#a.-Geometric-Mean-of-random-data-set.">&#182;</a></h2><p>Find the Geometric mean of the random generated data set.</p>
 
@@ -12170,11 +13460,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here.</span>
-<span class="k">print</span> <span class="s">&#39;Geometric mean of l:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">gmean</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here.</span>
+<span class="nb">print</span> <span class="s1">&#39;Geometric mean of l:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">gmean</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> 
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12184,11 +13474,11 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Geometric mean of l: 38.6117060197
+<pre>Geometric mean of l: 39.8392635802
 </pre>
 </div>
 </div>
@@ -12198,8 +13488,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="b.-Geometric-Mean-of-returns.">b. Geometric Mean of returns.<a class="anchor-link" href="#b.-Geometric-Mean-of-returns.">&#182;</a></h2><p>Find the Geometric Mean of the price of Citi bank (C) for the last 5 years.</p>
 
@@ -12211,11 +13500,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;open_price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2010-01-01&#39;</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;Geometric mean of Citi:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">gmean</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="c">## Your code goes here</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;open_price&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2005-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;Geometric mean of Citi:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">gmean</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="c1">## Your code goes here</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12225,7 +13514,7 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -12239,8 +13528,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 
@@ -12248,8 +13536,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercise-5-:-Harmonic-mean.">Exercise 5 : Harmonic mean.<a class="anchor-link" href="#Exercise-5-:-Harmonic-mean.">&#182;</a></h1><h2 id="a.-Harmonic-Mean-of-random-data-set.">a. Harmonic Mean of random data set.<a class="anchor-link" href="#a.-Harmonic-Mean-of-random-data-set.">&#182;</a></h2><p>Find the harmonic mean of the randomly generated data set <code>l</code>.</p>
 
@@ -12261,11 +13548,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here.</span>
-<span class="k">print</span> <span class="s">&#39;Harmonic mean of l:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">hmean</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here.</span>
+<span class="nb">print</span> <span class="s1">&#39;Harmonic mean of l:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">hmean</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12275,11 +13562,11 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Harmonic mean of l: 22.2574570043
+<pre>Harmonic mean of l: 26.2011293365
 </pre>
 </div>
 </div>
@@ -12289,8 +13576,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="b.-Harmonic-Mean-of-stock-returns.">b. Harmonic Mean of stock returns.<a class="anchor-link" href="#b.-Harmonic-Mean-of-stock-returns.">&#182;</a></h2><p>Find the Harmonic Mean of the financial ETF (XLF) over the last 2 years.</p>
 
@@ -12302,11 +13588,11 @@ ul.typeahead-list > li > a {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">## Your code goes here.</span>
-<span class="k">print</span> <span class="s">&#39;Harmonic mean of XLF:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">hmean</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Your code goes here.</span>
+<span class="nb">print</span> <span class="s1">&#39;Harmonic mean of XLF:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">hmean</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12316,7 +13602,7 @@ ul.typeahead-list > li > a {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -12330,8 +13616,7 @@ ul.typeahead-list > li > a {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 
@@ -12339,8 +13624,7 @@ ul.typeahead-list > li > a {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exercise-6-:-Skewness-and-why-it-matters.">Exercise 6 : Skewness and why it matters.<a class="anchor-link" href="#Exercise-6-:-Skewness-and-why-it-matters.">&#182;</a></h1><p>Skewness in a probability distribution is the measure of asymmetry. Negative skew has fewer low values and a longer left tail, whereas positive skew has fewer high values and a longer right tail.
 In asset pricing, skewness is an important information, naimly in risk assessment. Knowledge that the market has a 60% chance of going down and a 40% chance of going up apears helpfull but only if we know the market is obeying a normal distrubtuion. If we are told that the market will go up 2% but down 18%, we can see how skewness would give us better information.</p>
@@ -12355,31 +13639,31 @@ In asset pricing, skewness is an important information, naimly in risk assessmen
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="c"># Collect Data.</span>
-<span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">&#39;volume&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s">&#39;2016-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s">&#39;2017-01-01&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1"># Collect Data.</span>
+<span class="n">price</span> <span class="o">=</span> <span class="n">get_pricing</span><span class="p">(</span><span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2016-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2017-01-01&#39;</span><span class="p">)</span>
 <span class="n">returns</span> <span class="o">=</span> <span class="n">price</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c"># Calculate Mean, Median and Mode. </span>
+<span class="c1"># Calculate Mean, Median and Mode. </span>
 <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 <span class="n">median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 <span class="n">mode</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">returns</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="k">print</span> <span class="s">&#39;mean:&#39;</span><span class="p">,</span> <span class="n">mean</span>
-<span class="k">print</span> <span class="s">&#39;median:&#39;</span><span class="p">,</span> <span class="n">median</span>
-<span class="k">print</span> <span class="s">&#39;mode:&#39;</span><span class="p">,</span> <span class="n">mode</span>
-<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;mean:&#39;</span><span class="p">,</span> <span class="n">mean</span>
+<span class="nb">print</span> <span class="s1">&#39;median:&#39;</span><span class="p">,</span> <span class="n">median</span>
+<span class="nb">print</span> <span class="s1">&#39;mode:&#39;</span><span class="p">,</span> <span class="n">mode</span>
+<span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
 
-<span class="c"># Setting parameters and print skewness outcome. </span>
+<span class="c1"># Setting parameters and print skewness outcome. </span>
 <span class="k">if</span> <span class="n">mode</span> <span class="o">&lt;</span> <span class="n">median</span> <span class="o">&lt;</span> <span class="n">mean</span><span class="p">:</span>
-    <span class="k">print</span>  <span class="s">&#39;The returns are positivly skewed.&#39;</span>
+    <span class="nb">print</span>  <span class="s1">&#39;The returns are positivly skewed.&#39;</span>
 <span class="k">if</span> <span class="n">mean</span><span class="o">&lt;</span><span class="n">median</span><span class="o">&lt;</span><span class="n">mode</span><span class="p">:</span> 
-    <span class="k">print</span> <span class="s">&#39;The returns are negativly skewed.&#39;</span>
+    <span class="nb">print</span> <span class="s1">&#39;The returns are negativly skewed.&#39;</span>
 <span class="k">if</span> <span class="n">mean</span> <span class="o">==</span> <span class="n">median</span> <span class="o">==</span> <span class="n">mode</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&#39;There is no Skewness: the returns are symetricaly distributed&#39;</span>
+    <span class="nb">print</span> <span class="s1">&#39;There is no Skewness: the returns are symetricaly distributed&#39;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12389,11 +13673,11 @@ In asset pricing, skewness is an important information, naimly in risk assessmen
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>mean: 0.0525053496783
+<pre>mean: 0.0525053496783412
 median: -0.0460440753442
 mode: -0.588427240485
 251
@@ -12407,8 +13691,7 @@ The returns are positivly skewed.
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see positive skewing from the histogram of the returns. We see fewer higher values and a longer right tail.
 Plot the histograms of the returns now.</p>
@@ -12421,13 +13704,13 @@ Plot the histograms of the returns now.</p>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">50</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Returns&#39;</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Frequency&#39;</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Histogram of Returns&#39;</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">50</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Returns&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Returns&#39;</span><span class="p">);</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -12437,233 +13720,234 @@ Plot the histograms of the returns now.</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0MAAAH6CAYAAADFmpd7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3XmYl2W9P/D3MGwNjIjouKCZBx1N1C4kTTLXUJOjdnAX
-hTTLrjRTU0sstazE1A5ZVkZiJmiUmh7tkJxo8ViWetA0ySLnR+QSq4Jsssx8f394OYls3xn5zsLz
-el2X1zXPcn/vz/Pcc+O851mmqlQqlQIAAFAwXdq7AAAAgPYgDAEAAIUkDAEAAIUkDAEAAIUkDAEA
-AIUkDAEAAIUkDAFshvbYY4/MmTNnjXX33ntvzjrrrCTJHXfckW9+85sb/Iynn346M2bMqFiNldTU
-1JRRo0Zl6NCh+dvf/rbGtnvvvTeDBg3KsGHDMmzYsHzoQx/Ksccem/vuu6+sz77rrrsqUTIA7aBr
-excAwKZXVVW1wfWnn376Rj/jnnvuyeDBg1NfX79Ja2sLc+bMybRp0/L000+nurp6re2DBg3Krbfe
-2rz897//Paecckre8573ZJdddlnv586bNy+33HJLTjrppIrUDUDbcmUIYDO0sb+nfdNNN+ULX/hC
-kuTnP/95jj322AwbNiwf/vCH89hjj2XSpEn5r//6r9xwww257bbbUiqVMnbs2Bx99NEZNmxYRo8e
-nddeey1JMn369Bx11FE56qijctNNN+W4447L448/nhdffDEHHXRQxowZk5EjRyZJfvnLX+bYY4/N
-hz70oZxwwgn5y1/+kiR57LHHcuqpp+aaa67J0KFDc+KJJ+bpp5/OqFGj8oEPfCDf+ta31nkcf/3r
-X3Paaafl6KOPzvDhw/O73/2u+apQU1NTjj322Pz1r3/d6Pl617velV122aX5Sthzzz2XkSNH5qij
-jspxxx2X6dOnJ0lOO+20vPTSSxk2bFhWrVq11hW4N5bfOJ4LL7wwl156aV588cV84AMfyIQJE3Ls
-scfmkEMOyc9//vMkrwe3M888M8ccc0yOPPLIfOMb39hovQBsGsIQQEG8NSC9cZXo6quvzve///1M
-njw5V111VX7961/n1FNPzd57753PfvazOfPMMzN58uQ8/PDDue+++/Lf//3fefXVV3PbbbclSa68
-8sp89KMfzZQpU1JbW5tZs2Y19/HKK69kzz33zIQJE9LY2JjLL788X/3qV/Pggw/m8MMPz3XXXde8
-7/Tp03PkkUdm6tSpqaqqype//OXccsst+cEPfpDvfe97Wbly5VrH85nPfCYjR47Mz3/+83z5y1/O
-Zz7zmbz22mu57bbbUl1dncmTJ2f33Xff6LmZNm1annvuueyzzz4plUo577zzMnz48EyZMiVf+tKX
-8slPfjJNTU255pprssMOO2Ty5Mnp1q3bWlfg3rz87LPPZsSIEbn++uuTJAsXLkx1dXUeeOCBjB49
-ujn0/PCHP8x+++2Xn/3sZ3nggQfy/PPPZ/78+RutGYC3z21yAJupUaNGNd8iViqVsnjx4nXe8rb1
-1lvnRz/6UU455ZTsu+++2XfffZu3vRGgHnrooQwfPjw9evRIkhx//PG57bbbctZZZ2X69On593//
-9ySv3353ww03NLdvbGzM0KFDkyTV1dV55JFHmmsaPHjwGs/p9OnTJ+9973uTJLvuumv69u2b7t27
-Z7fddktjY2NeeeWVbLvtts37v/DCC5k/f36GDRuWJNlrr73Sv3///OlPf8qOO+64wXPz5JNPZtiw
-YSmVSnnllVey/fbb51vf+la23377NDQ05JVXXsnxxx+f5PVb6rbaaqs88cQTa33OWwPmm5d79uyZ
-/ffff41z8cZnDhw4MP/85z+TJP369cvUqVNzwAEHZNCgQfn617++wdoB2HSEIYDN1IQJE1JXV9e8
-fO+99+aBBx5Ya7/vfOc7+c53vpPjjz8+O+ywQy6//PLmUPKGl19+OVtssUXzcp8+fbJgwYIsWrQo
-Xbp0Se/evZMkXbt2Tb9+/Zr3q66uTq9evZqXf/jDH+a+++7LqlWrsmLFijWupLx5v+rq6tTU1DQv
-d+nSJY2NjRusKUlqa2uzYMGCjYahNz8z9JOf/CQPPPBAhgwZkiR59dVXs2zZsuaQVSqVsnTp0ixc
-uHCt/jZkyy23XGO5uro6PXv2bD6epqamJMlZZ52VpqamfOlLX8q8efMyYsSInH/++WX3A0DrCUMA
-m6mNPTf0hp122iljxoxJ8npg+sxnPpP//d//XWOfrbfeOgsXLmxeXrhwYfr165fevXunqakpK1as
-SI8ePdLY2JiXX355nf08+eSTueWWW3LPPfdk++23zyOPPJIrrriilUf3+hWVRYsWrbFu4cKF2Xrr
-rVv0OSeccELGjx+fqVOnZujQoamrq0ttbW0mT5681r6PPfbYGstvDjWLFi1a74srNqRLly75+Mc/
-no9//OOZNWtWPvaxj+W9731vczgDoHI8MwRQYC+//HI++tGPZsmSJUmSffbZJ126vP6/hm7duuXV
-V19Nkhx66KG5//7789prr2X16tW5++67c9hhh6Wmpia77rpr88sAJk2a1Nw+WTOQLViwIP369ct2
-222X5cuX5957783y5ctbXfuOO+6Ybbfdtjm0PPHEE1mwYEH22WeftfrekOrq6px//vm54YYb0tjY
-mP79+2e77bbLlClTms/RxRdfnNdeey1du3bN0qVLmwNQXV1d80sg7rnnnjWO/a3WV8+VV16ZRx55
-pPmYWhrmAGg9YQhgM1TuFYqtttoqBx10UE488cQcc8wxueSSS3LNNdckSYYOHZobbrghX/va1/Kh
-D30oBx98cI4//vgcd9xx2X777XPGGWckSa666qp897vfzbHHHpvXXnst2267bXP/b67j4IMPTl1d
-XYYOHZqPfexjOfPMM1NbW5tPf/rTG61/fcczduzYTJw4McOGDcs111yTG2+8sflWtJZcpTnmmGPS
-s2fPTJo0KUny9a9/PRMnTszRRx+dUaNGZciQIenZs2d233339OnTJwceeGBmz56dCy+8MFdddVWG
-Dx+eXr16Nd8uuC7rq+e0007L2LFjM2zYsBxzzDHZd999XRUCaCNVpXJ/ddYKr732Wi677LIsWLAg
-K1euzCc/+cnsscceufTSS1MqlbLNNtvkuuuuS7du3SpVAgBtbMiQIbntttvKeosbALSnil4Z+tWv
-fpW99947EyZMyNixYzNmzJjceOONOeOMMzJx4sS8853vzD333FPJEgCosAsuuCDf//73kyS///3v
-k2SDf7gUADqKil4ZerP/+7//y0033ZQXXnghP//5z9OtW7f88Y9/zK233ppvfvObbVECABXw//7f
-/8vo0aOzcOHCdO/ePZ/73OfygQ98oL3LAoCNapO3yZ166qmZO3duvvvd7+ajH/1o821x/fr1y7x5
-89qiBAAq5N/+7d/y4x//uL3LAIAWa5MwNGnSpPzlL3/JJZdcssbbdMq5KDVt2rRKlgYAAGwmBg8e
-3KL9KxqGpk+f3vwa1T322CNNTU3p1atXVq5cme7du2fOnDlr/EHA9WnpQdFxTJs2zfhtYjNmzMgn
-rp2a3n37l91mySsv5nuXDU19fX2L+jJ+nZex69yMX+dl7Do349e5teYiSkVfoPD44483/4Xv+fPn
-Z9myZRkyZEgefPDBJMmUKVNy0EEHVbIEAACAdarolaHTTjstl19+eU4//fSsWLEiX/ziFzNw4MB8
-9rOfzU9+8pPssMMOGT58eCVLAAAAWKeKhqEePXrk61//+lrr37haBAAA0F4qepscAABARyUMAQAA
-hSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQM
-AQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAA
-hSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQM
-AQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAA
-hSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQM
-AQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAA
-hSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhSQMAQAAhdS10h1cd911eeKJJ9LY
-2Jhzzjknv/rVr/LMM8+kb9++SZKzzz47hxxySKXLAAAAWENFw9Cjjz6ahoaGTJo0KQsXLszw4cNz
-wAEH5JJLLhGAAACAdlXRMLT//vvnPe95T5Jkiy22yLJly9LU1JRSqVTJbgEAADaqos8MVVVVpWfP
-nkmSu+66K4ceemi6dOmSiRMn5iMf+UguvvjiLFy4sJIlAAAArFNVqQ0u00ydOjXf//73M378+Dzz
-zDPZcssts8cee2TcuHGZM2dOrrjiivW2nTZtWqXLg05l1qxZ+dbPZqd33/5lt1nyyos5/5jtsvPO
-O1ewMgCA9jV48OAW7V/xFyg8/PDDGTduXMaPH5/evXvngAMOaN72wQ9+MF/84hc3+hktPSg6jmnT
-phm/Tay2tjb52ewWt9trr71SX1/fojbGr/Mydp2b8eu8jF3nZvw6t9ZcRKnobXJLlizJ9ddfn5tv
-vvn1H+CSfPrTn87zzz+f5PUXLLT0hzMAAIBNoaJXhiZPnpyFCxfmwgsvTKlUSlVVVY4//vhcdNFF
-ecc73pFevXrlmmuuqWQJAAAA61TRMHTyySfn5JNPXmv9f/zHf1SyWwAAgI2q6G1yAAAAHZUwBAAA
-FJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIw
-BAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAAFJIwBAAA
-FJIwBAAAFJIwBAAAFJIwBAAAFFLX9i4AiqyxsTENDQ0tajNz5swKVQMAUCzCELSjhoaGjBx9Z2r6
-1JXdZsELz6bfju+uYFUAAMUgDEE7q+lTl959+5e9/7JFcypYDQBAcXhmCAAAKCRhCAAAKCRhCAAA
+AAALEgAACxIB0t1+/AAAIABJREFUeJzt3XmUl2XdP/D3MGzPyDghMqhYZuhoonaQsnjUXIJUHrWD
+Ky5Yttgx46SWJebSYmJqxywrQykKNcpMn+yQFJU+lrk0+miiac1D5BKrgMCgwMz394c/JxGE70x8
+Z+F+vc7xnLmX63t97vuaC+c99zJVpVKpFAAAgILp1dUFAAAAdAVhCAAAKCRhCAAAKCRhCAAAKCRh
+CAAAKCRhCAAAKCRhCGArtOeee2bBggXrrbv99ttzxhlnJEluvvnmfOMb39jkZzz22GN5+umnK1Zj
+JbW2tub000/P6NGj89e//nW9bbfffntGjBiRsWPHZuzYsTniiCNy9NFH54477ijrs2+99dZKlAxA
+F+jd1QUAsOVVVVVtcv2pp5662c+47bbbMnLkyDQ0NGzR2jrDggUL0tjYmMceeyzV1dUbbB8xYkS+
+973vtS3//e9/z0knnZR3vOMd2XXXXd/wcxctWpQbb7wxJ5xwQkXqBqBzuTIEsBXa3N/Tvu6663LR
+RRclSX75y1/m6KOPztixY/OBD3wgDz74YGbMmJH//u//ztVXX51p06alVCrlmmuuyZFHHpmxY8dm
+0qRJeemll5IkTzzxRI455pgcccQRue6663LMMcfkoYceynPPPZeDDjookydPzoQJE5Ikv/nNb3L0
+0Ufn8MMPz3HHHZe//OUvSZIHH3ww48ePz+TJkzN69Ogcf/zxeeyxx3L66afnwAMPzDe/+c2NHsdT
+Tz2Vk08+OUceeWTGjRuXP/zhD21XhVpbW3P00Ufnqaee2uz5eutb35pdd9217UpYU1NTJkyYkMMP
+PzzHHHNM5syZkyQ5+eST8/zzz2fs2LFZu3btBlfgXl1+9XjOPffcnH/++Xnuuedy4IEHZvr06Tn6
+6KNz8MEH55e//GWSZOHChfnQhz6Uo446Ku9///vz9a9/fbP1ArBlCEMABfH6gPTqVaIvfelLueGG
+GzJz5sxceuml+d3vfpfx48dnn332yWc/+9l86EMfysyZM3PvvffmjjvuyMyZM/Piiy9m2rRpSZKL
+L744p556au66667U1tZm3rx5bX0sXbo0e+21V6ZPn56WlpZceOGF+cpXvpJZs2blsMMOy5VXXtm2
+75w5czJmzJjMnj07VVVV+fKXv5wbb7wx3//+9/Pd7343a9as2eB4zjvvvEyYMCG//OUv8+Uvfznn
+nXdeXnrppUybNi3V1dWZOXNm9thjj82em8bGxvztb3/Lvvvum1KplHPPPTfjxo3LrFmz8sUvfjFn
+nXVWWltbc/nll2ennXbKzJkz06dPnw2uwL12+cknn8zJJ5+cq666KkmybNmyVFdX584778ykSZPa
+Qs+0adPyrne9K7/4xS9y55135plnnsnixYs3WzMA/z63yQFspU4//fS2W8RKpVJWrFix0Vvett9+
++/zoRz/KSSedlP322y/77bdf27ZXA9Q999yTcePGpV+/fkmSY489NtOmTcsZZ5yROXPm5L/+67+S
+vHL73dVXX93WvqWlJaNHj06SVFdX57777muraeTIkes9p1NXV5d3vvOdSZLddtstAwcOTN++fbP7
+7runpaUlS5cuzZAhQ9r2f/bZZ7N48eKMHTs2SbL33ntn6NCh+fOf/5ydd955k+fmkUceydixY1Mq
+lbJ06dLsuOOO+eY3v5kdd9wxTU1NeeaZZ3LssccmeeWWuu222y4PP/zwBp/z+oD52uX+/ftn//33
+X+9cvPqZw4cPzz//+c8kyaBBgzJ79uy85z3vyYgRI/K1r31tk7UDsOUIQwBbqenTp6e+vr5t+fbb
+b8+dd965wX7f/va38+1vfzvHHntsdtppp1x44YVtoeRVL7zwQrbddtu25bq6uixZsiTLly9PVVVV
+BgwYkCTp3bt3Bg0a1LZfdXV1ttlmm7blH/zgB7njjjuydu3avPzyy+tdSXntftXV1ampqWlb7tWr
+V1paWjZZU5LU1tZmyZIlmw1Dr31m6Cc/+UnuvPPOjBo1Kkny4osvZu3atW0hq1QqZdWqVVm2bNkG
+/W3Km970pvWWq6ur079//7bjaW1tTZKcccYZaW1tzRe/+MUsWrQop5xySiZOnFh2PwB0nDAEsJXa
+3HNDr3rzm9+cyZMnJ3klMJ133nn5n//5n/X22X777bNs2bK25WXLlmXQoEEZMGBASqVSmpubU1NT
+k5aWlrzwwgsb7eeRRx7JjTfemNtuuy077rhj7rvvvlx88cUdPLpXrqgsX758vXXLli3L9ttv367P
+Oe644zJ16tTMnj07o0ePTn19fWprazNz5swN9n3wwQfXW35tqHk1GLZXr1698rGPfSwf+9jHMm/e
+vHz0ox/NO9/5zrZwBkDleGYIoMBeeOGFfPjDH87KlSuTJPvuu2969Xrlfw19+vTJiy++mCQ5+OCD
+8/Of/zwvvfRS1q1bl1tvvTWHHnpoampqsttuu+VXv/pVkmTGjBlt7ZP1A9mSJUsyaNCgDBkyJKtX
+r87PfvazrF69usO177zzzhkyZEhbaHn44YezZMmS7Lvvvhv0vSnV1dWZOHFirr766rS0tGTo0KHZ
+YYcdMmvWrLZz9OlPfzovvfRSevfunVWrVrUFoPr6+raXQNx2223rHfvrvVE9l1xySe677762Y2pv
+mAOg44QhgK1QuVcotttuuxx00EE5/vjjc9RRR+Uzn/lMLr/88iTJ6NGjc/XVV+erX/1qjjzyyLz3
+ve/Nsccem2OOOSY77bRTTjvttCTJpZdemu985zs5+uijs3r16gwZMqSt/9fW8d73vjf19fU5+OCD
+89GPfjRnnHFGamtrc/bZZ2+2/jc6nmuuuSY33XRTxo4dm8svvzzXXntt261o7blKc9RRR6V///6Z
+MWNGkuRrX/tabrrpphx55JE5/fTTM2rUqPTv3z977LFH6urqcsABB2T+/Pk555xzcumll2bcuHHZ
+Zptt2m4X3Jg3qufkk0/ONddck7Fjx+aoo47Kfvvt56oQQCepKpX7q7MOeOmll3LBBRdkyZIlWbNm
+Tc4666zsueeeOf/881MqlTJ48OBceeWV6dOnT6VKAKCTjRo1KtOmTSvrLW4A0JUqemXot7/9bfbZ
+Z59Mnz4911xzTSZPnpxrr702p512Wm666abstNNOue222ypZAgAV9qlPfSo33HBDkuSPf/xjkmzy
+D5cCQHdR0StDr/WnP/0p1113XZ599tn88pe/TJ8+ffLwww9n2rRp+cY3vtEZJQBQAf/3f/+XSZMm
+ZdmyZenbt28+97nP5cADD+zqsgBgszrlbXLjx4/PwoUL853vfCcf/vCH226LGzx4cBYtWtQZJQBQ
+IW9729vy4x//uKvLAIB265QwNGPGjPzlL3/JZz7zmfUeIC2VSpt9wLWxsbHS5QEAAFuBkSNHtmv/
+ioahOXPmZNCgQdlhhx2y5557prW1Nf/xH/+RNWvWpG/fvlmwYEEGDx682c9p70HRfTQ2Nhq/Lezp
+p5/Ox6+YnQEDh5bdZuXS5/LdC0anoaGhXX0Zv57L2PVsxq/nMnY9m/Hr2TpyEaWiL1B46KGH2v7C
+9+LFi9Pc3JxRo0blrrvuSpLMmjUrBx10UCVLAAAA2KiKXhk6+eSTc+GFF+bUU0/Nyy+/nC984QsZ
+Pnx4PvvZz+YnP/lJdtppp4wbN66SJQAAAGxURcNQv3798rWvfW2D9a9eLQIAAOgqFb1NDgAAoLsS
+hgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAA
+gEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIS
+hgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAA
+gEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIS
+hgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAA
+gEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIS
+hgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgEIShgAAgELqXekOrrzyyjz8
+8MNpaWnJmWeemQceeCCPPPJIampqUlVVlY985CM5+OCDK10GAADAeioahh544IE0NTVlxowZWbZs
+WcaNG5dRo0blK1/5Svbcc89Kdg0AALBJFQ1D+++/f97xjnckSerq6tLc3JwVK1ZUsksAAICyVDQM
+VVVVpX///kmSW2+9NYccckheeOGFXHfddVm+fHl23HHHXHTRRdl2220rWQYAAMAGqkqlUqnSncye
+PTs33HBDpk6dmvvvvz+77757dtlll1x//fVZvHhxLrroojds29jYWOnyoEeZN29evvmL+RkwcGjZ
+bVYufS4Tj9ohu+yySwUrAwDoWiNHjmzX/hV/gcK9996bKVOmZOrUqRkwYEBGjx7dtm3MmDH5whe+
+sNnPaO9B0X00NjYavy2strY2+cX8drfbe++909DQ0K42xq/nMnY9m/HruYxdz2b8eraOXESp6Ku1
+V65cmauuuirXX3/9Kz/AJTnrrLPyz3/+M8krL1ho7w9nAAAAW0JFrwzNnDkzy5YtyznnnJNSqZSq
+qqocd9xxmThxYmpqalJTU5PLL7+8kiUAAABsVEXD0IknnpgTTzxxg/Uf+MAHKtktAADAZlX0NjkA
+AIDuShgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAK
+SRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgC
+AAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKqXdXFwBF1tLSkqampna1mTt3boWqAQAoFmEIulBT
+U1MmTLolNXX1ZbdZ8uyTGbTz2ytYFQBAMQhD0MVq6uozYODQsvdvXr6ggtUAABSHZ4YAAIBCEoYA
+AIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBC
+EoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYA
+AIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBC
+EoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBCEoYAAIBC6l3pDq688so8
+/PDDaWlpyZlnnpl99tkn559/fkqlUgYPHpwrr7wyffr0qXQZAAAA66loGHrggQfS1NSUGTNmZNmy
+ZRk3blze85735LTTTsvhhx+eq666KrfddlvGjx9fyTIAAAA2UNHb5Pbff/9ce+21SZK6uro0Nzfn
+oYceymGHHZYked/73pf77ruvkiUAAABsVEWvDFVVVaV///5JkltvvTWHHHJIfv/737fdFjd48OAs
+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
-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
+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
+Cy+8MGeccUbuvPPOrFmzptK1AQAAVExZYWjw4ME57bTTMn369HzhC1/Ij370oxx00EG55ppr8vLL
+L1e6RgAAgC2u7Bco/OlPf8qFF16Yj33sY9lvv/1yyy23ZNttt82nPvWpStYHAABQEb3L2WnMmDEZ
+OnRoTjzxxHzxi19Mnz59kiTDhg3L7NmzK1ogAABAJZQVhm644YYkyVvf+tYkyRNPPJG99torSXLL
+LbdUpjIAAIAKKus2udtvvz3f/OY325anTJmSq6++OklSVVVVmcoAAAAqqKww9MADD+RrX/ta2/LX
+v/71NDY2VqwoAACASivrNrm1a9dmzZo16du3b5Jk1apVWbduXUULA7peS0tLnn766Xa3GzZsWKqr
+qytQEQDAllNWGBo/fnzGjh2bvffeO62trfnzn/+cT37yk5WuDehizz77bCZ+dWZq6urLbtO8fGGm
+Tz4lDQ0NFawMAODfV1YYOuGEE3LAAQfkz3/+c6qqqjJp0qTsuOOOla4N6AZq6uozYODQri4DAGCL
+KysMvfzyy3niiSeycuXKlEql/OEPf0iSHH/88RUtDgAAoFLKCkMf+chH0qtXrwwduv5vh4UhAACg
+pyorDK1bty4zZsyodC0AAACdpqxXa++2225ZunRppWsBAADoNGVdGZo/f37e//73b/C63Jtvvrli
+hQEAAFRSWWHozDPPrHQdAAAAnaqs2+T233//NDc35+mnn87++++fHXbYIe9617sqXRsAAEDFlBWG
+rrrqqvz0pz/Nz372syTJnXfemcsuu6yihQEAAFRSWWHoz3/+c6677rpss802SZKzzz47c+bMKauD
+p59+OmPGjGl7vuiyyy7LcccdlwkTJuT000/PPffc08HSAQAAOq6sZ4ZKpVKSpKqqKknS0tKSlpaW
+zbZbvXp1LrvssowaNapt3apVq3L55Zdnjz326Ei9AAAAW0RZV4b222+/TJo0KQsXLsz3v//9TJgw
+Ifvvv/9m2/Xr1y833nhj6uvr29atWrWqLVwBAAB0lbKuDJ177rm566670r9//8yfPz8f+tCH8v73
+v3+z7Xr16pW+ffuut665uTnf+ta3smzZsuy444656KKLsu2223asegAAgA4qKww988wzGT58eIYP
+H77euje/+c3t7nD8+PHZfffds8suu+T666/PN77xjVx00UXt/hyolFJra+bOndvudh1pAwBA1ykr
+DH3wgx9se15ozZo1eeGFF7L77rvnjjvuaHeHo0ePbvt6zJgx+cIXvrDZNo2Nje3uh+6jK8dv3rx5
+7W6zesWiXDJlcWrqmtrVbsmzT2bQzm9vd3+d5fHHH8+KFSu6ZV8dGaeO9FM0/u3s2Yxfz2Xsejbj
+VyxlhaHf/va36y3/9a9/zU9/+tMOdXjWWWflkksuyY477pgHHnggDQ0Nm20zcuTIDvVF12tsbOzS
+8autrU1+Mb/d7Wrq6jNg4NB2tWlevqDd/XSmvffeu6z59lodDSnt7auj49SRYyqKrp57/HuMX89l
+7Ho249ezdSTIlhWGXm/33Xcv69Xac+bMyRVXXJHnn38+vXv3zqxZs3LKKadk4sSJqampSU1NTS6/
+/PKOlAAAAPBvKSsMXXvttestz58/Py+++OJm2w0fPjzTp0/fYP0RRxxRZnkAAACVUdartaurq9f7
+b4899sgNN9xQ6doAAAAqpqwrQ5/4xCc2ur61tTXJK6/QBgAA6EnKCkP77rtvWlpaNlhfKpVSVVWV
+J598cosXBgAAUEllhaGzzz47u+22Ww444ICsW7cuv//97zN37tycffbZla4PAACgIsq6v+3+++/P
+mDFjUlNTk2233TZjx47NAw88UOnaAAAAKqasMLRs2bLcc889aW5uTnNzc+65554sXbq00rUBAABU
+TFm3yX35y1/OFVdckXPPPTdJ0tDQkEsvvbSihQEAAFRS2S9QuOWWW9pemAAAANDTlXWb3F/+8pcc
+e+yxOfLII5Mk3/72t/Poo49WtDAAAIBKKuvK0BVXXJHLL788X/nKV5IkRx55ZCZNmpQZM2ZUtDhg
+yyi1tmbu3Lntbvf888+nzN+ZdLqOHtOwYcNSXV1dgYoAgJ6mrDDUq1ev7Lnnnm3Lu+66a3r3Lqsp
+0A2sXrEol0xZnJq6pna1W/LsUxm089srVNW/pyPH1Lx8YaZPPiUNDQ0VrAwA6CnKTjTPPPNM2/NC
+99xzT0qlUsWKAra8mrr6DBg4tF1tmpcvqFA1W0ZHjgkA4FVlhaHPfe5z+cQnPpG5c+dm5MiRGTp0
+aK688spK1wYAAFAxZYWhgQMH5s4778wLL7yQvn37ZsCAAZWuCwAAoKLKejL6M5/5TJJku+22E4QA
+AICtQllXhnbdddd89rOfzYgRI9KnT5+29ccff3zFCgMAAKikTYahv/zlL9lzzz2zZs2aVFdX5557
+7snAgQPbtgtDAABAT7XJMHT55Zfnhz/8YSZPnpwkOf3003P99dd3SmEAAACVtMlnhrw+GwAA2Fpt
+Mgy9+neFXiUcAQAAW4uy3ib3qteHIwAAgJ5qk88MPfLIIznkkEPalpcsWZJDDjkkpVIpVVVVufvu
+uytcHgAAQGVsMgzdddddnVUHAABAp9pkGBo6dGhn1QEAANCp2vXMEAAAwNZCGAIAAApJGAIAAApJ
+GAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIA
+AApJGAIAAApJGAIAAAqpd1cXAGxdSq2tmTt3brvatHd/AIAtQRgCtqjVKxblkimLU1PXVHabJc8+
+mUE7v72CVQEAbEgYAra4mrr6DBg4tOz9m5cvqGA1AAAb55khAACgkIQhAACgkIQhAACgkIQhAACg
+kIQhAACgkIQhAACgkIQhAACgkIQhAACgkIQhAACgkIQhAACgkIQhAACgkIQhAACgkHp3dQEA3V1L
+S0uampra3W7YsGGprq6uQEUAwJYgDAFsRlNTUyZMuiU1dfVlt2levjDTJ5+ShoaGClYGAPw7hCGA
+MtTU1WfAwKFdXQYAsAV5ZggAACgkYQgAACgkYQgAACgkYQgAACgkYQgAACgkYQgAACgkYQgAACgk
+YQgAACgkYQgAACikioehp59+OmPGjMnNN9+cJJk/f34mTJiQ0047Leeee27Wrl1b6RIAAAA2UNEw
+tHr16lx22WUZNWpU27prr702EyZMyE033ZSddtopt912WyVLAAAA2KiKhqF+/frlxhtvTH19fdu6
+Bx98MIceemiS5H3ve1/uu+++SpYAAACwURUNQ7169Urfvn3XW7d69er06dMnSTJ48OAsWrSokiUA
+AABsVO/O7rCqqqrt61KptN7yG2lsbKxkSVRYV47fvHnzuqxvuqfHH388K1asaFebjn4fdaSvLcm/
+nT2b8eu5jF3PZvyKpdPDUE1NTdasWZO+fftmwYIFGTx48GbbjBw5shMqoxIaGxu7dPxqa2uTX8zv
+sv7pfvbee+80NDS0q01Hv4860teW0tVzj3+P8eu5jF3PZvx6to4E2U5/tfaoUaMya9asJMmsWbNy
+0EEHdXYJAAAAlb0yNGfOnFxxxRV5/vnn07t378yaNStXX311Lrjggvz4xz/OTjvtlHHjxlWyBAAA
+gI2qaBgaPnx4pk+fvsH6733ve5XsFgAAYLM6/TY5AACA7kAYAgAACkkYAgAACkkYAgAACkkYAgAA
+CkkYAgAACkkYAgAACkkYAgAACkkYAgAACql3VxcA0FlKra2ZO3duu9t1pA0A0P0JQ0BhrF6xKJdM
+WZyauqZ2tVvy7JMZtPPbK1QVANBVhCGgUGrq6jNg4NB2tWlevqBC1QAAXckzQwAAQCEJQwAAQCEJ
+QwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAA
 QCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJ
-QwAAQCGVFYZKpVKl6wAAAGhTZYWhww47LGPHjs3zzz9f6XoAAADaRFlh6K677so222yTyy+/PGed
-dVYeeOCBrFy5stK1AQAAVExZYWibbbbJGWeckQkTJuSLX/xifvSjH+Wggw7K2LFjs2LFikrXCAAA
-sMmV/QKFxx9/PKNHj87HP/7x7LvvvrnzzjuzxRZb5IILLqhkfQAAABXRtZydjjjiiPTv3z8nn3xy
-rr766nTr1i1JMmDAgEydOrWiBQIAAFRCWWHolltuSalUyrve9a4kyZ///OfsueeeSZI777yzYsUB
-AABUSlm3yf30pz/N9773veblcePG5YYbbkiSVFVVVaYyAACACiorDD366KMZM2ZM8/I3vvGNTJs2
-rWJFAQAAVFpZt8mtWrUqK1euTPfu3ZMkS5cuzerVqytaGND+GhsbM2PGjBa3GzBgQKqrqytQEQDA
-plNWGDr11FMzbNiw7LXXXmlqasqf/vSnfOpTn6p0bUA7e+GFF3L+1yanpk9d2W2WLZqbCWNGpL6+
-voKVAQC8fWWFoZNOOikHHnhg/vSnP6WqqiqjR4/O9ttvX+nagA6gpk9devft395lAABscmWFoRUr
-VuTPf/5zlixZklKplN/97ndJkhNPPLGixQEAAFRKWWHo7LPPTpcuXdK//5q/HRaGAACAzqqsMLR6
-9epMmjSp0rUAAAC0mbJerb3rrrvmlVdeqXQtAAAAbaasK0OzZ8/OkUceudbrcu+4446KFQYAAFBJ
-ZYWhc845p9J1AAAAtKmybpPbf//9s2zZssyYMSP7779/tttuu+y3336Vrg0AAKBiygpD119/fe6+
-++789Kc/TZI88MAD+cpXvlLRwgAAACqprDD0+OOP56abbkqvXr2SJOedd16mT59eVgczZszIEUcc
-0fx80ejRo3Psscdm1KhRGTVqVB566KFWlg4AANB6ZT0z1KNHjyRJVVVVkqSxsTGNjY0bbbd8+fJ8
-5StfyZAhQ9ZYf8kll+SQQw5paa0AAACbTFlXhvbdd9+MHj06c+fOzQ9+8IOcccYZ2X///TfarkeP
-HrnllltSV1f3tgsFAADYlMq6MnTRRRflwQcfTM+ePTN79uycddZZOfLIIzfarkuXLunevfta6ydO
-nJhbb701W2+9da644opsueWWLa8cAADgbSgrDD3//PMZOHBgBg4cuMa6nXbaqcUdfvjDH86WW26Z
-PfbYI+PGjcu3vvWtXHHFFS3+HKiUUlNTZs6c2eJ2rWkDAED7KSsMfeQjH2l+XmjlypV5+eWXs9tu
-u+W+++5rcYcHHHBA89cf/OAH88UvfnGjbaZNm9bifug42nP8Zs2a1eI2yxfPy5Xj5qemT0OL2i14
-4dn02/HdLe6vrTzzzDNZvHhxh+yrNePUmn6Kxr+dnZvx67yMXedm/IqlrDD0q1/9ao3lv/3tb7n7
-7rtb1eGnP/3pXHrppdlpp53y6KOPpr6+fqNtBg8e3Kq+aH/Tpk1r1/Grra1Nfja7xe1q+tSld9/+
-LWqzbNGcFvfTlvbaa6+y5tubtTaktLSv1o5Ta46pKNp77vH2GL/Oy9h1bsavc2tNkC0rDL3Vbrvt
-VtartadPn55rr702L730Urp27ZopU6Zk5MiRueiii/KOd7wjvXr1yjXXXNOaEgAAAN6WssLQjTfe
-uMby7Nmz8+qrr2603cCBAzNhwoS11h9xxBFllgcAAFAZZb1au7q6eo3/dt9993z/+9+vdG0AAAAV
-U9aVoXPPPXed65uampK8/gptAACAzqSsMLTPPvuksbFxrfWlUilVVVV59tlnN3lhAAAAlVRWGDrv
-vPOy66675sADD0xVVVV+/etf5+9///t6rxgBAAB0dGXd3/aHP/whRxxxRGpqavKOd7wjw4YNy6OP
-Plrp2gAAACqmrDC0cOHCPPTQQ1m6dGmWLl2ahx56KC+//HKlawMAAKiYsm6T+/KXv5xrr702F110
-UZKkvr4+V111VUULAwAAqKSyX6Bw5513Nr8wAQAAoLMr6za5v/zlLzn++ONz9NFHJ0m+853v5Kmn
-nqpoYQAAAJVU1pWhq6++Otdcc02++tWvJkmOPvrojB49OpMmTapoccCmUWpqysyZM1vc7qWXXkqZ
-vzNpc609pgEDBqS6uroCFQEAnU1ZYahr167ZY489mpd32WWXdO1aVlOgA1i+eF6uHDc/NX0aWtRu
-wQt/Tb8d312hqt6e1hzTskVzM2HMiNTX11ewMgCgsyg7DD3//PPNzws99NBDKZVKFS0M2LRq+tSl
-d9/+LWqzbNGcClWzabTmmAAA3lBWGPrc5z6Xc889NzNnzszgwYPTv3//XHfddZWuDQAAoGLKCkN9
-+/bNAw88kJdffjndu3dP7969K10XAABARZX1ZPQll1ySJNlqq60EIQAAYLNQ1pWhd73rXfnsZz+b
-QYMGpVu3bs3rTzzxxIoVBgAAUEkbDEN/+ctfsscee2TVqlWprq7OQw89lL59+zZvF4YAAIDOaoNh
-6Jprrsntt9+eMWPGJElGjRqVm2++uU0KAwAAqKQNPjPk9dkAAMDmaoNh6I2/K/QG4QgAANhclPU2
-uTe8NRwBAAB0Vht8ZujJJ5/MoYce2ry8YMGCHHrooSmVSqmqqspvfvObCpcHAABQGRsMQw8++GBb
-1QEAANCmNhiG+vfv31Z1AAAAtKkWPTMEAACwuRCGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACA
-QhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQura
-3gUAm5dSU1NmzpzZojYt3R8AYFMQhoBNavniebly3PzU9Gkou82CF55Nvx3fXcGqAADWJgwBm1xN
-n7r07tu/7P2XLZpTwWoAANbNM0MAAEAhCUMAAEAhCUMAAEAhCUMAAEAhCUMAAEAhCUMAAEAhCUMA
-AEAhCUMAAEAhCUMAAEAhCUMAAEAhCUMAAEAhCUMAAEAhdW3vAgA6usbGxjQ0NLS43YABA1JdXV2B
-igCATUEYAtiIhoaGjBx9Z2r61JXdZtmiuZkwZkTq6+srWBkA8HYIQwBlqOlTl959+7d3GQDAJuSZ
-IQAAoJCEIQAAoJCEIQAAoJCEIQAAoJCEIQAAoJCEIQAAoJCEIQAAoJCEIQAAoJCEIQAAoJAqHoZm
-zJiRI444InfccUeSZPbs2Rk5cmTOOOOMXHTRRVm1alWlSwAAAFhLRcPQ8uXL85WvfCVDhgxpXnfj
-jTdm5MiRmThxYt75znfmnnvuqWQJAAAA61TRMNSjR4/ccsstqaura1732GOP5bDDDkuSHHbYYXnk
-kUcqWQIAAMA6VTQMdenSJd27d19j3fLly9OtW7ckSb9+/TJv3rxKlgAAALBOXduz81KpVNZ+06ZN
-q3AlVFJ7jt+sWbParW86pmeeeSaLFy9uUZvWfh+1pq9Nyb+dnZvx67yMXedm/IqlzcNQr169snLl
-ynTv3j1z5sxZ4xa69Rk8eHAbVEYlTJs2rV3Hr7a2NvnZ7Hbrn45nr732Sn19fYvatPb7qDV9bSrt
-Pfd4e4xf52XsOjfj17m1Jsi2+au1hwwZkilTpiRJpkyZkoMOOqitSwAAAKjslaHp06fn2muvzUsv
-vZSuXbtmypQpueGGG3LZZZflxz/+cXbYYYcMHz68kiUAAACsU0XD0MCBAzNhwoS11t96662V7BYA
-AGCj2vw2OQAAgI5AGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIAAApJGAIA
-AAqpa3sXANBWSk1NmTlzZovbtaYNANDxCUNAYSxfPC9Xjpufmj4NLWq34IVn02/Hd1eoKgCgvQhD
-QKHU9KlL7779W9Rm2aI5FaoGAGhPnhkCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAK
-SRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgC
-AAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAK
-SRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgC
-AAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKSRgCAAAKqWt7FwCwOSo1NWXm
-zJktbjdJIWRtAAAQsklEQVRgwIBUV1eXvX9jY2MaGhrWWj9r1qzU1tZu0r4AYHMjDAFUwPLF83Ll
-uPmp6bN2UFmfZYvmZsKYEamvry+7TUNDQ0aOvjM1ferW3viz2Zu0LwDY3AhDABVS06cuvfv232z6
-AYDNjWeGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQhKGAACAQmrzP7r6
-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
-mDF56qmnUlVVlcsvvzx7771387ZHHnkkY8eOTXV1dQ4++OCce+657Vgp67Kh8Tv88MOzww47pKqq
-KlVVVbnhhhtSV1fXjtXyVjNmzMh5552XM888M6effvoa28y/jm1DY2fudXzXXXddnnjiiTQ2Nuac
-c87JEUcc0bzN3OvYNjR2LZ57pQ7mH//4R+mTn/xk6VOf+lTpN7/5zVrbly1bVjrqqKNKS5YsKb32
-2mulY445prRo0aJ2qJR1uffee0tXX311qVQqlX7729+WLrzwwrX2OeCAA9q6LDbgscceK33iE58o
-lUql0nPPPVc65ZRT1tg+bNiw0uzZs0tNTU2lESNGlJ577rn2KJP12Nj4HX744aXly5e3R2mUYdmy
-ZaWRI0eWrrjiitLEiRPX2m7+dVwbGztzr2P7wx/+UDrnnHNKpVKp9Morr5QOPfTQNbabex3Xxsau
-pXOvw90mV1dXl29/+9vp3bv3Orc/9dRT2WeffdKrV6/06NEj++67b5544ok2rpL1+f3vf5+hQ4cm
-Sd7//vevc2xKXmDYobx5zAYMGJBXX301S5cuTZI8//zz2XLLLbPtttumqqoqhxxySP7whz+0Z7m8
-xYbGL3l9vplzHVePHj1yyy23rPO3luZfx7ahsUvMvY5u//33z4033pgk2WKLLbJ8+fLm8TL3OrYN
-jV3S8rnX4cJQjx49NnjL1Pz587PVVls1L2+11VaZN29eW5RGGd48PlVVVenSpUtWr169xj4rVqzI
-JZdckhEjRuS2225rhyp5s7fOqb59+2b+/Pnr3LbVVltl7ty5bV4j67eh8XvDVVddlREjRuQ///M/
-27o8NqJLly7p3r37OreZfx3bhsbuDeZex1VVVZWePXsmSe66664ccsghzT9/mnsd24bG7g0tmXvt
-+szQXXfdlbvvvjtVVVXNz4+cf/75OfDAA8v+DL91aT9vHr/k9bF4+umn19inqalprXaXXXZZjjvu
-uCTJ6aefnv322y8DBw6sfMGUZUNzynzr+N46RhdccEEOOuigbLnlljn33HPzP//zPznyyCPbqTre
-DvOvczH3OoepU6fmpz/9acaPH7/efcy9jml9Y9fSudeuYeikk07KSSed1KI2dXV1a1wJmjNnTgYN
-GrSpS6MM6xq/0aNHZ/78+dl9992brwh17brmt9kpp5zS/PWQIUMyY8YMYagd1dXVrXElYe7cudlm
-m22at711vnkAuGPZ0PglyYc//OHmrw8++ODMmDHDD2SdhPnXuZl7Hd/DDz+ccePGZfz48Ws8nmHu
-dXzrG7uk5XOvw90m92brSuLvec978swzz2TJkiVZunRpnnzyyQwePLgdqmNdDjzwwDz44INJkl/9
-6ld53/vet8b2mTNn5uKLL07y+pvnnnjiiey6665tXif/cuCBB2bKlClJkunTp2fbbbdNTU1NkqR/
-//5ZunRpXnrppaxevTq/+c1v8oEPfKA9y+UtNjR+S5Ysydlnn51Vq1YlSR5//PHstttu7VYrLWP+
-dV7mXse3ZMmSXH/99bn55ptTW1u7xjZzr2Pb0Ni1Zu51uFdrP/TQQ7nlllsyc+bMTJ8+PRMmTMj4
-8eMzbty4vO9978t73vOeXHzxxfnoRz+aLl265Pzzz1/vyxZoe8OGDcvvfve7jBgxIj169Mi1116b
-JGuM3/bbb58TTzwx1dXV+eAHP7jGa4Bpe4MGDcrAgQNz6qmnprq6OldeeWXuvffe1NbWZujQobnq
-qqvymc98JklyzDHHZOedd27ninmzjY3foYcemlNOOSU9e/bMnnvumaOOOqq9S+ZNpk+fnmuvvTYv
-vfRSunbtmilTpuTwww/PjjvuaP51cBsbO3OvY5s8eXIWLlyYCy+8sPlRjQMOOCD19fXmXge3sbFr
-6dyrKrkREgAAKKAOfZscAABApQhDAABAIQlDAABAIQlDAABAIQlDAABAIQlDAABAIXW4vzMEwObr
-xRdfzIc+9KEMGjQoyet/XLupqSkXXXRR3vve96633f3335/jjjuurcoEoCCEIQDaVL9+/XL77bc3
-Lzc0NOTMM8/Mww8/vM79Gxsb8+1vf1sYAmCTE4YAaFcDBgzIypUr88orr+S2227LE088kRUrVmS/
-/fbLpZdems9//vN56aWXcvbZZ+fqq6/OiBEj8tBDDyVJbrrppjQ2NuaCCy7I4MGDc9JJJ6WxsTFH
-HHFExo0bl+222y7PPfdcunbtmvHjx6exsTEXX3xxFi9enNWrV+ewww7LJz7xiXY+AwC0F88MAdCu
-fvnLX6Zv37559NFHM2fOnEyYMCE/+clPMmvWrPzmN7/J+eefn379+mX8+PFJkqqqqnV+zrJly3LI
-IYfk85//fJLkqaeeysUXX5xJkyalS5cuefjhh/PII4+ksbExEydOzI9+9KPU1NS02XEC0PG4MgRA
-m1qwYEFGjRqVUqmUf/7zn+nfv3++973v5bbbbssf//jH5m1Lly7NCy+8kN12262szy2VStl3332b
-lwcMGJC+ffsmSfr3759FixblsMMOyze/+c1cdNFFOfjgg3PiiSdW5BgB6ByEIQDa1JufGfrFL36R
-22+/PTvvvHO6d++eU045JWedddYa+7/44ovNX7/1qtCqVavSpcu/bnLo1q1b89fV1dVr7FsqlbLV
-Vlvl/vvvz5NPPpmpU6fmhBNOyH333Zfu3btvsuMDoPNwmxwAbapUKjV/fcQRR6RPnz6ZOHFiBg8e
-nClTpqSxsTFJ8u1vfzv/+Mc/0qVLl6xatSpJ0rt37yxatCgrVqxIY2NjHn/88Rb1/bvf/S6//vWv
-M2jQoFx66aXp1atXFixYsOkODoBOxZUhANrUW6/uXHHFFTnppJNyxx13ZPDgwTn11FNTXV2dgQMH
-ZqeddkpTU1O23nrrnHDCCbnjjjsyfPjwnHDCCXnnO9+ZPffcc72fuy677LJLPve5z2X8+PHp0qVL
-DjzwwGy//fab/BgB6ByqSm/+FR0AAEBBuE0OAAAoJGEIAAAoJGEIAAAoJGEIAAAoJGEIAAAoJGEI
-AAAoJGEIAAAopP8Pma56O27qvc8AAAAASUVORK5CYII=
+QwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAA
+QCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJQwAAQCEJ
+QwAAQCEKlghqAAAQ80lEQVQJQwAAQCH17uoCALZGpdbWzJ07t93thg0blurq6rL3b2lpSVNT0wbr
+582bl9ra2i3aFwBsbYQhgApYvWJRLpmyODV1GwaVN9K8fGGmTz4lDQ0NZbdpamrKhEm3pKaufsON
+v5i/RfsCgK2NMARQITV19RkwcOhW0w8AbG08MwQAABSSMAQAABSSMAQAABSSMAQAABSSMAQAABSS
+MAQAABSSMAQAABSSMAQAABRSp//R1Tlz5uQTn/hEdtlll5RKpeyxxx656KKLOrsMAACg4Do9DDU3
+N+eII47IpEmTOrtrAACANp1+m9yqVatSKpU6u1sAAID1dMmVocbGxpx55plZvXp1PvnJT+bd7353
+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
+1PW2mX/d26bGztzr/q688so8/PDDaWlpyZlnnpkxY8a0bTP3urdNjV27516pm/nHP/5ROuuss0oT
+J04s3X333Rtsb25uLh1++OGllStXll566aXSEUccUVq+fHkXVMrG3H777aUvfelLpVKpVLr77rtL
+55xzzgb7HHvssZ1dFpvw4IMPlj7+8Y+XSqVS6W9/+1vphBNOWG/72LFjS/Pnzy+1traWTjrppNLf
+/va3riiTN7C58Rs3blxXlEWZmpubSxMmTChdfPHFpZtuummD7eZf97W5sTP3urf777+/dOaZZ5ZK
+pVJp6dKlpUMOOWS97eZe97W5sWvv3Ot2t8nV19fnW9/6VrbZZpuNbn/00Uez7777Zptttkm/fv3y
+rne9Kw8//HAnV8kb+eMf/5jRo0cnSQ466KA0Njaut725uTktLS1dURpv4LVjNmzYsLz44otZtWpV
+kuSZZ57Jm970pgwZMiRVVVU55JBDcv/993dlubzOpsYvSVauXNlVpVGGfv365cYbb9zoby3Nv+5t
+U2OXmHvd3f77759rr702SVJXV5fVq1en9P9fsGzudW+bGruk/XOv24Whfv36bfKWqcWLF2e77bZr
+Wx40aFAWLVrUGaVRhteOT69evVJdXZ1169a1bW9ubs6SJUvyqU99KieffHKmT5/eVaXy/21sTi1e
+vHij27bffvssXLiw02vkjW1q/JJk2bJlOf/883PyySfn61//eleUyCb06tUrffv23eg2869729TY
+JeZed1dVVZX+/fsnSX7yk5/k4IMPbvv509zr3jY1dkn7516XPjN066235qc//Wmqqqra7uubOHFi
+DjjggDdsU3rdn0V6/TKd57Xjl7wyFo899th6+7S2tq73Ddq/f/+cc845OeaYY7J27dqcdtppGTly
+ZPbaa69OrZ1/2diceu2YvtE2uofNjdF5552Xo48+Ov37989ZZ52VX//61+vdW033Zf71bOZezzB7
+9uz87Gc/y9SpU9vWmXs9w8bGLmn/3OvSMHTCCSfkhBNOaFebIUOG5O67725bXrBgQUaMGLGFK6Mc
+Gxu/SZMmZfHixdljjz3arghVV1e3bR8wYEDbCy/69OmTUaNG5amnnhKGutCQIUPWu5KwcOHCbL/9
+9m3bXnvldcGCBRk8eHCn18gb29T4Jcn48ePbvj7kkEPy1FNP+YGshzD/ejZzr/u79957M2XKlEyd
+OjUDBgxoW2/udX9vNHZJ++det7tN7rU2dtXnHe94Rx5//PGsXLkyq1atyiOPPJKRI0d2QXVszAEH
+HJC77rorSfLb3/427373u9fb/vTTT+eCCy5I8sqb5xobG7Pbbrt1ep38ywEHHJBZs2YlSZ544okM
+GTIkNTU1SZKhQ4dm1apVef7557Nu3brcfffdOfDAA7uyXF5nU+O3dOnSnHnmmW2/mHjooYey++67
+d1mttI/513OZe93fypUrc9VVV+X6669PbW3tetvMve5tU2PXkbnX7V6tfc899+TGG2/M3LlzM2fO
+nEyfPj1Tp07NlClT8u53vzvveMc78ulPfzof/vCH06tXr0ycOHGDREjXGTt2bP7whz/klFNOSb9+
+/XLFFVckyXrj96Y3vSknnHBCqqurc9hhh633GmA634gRIzJ8+PCMHz8+1dXVueSSS3L77bentrY2
+o0ePzqWXXprzzjsvSXLUUUdll1126eKKea3Njd973vOenHTSSenXr1/22muvHH744V1dMq8xZ86c
+XHHFFXn++efTu3fvzJo1K4cddlh23nln86+b29zYmXvd28yZM7Ns2bKcc845bbfBvec970lDQ4O5
+181tbuzaO/eqSh66AQAACqhb3yYHAABQKcIQAABQSMIQAABQSMIQAABQSMIQAABQSMIQAABQSN3u
+7wwBsPV67rnncsQRR2TEiBFJXvnj2i0tLTnvvPPyzne+8w3b/fznP88xxxzTWWUCUBDCEACdatCg
+QfnhD3/YttzU1JQPfvCD+f3vf7/R/VtaWvKtb31LGAJgixOGAOhSw4YNy9q1a7N06dJMmzYtDz/8
+cKqqqrLPPvvk/PPPz+c///k8//zz+chHPpIvfelLOeWUU3LPPfckSa677rq0tLTkU5/6VEaOHJkT
+TjghLS0tGTNmTKZMmZIddtghf/vb39K7d+9MnTo1LS0t+fSnP50VK1Zk3bp1OfTQQ/Pxj3+8i88A
+AF1FGAKgS/3mN7/JwIED88ADD2TBggWZPn16kuSTn/xk7r777kycODH3339/pk6dmueeey5VVVUb
+/Zzm5uYcfPDBGTVqVB588ME8+uijueqqqzJw4MCcfvrpuffee5O8cqXppptuSqlUyk033dRpxwlA
+9yMMAdCplixZktNPPz2lUin//Oc/M3To0Hz3u9/NtGnT8r//+79t21atWpVnn302u+++e1mfWyqV
+st9++7UtDxs2LAMHDkySDB06NMuXL8+hhx6ab3zjGzn33HPz3ve+N8cff3xFjhGAnkEYAqBTvfaZ
+oV//+tf54Q9/mF122SV9+/bNSSedlDPOOGO9/Z977rm2r19/VWjt2rXp1etfL0bt06dP29fV1dXr
+7VsqlbLddtvl5z//eR555JHMnj07xx13XO6444707dt3ix0fAD2HV2sD0KlKpVLb12PGjEldXV1u
+uummjBw5Mr/61a/S0tKSJPnWt76Vf/zjH+nVq1deeumlJMmAAQOyfPnyrFmzJi0tLXnooYfa1fcf
+/vCH/O53v8uIESNy/vnnZ8CAAVmyZMmWOzgAehRXhgDoVK+/unPxxRfnhBNOyM0335z99tsv48eP
+T3V1dYYPH543v/nNaW1tzZAhQ3Lcccfl5ptvzrhx43LsscfmLW95S/baa683/NyN2XXXXfO5z30u
+U6dOTa9evfKf//mf2XHHHbf4MQLQM1SVXvsrOgAAgIJwmxwAAFBIwhAAAFBIwhAAAFBIwhAAAFBI
+whAAAFBIwhAAAFBIwhAAAFBI/w+WX7GkkmEy9QAAAABJRU5ErkJggg==
 "
 >
 </div>
@@ -12675,8 +13959,7 @@ AAAoJGEIAAAopP8Pma56O27qvc8AAAAASUVORK5CYII=
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p>Congratulations on completing the answer key to the Means exercises!</p>
@@ -12687,8 +13970,7 @@ AAAoJGEIAAAopP8Pma56O27qvc8AAAAASUVORK5CYII=
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><em>This presentation is for informational purposes only and does not constitute an offer to sell, a solicitation to buy, or a recommendation for any security; nor does it constitute an offer to provide investment advisory or other services by Quantopian, Inc. ("Quantopian"). Nothing contained herein constitutes investment advice or offers any opinion with respect to the suitability of any security, and any views expressed herein should not be taken as advice to buy, sell, or hold any security or as an endorsement of any security or company.  In preparing the information contained herein, Quantopian, Inc. has not taken into account the investment needs, objectives, and financial circumstances of any particular investor. Any views expressed and data illustrated herein were prepared based upon information, believed to be reliable, available to Quantopian, Inc. at the time of publication. Quantopian makes no guarantees as to their accuracy or completeness. All information is subject to change and may quickly become unreliable for various reasons, including changes in market conditions or economic circumstances.</em></p>
 
